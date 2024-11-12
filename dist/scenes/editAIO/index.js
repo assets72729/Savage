@@ -66,7 +66,7 @@ var editDeleteWizard = new Scenes.WizardScene("editAIO", Composer.on("message", 
                 ctx.session.aIOData = finalResult;
                 if (!(finalResult && finalResult.length > 0)) return [3 /*break*/, 3];
                 return [4 /*yield*/, ctx.reply("```Json\n{".concat(makeAIOCaption(finalResult[0]), "}\n```"), {
-                        reply_markup: keyboard.makeAdminButtons("https://t.me/".concat(env.botUserName, "?start=").concat(finalResult[0].shareId, "-a"), ctx.session.next || "", ctx.session.prev || ""),
+                        reply_markup: keyboard.makeAdminButtons("https://t.me/".concat(env.botUserName, "?start=").concat(finalResult[0].shareId, "-eng"), ctx.session.next || "", ctx.session.prev || ""),
                         parse_mode: "MarkdownV2",
                         reply_to_message_id: ctx.message.message_id,
                     })];
@@ -110,7 +110,7 @@ var editDeleteWizard = new Scenes.WizardScene("editAIO", Composer.on("message", 
                     ((_b = ctx.session.page) !== null && _b !== void 0 ? _b : 0) + 1;
                 console.log(page, AIOData.length);
                 return [4 /*yield*/, ctx.editMessageText("```Json\n{".concat(makeAIOCaption(AIOData[page + 1]), "}\n```"), {
-                        reply_markup: keyboard.makeAdminButtons("https://t.me/".concat(env.botUserName, "?start=").concat(AIOData[page + 1].shareId, "-a"), ctx.session.next || "", ctx.session.prev || ""),
+                        reply_markup: keyboard.makeAdminButtons("https://t.me/".concat(env.botUserName, "?start=").concat(AIOData[page + 1].shareId, "-eng"), ctx.session.next || "", ctx.session.prev || ""),
                         parse_mode: "MarkdownV2",
                     })];
             case 1:
@@ -128,7 +128,7 @@ var editDeleteWizard = new Scenes.WizardScene("editAIO", Composer.on("message", 
                 //ignore this page != 0
                 ctx.session.page = Math.max(((_c = ctx.session.page) !== null && _c !== void 0 ? _c : 0) - 1, 0);
                 return [4 /*yield*/, ctx.editMessageText("```Json\n {".concat(makeAIOCaption(AIOData[page - 1]), "}\n```"), {
-                        reply_markup: keyboard.makeAdminButtons("https://t.me/".concat(env.botUserName, "?start=").concat(AIOData[page - 1].shareId, "-a"), ctx.session.next || "", ctx.session.prev || ""),
+                        reply_markup: keyboard.makeAdminButtons("https://t.me/".concat(env.botUserName, "?start=").concat(AIOData[page - 1].shareId, "-eng"), ctx.session.next || "", ctx.session.prev || ""),
                         parse_mode: "MarkdownV2",
                     })];
             case 6:
