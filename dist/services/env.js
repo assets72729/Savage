@@ -21,6 +21,7 @@ var adminIds = (_d = env.ADMIN_IDS) === null || _d === void 0 ? void 0 : _d.spli
 var databaseUrl = env.DATABASE_URL;
 var join = env.JOIN || "";
 var joinAnime = env.JOIN_ANIME || "";
+var jwtSecret = env.JWT_SECRET || "randomSecretString";
 var collectionAIO = Number(env.COLLECTION_AIO) || "";
 var collectionAIO2 = Number(env.COLLECTION_AIO_2) || "";
 if (!token) {
@@ -38,6 +39,7 @@ export default {
     port: port,
     join: join,
     backup: backup,
+    jwtSecret: jwtSecret,
     howToDownload: howToDownload,
     logGroupId: logGroupId,
     dbAIOChannelId: dbAIOChannelId,

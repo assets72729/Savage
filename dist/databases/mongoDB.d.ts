@@ -27,16 +27,24 @@ import { MessageDocument } from "./models/messageModel.js";
 import { UserDocument } from "./models/userModel.js";
 import { AIODocument } from "./interfaces/aIO.js";
 import { AIOSearchCriteria } from "./interfaces/searchCriteria.js";
+import { SortDocument } from "./interfaces/sort.js";
+import { InviteService } from "./inviteService.js";
+import { InviteUser } from "./interfaces/inviteUser.js";
+import { ITokenDocument } from "./interfaces/token.js";
 declare class MongoDB {
     db: typeof mongoose;
     MessageModel: Model<MessageDocument>;
     UserModel: Model<UserDocument>;
     AIOModel: Model<AIODocument>;
+    SortModel: Model<SortDocument>;
+    TokenModel: Model<ITokenDocument>;
+    inviteService: InviteService;
     databaseUrl: string;
     constructor();
     initialize(): Promise<void>;
     saveMessages(shareId: number, messageIds: number[]): Promise<number>;
     saveUser(user: UserDocument): Promise<UserDocument>;
+    isUserExist(userId: string): Promise<boolean>;
     getMessages(shareId: number): Promise<number[] | undefined>;
     getAIOMessages(shareId: number): Promise<number | undefined>;
     saveAIO(aio: AIODocument): Promise<AIODocument>;
@@ -45,6 +53,27 @@ declare class MongoDB {
     deleteAIO(shareId: number): Promise<boolean>;
     updateAIOAttribute(shareId: number, updateQuery: any): Promise<boolean>;
     getAllUserIds(): Promise<number[]>;
+    addInvite(userId: string, invitedUsername: string, invitedUserId: string): Promise<void>;
+    getInviteUser(userId: string): Promise<InviteUser | null>;
+    canRequest(userId: string): Promise<boolean>;
+    useRequest(userId: string): Promise<void>;
+    hasGeneratedToken(userId: string): Promise<boolean>;
+    verifyAndValidateToken(userId: string): Promise<boolean>;
+    generateNewToken(userId: string): Promise<string>;
+    manageToken(userId: string, token?: string): Promise<{
+        token: string;
+        message: string;
+    }>;
+    addLinkToFirstSort(newLink: {
+        shareId: number;
+        aioShortUrl: string;
+    }): Promise<boolean>;
+    getFirstSortItem(): Promise<SortDocument | null>;
+    setActiveShareId(newActiveShareId: string): Promise<boolean>;
+    updateFirstSortAndActivePath(newLink: {
+        shareId: number;
+        aioShortUrl: string;
+    }, newActiveShareId: string): Promise<boolean>;
 }
 declare const mongoDB: MongoDB;
 export default mongoDB;

@@ -8,6 +8,7 @@ declare const _default: {
     port: string | number;
     join: string;
     backup: string;
+    jwtSecret: string;
     howToDownload: string;
     logGroupId: number;
     dbAIOChannelId: number;
