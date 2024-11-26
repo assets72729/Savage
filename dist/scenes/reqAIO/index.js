@@ -152,9 +152,28 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 if (!ctx.from.username) {
                     userLink = "tg://user?id=".concat(ctx.from.id);
                 }
-                return [4 /*yield*/, ctx.reply("Hello [".concat(ctx.from.first_name, "](").concat(userLink, ") \nYour Token Has Expired: [").concat("Generate New Token Once in 24 hours", "](").concat(botLink, ")"), {
+                return [4 /*yield*/, ctx
+                        .reply("Hello [".concat(ctx.from.first_name, "](").concat(userLink, ") \nYour Token Has Expired: [").concat("Generate New Token Once in 24 hours", "](").concat(botLink, ")"), {
                         parse_mode: "Markdown",
                         disable_web_page_preview: true,
+                    })
+                        .then(function (sentMessage) {
+                        try {
+                            var messageIdToDelete_2 = sentMessage.message_id;
+                            setTimeout(function () { return __awaiter(void 0, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, ctx.deleteMessage(messageIdToDelete_2)];
+                                        case 1:
+                                            _a.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            }); }, 5 * 60 * 1000);
+                        }
+                        catch (error) {
+                            console.error(error);
+                        }
                     })];
             case 4:
                 _f.sent();
