@@ -138,7 +138,7 @@ export default function startHandler(ctx) {
                 case 21:
                     firstItem = _b.sent();
                     if (!firstItem) return [3 /*break*/, 23];
-                    return [4 /*yield*/, ctx.reply("Hello ".concat(user.first_name, ", your token has expired.\nYou can generate a new token once a day. After that, you can make unlimited requests within 24 hours.\nANY PROBLEM CONTACT: [ADMIN](tg://user?id=").concat(env.adminIds[0], ")"), {
+                    return [4 /*yield*/, ctx.reply("Hello ".concat(user.first_name || "", ", your token has expired.\nYou can generate a new token once a day. After that, you can make unlimited requests within 24 hours.\nANY PROBLEM CONTACT: [ADMIN](tg://user?id=").concat(env.adminIds[0], ")"), {
                             reply_to_message_id: ctx.message.message_id,
                             reply_markup: {
                                 inline_keyboard: [
