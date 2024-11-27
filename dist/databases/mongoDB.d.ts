@@ -48,7 +48,7 @@ declare class MongoDB {
     getMessages(shareId: number): Promise<number[] | undefined>;
     getAIOMessages(shareId: number): Promise<number | undefined>;
     saveAIO(aio: AIODocument): Promise<AIODocument>;
-    searchAIO(criteria: AIOSearchCriteria): Promise<AIODocument[] | undefined>;
+    searchAIO(criteria: AIOSearchCriteria, messageIdLink?: string | null): Promise<AIODocument[] | undefined>;
     addAIO(shareId: number, messageIds: number[]): Promise<boolean>;
     deleteAIO(shareId: number): Promise<boolean>;
     updateAIOAttribute(shareId: number, updateQuery: any): Promise<boolean>;

@@ -10,7 +10,7 @@ declare class Database {
     initialize(): Promise<void>;
     saveMessages(messageIds: number[]): Promise<number>;
     saveAIO(aIODocument: AIODocument): Promise<number>;
-    searchAIO(searchCriteria: AIOSearchCriteria): Promise<AIODocument[] | undefined>;
+    searchAIO(searchCriteria: AIOSearchCriteria, messageIdLink?: string | null): Promise<AIODocument[] | undefined>;
     getAIOMessages(shareId: number): Promise<number | undefined>;
     saveUser(user: User): Promise<User>;
     isUserExist(user: string): Promise<boolean>;

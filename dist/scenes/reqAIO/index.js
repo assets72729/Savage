@@ -44,9 +44,10 @@ import { makeButtons } from "../../utils/markupButton/permanantButton/keyboard.j
 import { cleanString } from "./cleanReq.js";
 import { sortEpisodesByCaption } from "./sortdata.js";
 import telegram from "../../services/telegram.js";
+import { getMessageLink } from "../../utils/getMessageLinkFromCtx";
 // Create a Wizard Scene
 var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
-    var request, searchCriteria, searchResults, finalResult, random, batchedResults, firstBatch, error_1;
+    var request, searchCriteria, messageIdLink, searchResults, finalResult, random, batchedResults, firstBatch, error_1;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -58,10 +59,11 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 searchCriteria = {
                     caption: cleanString(request.toLowerCase()),
                 };
+                messageIdLink = getMessageLink(ctx);
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 7, , 8]);
-                return [4 /*yield*/, database.searchAIO(searchCriteria)];
+                return [4 /*yield*/, database.searchAIO(searchCriteria, messageIdLink)];
             case 2:
                 searchResults = _b.sent();
                 finalResult = sortEpisodesByCaption(searchResults || []);

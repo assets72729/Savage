@@ -154,7 +154,7 @@ var MongoDB = /** @class */ (function () {
             });
         });
     };
-    MongoDB.prototype.searchAIO = function (criteria) {
+    MongoDB.prototype.searchAIO = function (criteria, messageIdLink) {
         return __awaiter(this, void 0, void 0, function () {
             var normalizedTitle, first20Chars, query, specialQuery, keywords, regexPattern, results, fallbackQuery, _a, err_1;
             return __generator(this, function (_b) {
@@ -205,7 +205,7 @@ var MongoDB = /** @class */ (function () {
                         _b.label = 7;
                     case 7:
                         _b.trys.push([7, 9, , 10]);
-                        return [4 /*yield*/, sendToLogGroup(env.logGroupId, "Not Found: ".concat(normalizedTitle.slice(0, 150)))];
+                        return [4 /*yield*/, sendToLogGroup(env.logGroupId, "Not Found: ".concat(normalizedTitle.slice(0, 150), "\n ").concat(messageIdLink || ""))];
                     case 8:
                         _b.sent();
                         return [3 /*break*/, 10];
