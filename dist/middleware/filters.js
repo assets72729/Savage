@@ -43,12 +43,12 @@ export default {
                 switch (_c.label) {
                     case 0:
                         console.log((_a = ctx.chat) === null || _a === void 0 ? void 0 : _a.id);
-                        if (!(ctx.callbackQuery && "data" in ctx.callbackQuery)) return [3 /*break*/, 4];
+                        if (!(ctx.callbackQuery && "data" in ctx.callbackQuery)) return [3 /*break*/, 5];
                         callbackData = ctx.callbackQuery.data;
                         _c.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
-                        message = void 0;
+                        _c.trys.push([1, 4, , 5]);
+                        message = "";
                         switch (callbackData) {
                             case "addDrama":
                                 message = "";
@@ -63,17 +63,19 @@ export default {
                                 message = "send uploaded drama or series or movie name ";
                                 break;
                             default:
-                                message = "Unknown topic. Please try again.";
+                                break;
                         }
+                        if (!message) return [3 /*break*/, 3];
                         return [4 /*yield*/, ctx.reply(message)];
                     case 2:
                         _c.sent();
-                        return [3 /*break*/, 4];
-                    case 3:
+                        _c.label = 3;
+                    case 3: return [3 /*break*/, 5];
+                    case 4:
                         err_1 = _c.sent();
                         console.log("Error handling callback:", err_1);
-                        return [3 /*break*/, 4];
-                    case 4:
+                        return [3 /*break*/, 5];
+                    case 5:
                         if (((_b = ctx.chat) === null || _b === void 0 ? void 0 : _b.id) !== undefined) {
                             next();
                         }
