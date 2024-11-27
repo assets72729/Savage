@@ -44,7 +44,7 @@ import { makeButtons } from "../../utils/markupButton/permanantButton/keyboard.j
 import { cleanString } from "./cleanReq.js";
 import { sortEpisodesByCaption } from "./sortdata.js";
 import telegram from "../../services/telegram.js";
-import { getMessageLink } from "../../utils/getMessageLinkFromCtx";
+import { getMessageLink } from "../../utils/getMessageLinkFromCtx.js";
 // Create a Wizard Scene
 var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
     var request, searchCriteria, messageIdLink, searchResults, finalResult, random, batchedResults, firstBatch, error_1;
