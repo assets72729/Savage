@@ -1,6 +1,7 @@
 export function processCaption(oldCaption, join) {
     var newCaption = "";
     newCaption = oldCaption
+        .replace("@ADrama_Lovers", "")
         .replace(/\./g, " ")
         .replace(/_/g, " ")
         .replace(/-/g, " ")
@@ -35,6 +36,7 @@ export function editButtonTitle(oldCaption) {
 export function processCaptionForStore(oldCaption) {
     var newCaption = "";
     newCaption = oldCaption
+        .replace("@ADrama_Lovers", "")
         .replace(/\./g, " ")
         .replace(/_/g, " ")
         .replace(/-/g, " ")
