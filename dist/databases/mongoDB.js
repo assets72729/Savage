@@ -205,7 +205,7 @@ var MongoDB = /** @class */ (function () {
                         _b.label = 7;
                     case 7:
                         _b.trys.push([7, 9, , 10]);
-                        return [4 /*yield*/, sendToLogGroup(env.logGroupId, "Not Found: ".concat(normalizedTitle.slice(0, 150), "\n ").concat(messageIdLink || ""))];
+                        return [4 /*yield*/, sendToLogGroup(env.logGroupId, "not found:[View Message](".concat(messageIdLink || "https://www.telegram.org/", ")"))];
                     case 8:
                         _b.sent();
                         return [3 /*break*/, 10];
