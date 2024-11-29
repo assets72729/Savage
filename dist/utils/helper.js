@@ -146,3 +146,6 @@ export function sendRateLimitMessage(ctx, user) {
         });
     });
 }
+export function escapeMarkdown(text) {
+    return text.replace(/[_*[\]()~`>#+-=|{}.!]/g, "\\$&");
+}

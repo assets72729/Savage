@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import telegram from "./../services/telegram.js";
+import { escapeMarkdown } from "./helper.js";
 import * as keyboard from "./markupButton/permanantButton/keyboard.js";
 export function sendToCOllection(chat, link, caption) {
     return __awaiter(this, void 0, void 0, function () {
@@ -62,17 +63,18 @@ export function sendToCOllection(chat, link, caption) {
 }
 export function sendToLogGroup(chat, caption) {
     return __awaiter(this, void 0, void 0, function () {
-        var error_2;
+        var sanitizedCaption, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, telegram.app.telegram.sendMessage(chat, caption || "?", {
+                    sanitizedCaption = escapeMarkdown(caption || "?");
+                    return [4 /*yield*/, telegram.app.telegram.sendMessage(chat, sanitizedCaption, {
                             parse_mode: "Markdown",
                         })];
                 case 1:
                     _a.sent();
-                    console.log("msg sent successfully!");
+                    console.log("Message sent successfully!");
                     return [3 /*break*/, 3];
                 case 2:
                     error_2 = _a.sent();
