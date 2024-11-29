@@ -10,10 +10,10 @@ declare const _default: {
     backup: string;
     jwtSecret: string;
     howToDownload: string;
+    howToGenerateToken: string | undefined;
     logGroupId: number;
     dbAIOChannelId: number;
     dbOGChannelId: number;
-    joinAnime: string;
     collectionAIO: string | number;
     collectionAIO2: string | number;
     allowGroups: number[];
