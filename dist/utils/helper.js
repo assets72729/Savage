@@ -159,7 +159,7 @@ export function createDeepLinksList(items) {
         .join("\n");
 }
 export function editTitle(caption) {
-    return convertToTinySubscript(caption.length > 43 ? "".concat(caption.slice(0, 40), "...") : caption);
+    return convertToTinySubscript(caption.length > 60 ? "".concat(caption.slice(0, 57), "...") : caption);
 }
 export function convertToTinySubscript(inputText) {
     var subscriptMapping = {
