@@ -6,6 +6,7 @@ export default interface PageSessionData extends WizardSessionData {
     next?: string;
     sendAll?: string;
     reqestBy?: string;
+    reqest?: string;
     lastActionTime?: {};
     aioBatches?: {
         caption: string;

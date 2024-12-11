@@ -4,3 +4,9 @@ export declare function sendTokenExpiredMessage(ctx: CommandContext, user: User,
 export declare function sendWelcomeMessage(ctx: CommandContext, user: User): Promise<void>;
 export declare function sendInviterWelcomeMessage(ctx: CommandContext, inviterId: string): Promise<void>;
 export declare function sendRateLimitMessage(ctx: CommandContext, user: User): Promise<void>;
+export declare function createDeepLinksList(items: {
+    caption: string;
+    shareId: string;
+}[]): string;
+export declare function editTitle(caption: string): string;
+export declare function convertToTinySubscript(inputText: string): string;

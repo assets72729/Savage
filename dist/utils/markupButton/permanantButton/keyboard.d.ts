@@ -5,10 +5,10 @@ export declare function oneTimeSubKeyboard(): any;
 export declare function oneTimeRatingKeyboard(): any;
 export declare function oneTimeQualityKeyboard(): any;
 export declare function oneTimeDoneKeyboard(): any;
-export declare const makeButtons: (item: {
+export declare const makeButtons: (items: {
     caption: string;
     shareId: string;
-    messageIds: number;
+    messageIds?: number;
 }[], next: string, prev: string, sendAll: string, type: string, totalPage: number, currentPage: number) => {
     inline_keyboard: any[][];
 };

@@ -37,14 +37,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import { Scenes, Composer } from "telegraf";
 import database from "../../services/database.js";
 import env from "../../services/env.js";
-import { makeAIOCaption } from "../../utils/caption/makeCaption.js";
 import getRandomId from "../../extra/getRandomId.js";
 import { sendCallbackQueryResponse } from "./answerCbQUery.js";
-import { makeButtons } from "../../utils/markupButton/permanantButton/keyboard.js";
 import { cleanString } from "./cleanReq.js";
 import { sortEpisodesByCaption } from "./sortdata.js";
 import telegram from "../../services/telegram.js";
 import { getMessageLink } from "../../utils/getMessageLinkFromCtx.js";
+import handleResultsReply, { editResultsReply } from "./handleResultReply.js";
 // Create a Wizard Scene
 var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
     var request, searchCriteria, messageIdLink, searchResults, finalResult, random, batchedResults, firstBatch, error_1;
@@ -73,39 +72,12 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 ctx.session.next = "next".concat(random);
                 ctx.session.sendAll = "sendall".concat(random);
                 ctx.session.reqestBy = "".concat((_a = ctx.from) === null || _a === void 0 ? void 0 : _a.id);
+                ctx.session.reqest = request;
                 batchedResults = batchResults(finalResult);
                 ctx.session.aioBatches = batchedResults;
                 firstBatch = batchedResults === null || batchedResults === void 0 ? void 0 : batchedResults[0];
                 if (!(finalResult.length > 0)) return [3 /*break*/, 4];
-                return [4 /*yield*/, ctx
-                        .reply("```\n".concat(request, "\n```"), {
-                        reply_markup: makeButtons(firstBatch || [], ctx.session.next || "", ctx.session.prev || "", ctx.session.sendAll || "", "eng", batchedResults.length, 0),
-                        parse_mode: "MarkdownV2",
-                        reply_to_message_id: ctx.message.message_id,
-                    })
-                        .then(function (sentMessage) {
-                        // Schedule message deletion after 5 minutes
-                        var messageIdToDelete = sentMessage.message_id;
-                        setTimeout(function () { return __awaiter(void 0, void 0, void 0, function () {
-                            var error_2;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        _a.trys.push([0, 2, , 3]);
-                                        return [4 /*yield*/, ctx.deleteMessage(messageIdToDelete)];
-                                    case 1:
-                                        _a.sent();
-                                        return [3 /*break*/, 3];
-                                    case 2:
-                                        error_2 = _a.sent();
-                                        console.error(error_2);
-                                        return [3 /*break*/, 3];
-                                    case 3: return [2 /*return*/];
-                                }
-                            });
-                        }); }, 5 * 60 * 1000);
-                    })
-                        .catch(console.error)];
+                return [4 /*yield*/, handleResultsReply(ctx, request, firstBatch, ctx.session, batchedResults.length)];
             case 3:
                 _b.sent();
                 return [3 /*break*/, 6];
@@ -130,7 +102,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
         }
     });
 }); }), Composer.on("callback_query", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
-    var result, reqestBy, qualities, callbackData_1, aIOData, page, isValidToken, firstItem, botLink, userLink, error_3, page, data_1, quality, newresult, aIOData, error_4, error_5;
+    var result, reqestBy, qualities, callbackData_1, aIOData, page, isValidToken, firstItem, botLink, userLink, error_2, page, data_1, quality, newresult, aIOData, error_3, error_4;
     var _a, _b, _c, _d, _e, _f;
     return __generator(this, function (_g) {
         switch (_g.label) {
@@ -213,7 +185,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 _g.sent();
                 return [3 /*break*/, 11];
             case 10:
-                error_3 = _g.sent();
+                error_2 = _g.sent();
                 return [3 /*break*/, 11];
             case 11:
                 if (!("data" in ctx.callbackQuery &&
@@ -246,10 +218,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 ctx.session.page =
                     ((_f = ctx.session.page) !== null && _f !== void 0 ? _f : 0) + 1;
                 console.log(page, aIOData.length);
-                return [4 /*yield*/, ctx.editMessageText("```\n".concat(makeAIOCaption(aIOData[page + 1]), "\n```"), {
-                        reply_markup: makeButtons(aIOData[page + 1], ctx.session.next || "", ctx.session.prev || "", ctx.session.sendAll || "", "eng", aIOData.length, page + 1),
-                        parse_mode: "MarkdownV2",
-                    })];
+                return [4 /*yield*/, editResultsReply(ctx, ctx.session.reqest || "user request", aIOData[page + 1], ctx.session, aIOData.length, page + 1)];
             case 16:
                 _g.sent();
                 return [3 /*break*/, 19];
@@ -259,7 +228,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 _g.label = 19;
             case 19: return [3 /*break*/, 21];
             case 20:
-                error_4 = _g.sent();
+                error_3 = _g.sent();
                 return [3 /*break*/, 21];
             case 21: return [3 /*break*/, 26];
             case 22:
@@ -269,15 +238,12 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 _g.label = 23;
             case 23:
                 _g.trys.push([23, 25, , 26]);
-                return [4 /*yield*/, ctx.editMessageText("```\n ".concat(makeAIOCaption(aIOData[page - 1]), "\n```"), {
-                        reply_markup: makeButtons(aIOData[page - 1], ctx.session.next || "", ctx.session.prev || "", ctx.session.sendAll || "", "eng", aIOData.length, page - 1),
-                        parse_mode: "MarkdownV2",
-                    })];
+                return [4 /*yield*/, editResultsReply(ctx, ctx.session.reqest || "user request", aIOData[page - 1], ctx.session, aIOData.length, page - 1)];
             case 24:
                 _g.sent();
                 return [3 /*break*/, 26];
             case 25:
-                error_5 = _g.sent();
+                error_4 = _g.sent();
                 return [3 /*break*/, 26];
             case 26: return [3 /*break*/, 29];
             case 27: return [4 /*yield*/, sendCallbackQueryResponse(ctx, "No more data there !!!")];

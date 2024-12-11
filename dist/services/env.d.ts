@@ -8,6 +8,7 @@ declare const _default: {
     port: string | number;
     join: string;
     backup: string;
+    noBtnLink: string | undefined;
     jwtSecret: string;
     howToDownload: string;
     howToGenerateToken: string | undefined;

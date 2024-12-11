@@ -14,6 +14,7 @@ var backup = env.BACKUP || "";
 var howToGenerateToken = env.HOW_TO_GENERATE_TOKEN;
 var botUserName = env.BOT_USERNAME;
 var port = env.PORT || 8080;
+var noBtnLink = env.NO_BTN_LINK;
 // const forceChannelIds = env.FORCE_CHANNEL_IDS?.split(" ").map(Number) || [];
 var forceGroupIds = ((_a = env.FORCE_GROUP_IDS) === null || _a === void 0 ? void 0 : _a.split(" ").map(Number)) || [];
 var allowGroups = ((_b = env.ALLOW_GROUPS) === null || _b === void 0 ? void 0 : _b.split(" ").map(Number)) || [];
@@ -39,6 +40,7 @@ export default {
     port: port,
     join: join,
     backup: backup,
+    noBtnLink: noBtnLink,
     jwtSecret: jwtSecret,
     howToDownload: howToDownload,
     howToGenerateToken: howToGenerateToken,
