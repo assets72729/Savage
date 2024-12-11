@@ -47,7 +47,7 @@ function handleResultsReply(ctx, request, firstBatch, sessionData, batchedResult
                     _a.trys.push([0, 2, , 3]);
                     replyContent = env.noBtnLink
                         ? "Results for: ".concat(request, "\n").concat(createDeepLinksList(firstBatch || []))
-                        : "Results for: \n".concat(request, "\n");
+                        : "Results for: ".concat(request, "\n");
                     buttons = makeButtons(env.noBtnLink ? [] : firstBatch || [], sessionData.next || "", sessionData.prev || "", sessionData.sendAll || "", "eng", batchedResultsLength, 0);
                     return [4 /*yield*/, ctx.reply(replyContent, {
                             reply_markup: buttons,
@@ -93,7 +93,7 @@ export function editResultsReply(ctx, request, firstBatch, sessionData, batchedR
                     _a.trys.push([0, 2, , 3]);
                     replyContent = env.noBtnLink
                         ? "Results for: ".concat(request, "\n").concat(createDeepLinksList(firstBatch || []))
-                        : "Results for: \n".concat(request, "\n");
+                        : "Results for: ".concat(request, "\n");
                     buttons = makeButtons(env.noBtnLink ? [] : firstBatch || [], sessionData.next || "", sessionData.prev || "", sessionData.sendAll || "", "eng", batchedResultsLength, pageNo);
                     return [4 /*yield*/, ctx.editMessageText(replyContent, {
                             reply_markup: buttons,
