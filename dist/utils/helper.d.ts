@@ -10,3 +10,9 @@ export declare function createDeepLinksList(items: {
 }[]): string;
 export declare function editTitle(caption: string): string;
 export declare function convertToTinySubscript(inputText: string): string;
+export declare function hasReplyToMessage(message: any): message is {
+    reply_to_message: any;
+};
+export declare function isTextMessage(message: any): message is {
+    text: string;
+};

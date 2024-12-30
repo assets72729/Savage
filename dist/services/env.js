@@ -7,6 +7,7 @@ var dbAIOChannelId = Number(env.DB_AIO_CHANNEL_ID);
 var dbOGChannelId = Number(env.DB_OG_CHANNEL_ID);
 var dbPosterID = Number(env.DB_POSTER_ID);
 var howToDownload = env.HOW_TO_DOWNLOAD_MSG_LINK || "";
+var ownerId = Number(env.OWNER_ID) || 0;
 var development = env.DEVELOPMENT;
 var webhookDomain = env.WEBHOOK_DOMAIN;
 var otherDomain = env.OTHER_DOMIAN || "";
@@ -33,6 +34,7 @@ if (!adminIds) {
 }
 export default {
     token: token,
+    ownerId: ownerId,
     botUserName: botUserName,
     dbPosterID: dbPosterID,
     development: development,

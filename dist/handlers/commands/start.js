@@ -42,7 +42,7 @@ import { sendInviterWelcomeMessage, sendRateLimitMessage, sendTokenExpiredMessag
 // Main handler function for the /start command
 export default function startHandler(ctx) {
     return __awaiter(this, void 0, void 0, function () {
-        var chatId, user, userId, payload, shareId, tokenNumber, firstSortItem, activeShareId, token, inviteParts, inviterId, newUserId, isUserExist, parts, _a, e_1, chatsUserHasNotJoined, e_2, isValidToken, firstItem, messageIds, channel, result, e_3, e_4, error_1;
+        var chatId, user, userId, payload, shareId, tokenNumber, firstSortItem, activeShareId, token, inviteParts, inviterId, newUserId, isUserExist, parts, _a, e_1, chatsUserHasNotJoined, e_2, haveBotPremium, isValidToken, firstItem, messageIds, channel, isRequestExceeded, result, e_3, e_4, error_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -53,7 +53,7 @@ export default function startHandler(ctx) {
                     shareId = undefined;
                     _b.label = 1;
                 case 1:
-                    _b.trys.push([1, 40, , 41]);
+                    _b.trys.push([1, 41, , 42]);
                     if (!payload) return [3 /*break*/, 12];
                     if (!payload.includes("token-")) return [3 /*break*/, 6];
                     tokenNumber = payload.replace("token-", "");
@@ -126,32 +126,38 @@ export default function startHandler(ctx) {
                     e_2 = _b.sent();
                     console.log(e_2);
                     return [2 /*return*/];
-                case 23: return [4 /*yield*/, database.verifyAndValidateToken(userId.toString())];
+                case 23: return [4 /*yield*/, database
+                        .checkBotPremiumStatus(userId.toString())
+                        .catch(function (error) { return console.error(error); })];
                 case 24:
-                    isValidToken = _b.sent();
-                    if (!!isValidToken) return [3 /*break*/, 27];
-                    return [4 /*yield*/, database.getFirstSortItem()];
+                    haveBotPremium = _b.sent();
+                    return [4 /*yield*/, database.verifyAndValidateToken(userId.toString())];
                 case 25:
+                    isValidToken = _b.sent();
+                    if (!(!isValidToken || !haveBotPremium)) return [3 /*break*/, 28];
+                    return [4 /*yield*/, database.getFirstSortItem()];
+                case 26:
                     firstItem = _b.sent();
-                    if (!firstItem) return [3 /*break*/, 27];
-                    return [4 /*yield*/, sendTokenExpiredMessage(ctx, user, firstItem.sort[0].aioShortUrl, payload)];
-                case 26: return [2 /*return*/, _b.sent()];
-                case 27: return [4 /*yield*/, reqDB.hasReachedRequestLimit(userId.toString())];
-                case 28:
-                    if (!(!(_b.sent()) || env.adminIds.includes(userId))) return [3 /*break*/, 36];
-                    _b.label = 29;
+                    if (!firstItem) return [3 /*break*/, 28];
+                    return [4 /*yield*/, sendTokenExpiredMessage(ctx, user, firstItem.sort[0].aioShortUrl, payload).catch(function (error) { return console.error(error); })];
+                case 27: return [2 /*return*/, _b.sent()];
+                case 28: return [4 /*yield*/, reqDB.hasReachedRequestLimit(userId.toString())];
                 case 29:
-                    _b.trys.push([29, 34, , 35]);
-                    if (!payload.includes("aio")) return [3 /*break*/, 31];
-                    return [4 /*yield*/, database.getAIOMessages(Number(shareId))];
+                    isRequestExceeded = _b.sent();
+                    if (!(!isRequestExceeded || env.adminIds.includes(userId) || haveBotPremium)) return [3 /*break*/, 37];
+                    _b.label = 30;
                 case 30:
+                    _b.trys.push([30, 35, , 36]);
+                    if (!payload.includes("aio")) return [3 /*break*/, 32];
+                    return [4 /*yield*/, database.getAIOMessages(Number(shareId))];
+                case 31:
                     result = _b.sent();
                     channel = env.dbAIOChannelId;
                     if (result) {
                         messageIds = result;
                     }
-                    _b.label = 31;
-                case 31:
+                    _b.label = 32;
+                case 32:
                     if (!messageIds) {
                         return [2 /*return*/, ctx.reply("Message not found, try another link", {
                                 reply_to_message_id: ctx.message.message_id,
@@ -161,30 +167,30 @@ export default function startHandler(ctx) {
                         throw Error("There must be DB_CHANNEL_ID and DB_MOVIE_CHANNEL_ID");
                     }
                     return [4 /*yield*/, telegram.forwardMessages(chatId, channel, [messageIds], true)];
-                case 32:
-                    _b.sent();
-                    return [4 /*yield*/, reqDB.saveRequestData(userId.toString())];
                 case 33:
                     _b.sent();
-                    return [3 /*break*/, 35];
+                    return [4 /*yield*/, reqDB.saveRequestData(userId.toString())];
                 case 34:
+                    _b.sent();
+                    return [3 /*break*/, 36];
+                case 35:
                     e_3 = _b.sent();
                     console.log(e_3);
-                    return [3 /*break*/, 35];
-                case 35: return [3 /*break*/, 39];
-                case 36:
-                    _b.trys.push([36, 38, , 39]);
+                    return [3 /*break*/, 36];
+                case 36: return [3 /*break*/, 40];
+                case 37:
+                    _b.trys.push([37, 39, , 40]);
                     return [4 /*yield*/, sendRateLimitMessage(ctx, user)];
-                case 37: return [2 /*return*/, _b.sent()];
-                case 38:
+                case 38: return [2 /*return*/, _b.sent()];
+                case 39:
                     e_4 = _b.sent();
                     console.log(e_4);
                     return [2 /*return*/];
-                case 39: return [3 /*break*/, 41];
-                case 40:
+                case 40: return [3 /*break*/, 42];
+                case 41:
                     error_1 = _b.sent();
-                    return [3 /*break*/, 41];
-                case 41: return [2 /*return*/];
+                    return [3 /*break*/, 42];
+                case 42: return [2 /*return*/];
             }
         });
     });

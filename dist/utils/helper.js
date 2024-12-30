@@ -208,3 +208,9 @@ export function convertToTinySubscript(inputText) {
     }
     return tinySubscriptText.replace(/[()\[\]\+\-]/g, " ").trim();
 }
+export function hasReplyToMessage(message) {
+    return message && message.reply_to_message !== undefined;
+}
+export function isTextMessage(message) {
+    return message && typeof message.text === "string";
+}

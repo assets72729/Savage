@@ -1,6 +1,7 @@
 import "dotenv/config";
 declare const _default: {
     token: string;
+    ownerId: number;
     botUserName: string | undefined;
     dbPosterID: number;
     development: string | undefined;

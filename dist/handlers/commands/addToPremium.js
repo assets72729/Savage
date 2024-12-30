@@ -34,62 +34,65 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import express from "express";
-import env from "./services/env.js";
-import telegram from "./services/telegram.js";
-import commands from "./handlers/commands/index.js";
-import stage from "./scenes/index.js";
-import { session } from "telegraf";
-import database from "./services/database.js";
-import filters from "./middleware/filters.js";
-var app = telegram.app;
-app.use(session());
-app.use(stage.middleware());
-app.use(filters.private);
-app.use(commands.reqAIOHandler);
-app.command("start", commands.startHandler);
-app.command("add", commands.addAIOHandler);
-app.command("edit", commands.editAIOHandler);
-app.command("addtopremium", commands.addToPremiumHandler);
-function main() {
+import auth from "../../services/auth.js";
+import database from "../../services/database.js";
+import { hasReplyToMessage, isTextMessage } from "../../utils/helper.js";
+export default function addToPremiumHandler(ctx) {
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function () {
-        var domain, server, port_1, _a, _b;
+        var userId, firstName, args, addToUserToPremium, duration, replyToMessage, result, err_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
-                case 0: return [4 /*yield*/, database.initialize()];
+                case 0:
+                    userId = (_a = ctx.from) === null || _a === void 0 ? void 0 : _a.id;
+                    firstName = ((_b = ctx.from) === null || _b === void 0 ? void 0 : _b.first_name) || "user";
+                    args = isTextMessage(ctx.message) ? ctx.message.text.split(" ") : null;
+                    addToUserToPremium = "";
+                    duration = "";
+                    if (!(!auth.isOwner(userId) || !userId)) return [3 /*break*/, 2];
+                    return [4 /*yield*/, ctx.reply("Sorry, you have no permission to do this")];
                 case 1:
                     _c.sent();
-                    return [4 /*yield*/, telegram.initialize()];
+                    return [2 /*return*/];
                 case 2:
-                    _c.sent();
-                    if (!env.development) return [3 /*break*/, 3];
-                    app.launch({ dropPendingUpdates: true });
-                    return [3 /*break*/, 5];
+                    if (!(!args || args.length < 3 || args.length > 2)) return [3 /*break*/, 4];
+                    return [4 /*yield*/, ctx.reply("Please specify the day duration (e.g., /addtopremium 1d or /addtopremium userid 1d [for days]).")];
                 case 3:
-                    domain = env.webhookDomain;
-                    if (!domain) {
-                        throw Error("Please provide WEBHOOK_DOMAIN");
-                    }
-                    server = express();
-                    server.get("/check", function (req, res) {
-                        res.sendStatus(200);
-                        // setInterval(() => {
-                        //   sendRequest();
-                        // }, 5 * 60 * 1000);
-                        // res.send("working server!");
-                    });
-                    port_1 = env.port;
-                    _b = (_a = server).use;
-                    return [4 /*yield*/, app.createWebhook({ domain: domain, path: "/direct-movies" })];
+                    _c.sent();
+                    return [2 /*return*/];
                 case 4:
-                    _b.apply(_a, [_c.sent()]);
-                    server.listen(port_1, function () { return console.log("Server listening on ".concat(port_1)); });
-                    _c.label = 5;
-                case 5: return [2 /*return*/];
+                    if (!(args.length === 3)) return [3 /*break*/, 5];
+                    addToUserToPremium = args[1];
+                    duration = args[2];
+                    return [3 /*break*/, 8];
+                case 5:
+                    if (!!hasReplyToMessage(ctx.message)) return [3 /*break*/, 7];
+                    return [4 /*yield*/, ctx.reply("Please reply to a user message to enable autoreply.")];
+                case 6:
+                    _c.sent();
+                    return [2 /*return*/];
+                case 7:
+                    replyToMessage = ctx.message.reply_to_message;
+                    addToUserToPremium = replyToMessage.from.id;
+                    duration = args[1];
+                    _c.label = 8;
+                case 8:
+                    _c.trys.push([8, 11, , 12]);
+                    return [4 /*yield*/, database.addBotPremium(addToUserToPremium.toString(), duration)];
+                case 9:
+                    result = _c.sent();
+                    return [4 /*yield*/, ctx.reply("[".concat(firstName, "](tg://user?id=").concat(userId, ")").concat(result), {
+                            parse_mode: "Markdown",
+                        })];
+                case 10:
+                    _c.sent();
+                    return [3 /*break*/, 12];
+                case 11:
+                    err_1 = _c.sent();
+                    console.log(err_1);
+                    return [3 /*break*/, 12];
+                case 12: return [2 /*return*/];
             }
         });
     });
 }
-main();
-process.once("SIGINT", function () { return app.stop("SIGINT"); });
-process.once("SIGTERM", function () { return app.stop("SIGTERM"); });
