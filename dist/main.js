@@ -51,6 +51,7 @@ app.command("start", commands.startHandler);
 app.command("add", commands.addAIOHandler);
 app.command("edit", commands.editAIOHandler);
 app.command("addtopremium", commands.addToPremiumHandler);
+app.command("premium", commands.premiumHandler);
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var domain, server, port_1, _a, _b;
