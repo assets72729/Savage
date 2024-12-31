@@ -38,14 +38,15 @@ import database from "../../services/database.js";
 export default function replyHandler(ctx) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var userId, premiumDetails, err_1;
+        var userId, premiumDetails, premiumDetailsString, err_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     _b.trys.push([0, 2, , 3]);
                     userId = (_a = ctx.from) === null || _a === void 0 ? void 0 : _a.id;
                     premiumDetails = database.getPremiumDetails(userId.toString());
-                    return [4 /*yield*/, ctx.reply("".concat(premiumDetails))];
+                    premiumDetailsString = JSON.stringify(premiumDetails, null, 2);
+                    return [4 /*yield*/, ctx.reply("".concat(premiumDetailsString))];
                 case 1:
                     _b.sent();
                     return [3 /*break*/, 3];
