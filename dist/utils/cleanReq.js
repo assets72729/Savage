@@ -31,8 +31,8 @@ export function cleanString(inputString) {
     return cleanedString;
 }
 export function normalizeSeasonFormat(text) {
-    return text.replace(/(season\s*0?(\d+)|s0?(\d+))/gi, function (_, __, season1, season2) {
-        var seasonNumber = parseInt(season1 || season2, 10);
-        return "s".concat(seasonNumber.toString().padStart(2, "0"));
+    return text.replace(/\b(?:season\s*0?(\d+)|s0?(\d+))\b/gi, function (_, season1, season2) {
+        var seasonNumber = season1 || season2;
+        return "s".concat(parseInt(seasonNumber, 10).toString().padStart(2, "0"));
     });
 }
