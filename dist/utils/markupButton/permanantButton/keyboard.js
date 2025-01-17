@@ -43,6 +43,7 @@ function createBatchOfButtons(items, next, prev, sendAll, totalPage, currentPage
     var quality540 = { text: "540p", callback_data: "540p" };
     var quality720 = { text: "720p", callback_data: "720p" };
     var quality1080 = { text: "1080p", callback_data: "1080p" };
+    var qualityAll = { text: "All", callback_data: "all" };
     var sendAllButton = { text: "\uD83D\uDC46Send All via PM\uD83D\uDC46", callback_data: sendAll };
     // buttonsBatch.push([adjustQuality]);
     buttonsBatch.push([quality480, quality540, quality720, quality1080]);

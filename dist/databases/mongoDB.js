@@ -44,6 +44,7 @@ import SortModel from "./models/sortModel.js";
 import { InviteService } from "./inviteService.js";
 import TokenModel from "./models/tokeModel.js";
 import jwt from "jsonwebtoken";
+import { normalizeSeasonFormat } from "../utils/cleanReq.js";
 var MongoDB = /** @class */ (function () {
     function MongoDB() {
         this.db = mongoose;
@@ -156,68 +157,90 @@ var MongoDB = /** @class */ (function () {
     };
     MongoDB.prototype.searchAIO = function (criteria, messageIdLink) {
         return __awaiter(this, void 0, void 0, function () {
-            var normalizedTitle, first20Chars, query, specialQuery, keywords, regexPattern, results, fallbackQuery, _a, err_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var normalizedTitle, first30Chars, first15Chars, normalizeSeasonString, createRegexQuery, createKeywordRegex, basicQuery, specialQuery, fallbackQuery, seasonQuery, results, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         if (!criteria.caption || criteria.caption.length < 3) {
                             return [2 /*return*/, undefined];
                         }
-                        normalizedTitle = criteria.caption;
-                        first20Chars = normalizedTitle.slice(0, 30);
-                        query = {
-                            caption: { $regex: new RegExp(first20Chars, "i") },
-                        };
-                        specialQuery = {};
-                        if (first20Chars.length > 4) {
-                            keywords = first20Chars
+                        normalizedTitle = criteria.caption.trim();
+                        first30Chars = normalizedTitle.slice(0, 30);
+                        first15Chars = normalizedTitle.slice(0, 15);
+                        normalizeSeasonString = normalizeSeasonFormat(normalizedTitle);
+                        createRegexQuery = function (text) { return ({
+                            caption: { $regex: new RegExp(text, "i") },
+                        }); };
+                        createKeywordRegex = function (text) {
+                            var keywords = text
                                 .replace(/\s+/g, " ")
                                 .split(" ")
                                 .map(function (keyword) { return "(?=.*".concat(keyword, ")"); })
                                 .join("");
-                            regexPattern = new RegExp("^".concat(keywords), "i");
-                            specialQuery = {
-                                caption: { $regex: regexPattern },
-                            };
-                        }
-                        _b.label = 1;
+                            return new RegExp("^".concat(keywords), "i");
+                        };
+                        basicQuery = createRegexQuery(first30Chars);
+                        specialQuery = first30Chars.length > 4 ? { caption: { $regex: createKeywordRegex(first30Chars) } } : null;
+                        fallbackQuery = createRegexQuery(first15Chars);
+                        seasonQuery = createRegexQuery(normalizeSeasonString);
+                        _a.label = 1;
                     case 1:
-                        _b.trys.push([1, 11, , 12]);
-                        return [4 /*yield*/, this.AIOModel.find(query).limit(400)];
+                        _a.trys.push([1, 11, , 12]);
+                        results = [];
+                        return [4 /*yield*/, this.AIOModel.find(basicQuery).limit(400)];
                     case 2:
-                        results = _b.sent();
-                        if (!(results.length === 0 && Object.keys(specialQuery).length > 0)) return [3 /*break*/, 4];
+                        results = _a.sent();
+                        if (!(results.length === 0 && specialQuery)) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.AIOModel.find(specialQuery).limit(400)];
                     case 3:
-                        results = _b.sent();
-                        _b.label = 4;
+                        results = _a.sent();
+                        _a.label = 4;
                     case 4:
                         if (!(results.length === 0)) return [3 /*break*/, 6];
-                        fallbackQuery = {
-                            caption: { $regex: new RegExp(normalizedTitle.slice(0, 15), "i") },
-                        };
                         return [4 /*yield*/, this.AIOModel.find(fallbackQuery).limit(400)];
                     case 5:
-                        results = _b.sent();
-                        _b.label = 6;
+                        results = _a.sent();
+                        _a.label = 6;
                     case 6:
-                        if (!(results.length === 0)) return [3 /*break*/, 10];
-                        _b.label = 7;
+                        if (!(results.length === 0)) return [3 /*break*/, 8];
+                        return [4 /*yield*/, this.AIOModel.find(seasonQuery).limit(400)];
                     case 7:
-                        _b.trys.push([7, 9, , 10]);
-                        return [4 /*yield*/, sendToLogGroup(env.logGroupId, "not found: ".concat(normalizedTitle, " [View Message](").concat(messageIdLink || "https://www.telegram.org/", ")"))];
+                        results = _a.sent();
+                        _a.label = 8;
                     case 8:
-                        _b.sent();
-                        return [3 /*break*/, 10];
+                        if (!(results.length === 0)) return [3 /*break*/, 10];
+                        return [4 /*yield*/, this.logNotFound(normalizedTitle, messageIdLink)];
                     case 9:
-                        _a = _b.sent();
-                        return [3 /*break*/, 10];
+                        _a.sent();
+                        _a.label = 10;
                     case 10: return [2 /*return*/, results];
                     case 11:
-                        err_1 = _b.sent();
+                        err_1 = _a.sent();
                         console.error("Error executing the query:", err_1);
                         return [2 /*return*/, undefined];
                     case 12: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // Helper function for logging missing results
+    MongoDB.prototype.logNotFound = function (normalizedTitle, messageIdLink) {
+        return __awaiter(this, void 0, void 0, function () {
+            var message, err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        message = "Not found: ".concat(normalizedTitle, " [View Message](").concat(messageIdLink || "https://www.telegram.org/", ")");
+                        return [4 /*yield*/, sendToLogGroup(env.logGroupId, message)];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_2 = _a.sent();
+                        console.error("Error logging missing result:", err_2);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
