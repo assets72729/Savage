@@ -47,7 +47,7 @@ export default function getDramadata(dramaDetails, messageIds) {
                         shareId: shareId,
                         messageIds: messageIds ? messageIds : 0,
                         caption: processCaptionForStore(dramaDetails.caption ? dramaDetails.caption : ""),
-                        channel: env.collectionAIO.toString(),
+                        channel: env.dbAIOChannelId.toString(),
                     }];
             }
             catch (error) {
