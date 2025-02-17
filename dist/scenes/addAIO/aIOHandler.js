@@ -193,11 +193,14 @@ function processQueue(ctx) {
                 case 1: return [2 /*return*/, _a.sent()];
                 case 2:
                     queue.sort(function (a, b) { return a.msgId - b.msgId; });
+                    ctx.session.done = false;
+                    if (!!ctx.session.done) return [3 /*break*/, 8];
                     _i = 0, queue_1 = queue;
                     _a.label = 3;
                 case 3:
                     if (!(_i < queue_1.length)) return [3 /*break*/, 7];
                     item = queue_1[_i];
+                    ctx.session.done = true;
                     return [4 /*yield*/, handleAIOProcessing(ctx, item.caption, item.msgId)];
                 case 4:
                     _a.sent();
@@ -209,9 +212,12 @@ function processQueue(ctx) {
                     _i++;
                     return [3 /*break*/, 3];
                 case 7:
+                    ctx.session.done = false;
+                    _a.label = 8;
+                case 8:
                     sessionData.queue = [];
                     return [4 /*yield*/, ctx.reply("All files processed!")];
-                case 8:
+                case 9:
                     _a.sent();
                     return [2 /*return*/];
             }
