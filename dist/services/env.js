@@ -26,6 +26,8 @@ var join = env.JOIN || "";
 var jwtSecret = env.JWT_SECRET || "randomSecretString";
 var collectionAIO = Number(env.COLLECTION_AIO) || "";
 var collectionAIO2 = Number(env.COLLECTION_AIO_2) || "";
+var apiBaseUrl = env.API_BASE_URL || "";
+var apiFetchToken = env.API_FETCH_TOKEN || "";
 if (!token) {
     throw Error("Provide TELEGRAM_BOT_TOKEN");
 }
@@ -57,4 +59,6 @@ export default {
     adminIds: adminIds,
     databaseUrl: databaseUrl,
     otherDomain: otherDomain,
+    apiBaseUrl: apiBaseUrl,
+    apiFetchToken: apiFetchToken,
 };

@@ -136,7 +136,7 @@ var MongoDB = /** @class */ (function () {
                     case 1:
                         result = _a.sent();
                         if (result) {
-                            return [2 /*return*/, result.messageIds];
+                            return [2 /*return*/, result];
                         }
                         return [2 /*return*/, undefined];
                 }

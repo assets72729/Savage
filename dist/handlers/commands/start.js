@@ -141,7 +141,10 @@ export default function startHandler(ctx) {
                     if (!(firstItem && !haveBotPremium)) return [3 /*break*/, 28];
                     return [4 /*yield*/, sendTokenExpiredMessage(ctx, user, firstItem.sort[0].aioShortUrl, payload).catch(function (error) { return console.error(error); })];
                 case 27: return [2 /*return*/, _b.sent()];
-                case 28: return [4 /*yield*/, reqDB.hasReachedRequestLimit(userId.toString())];
+                case 28:
+                    messageIds = void 0;
+                    channel = void 0;
+                    return [4 /*yield*/, reqDB.hasReachedRequestLimit(userId.toString())];
                 case 29:
                     isRequestExceeded = _b.sent();
                     if (!(!isRequestExceeded || env.adminIds.includes(userId) || haveBotPremium)) return [3 /*break*/, 37];
@@ -152,9 +155,9 @@ export default function startHandler(ctx) {
                     return [4 /*yield*/, database.getAIOMessages(Number(shareId))];
                 case 31:
                     result = _b.sent();
-                    channel = env.dbAIOChannelId;
+                    channel = (result === null || result === void 0 ? void 0 : result.channel) ? Number(result.channel) : undefined;
                     if (result) {
-                        messageIds = result;
+                        messageIds = result.messageIds;
                     }
                     _b.label = 32;
                 case 32:

@@ -15,7 +15,7 @@ export interface DatabaseClient {
     getMessages(shareId: number): Promise<number[] | undefined>;
     saveUser(user: User): Promise<User>;
     isUserExist(user: string): Promise<boolean>;
-    getAIOMessages(shareId: number): Promise<number | undefined>;
+    getAIOMessages(shareId: number): Promise<AIODocument | undefined>;
     saveAIO(aIODocument: AIODocument): Promise<AIODocument>;
     searchAIO(searchCriteria: AIOSearchCriteria, messageIdLink?: string | null): Promise<AIODocument[] | undefined>;
     addAIO(shareId: number, messageIds: number[]): any;

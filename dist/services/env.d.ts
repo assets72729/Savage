@@ -24,5 +24,7 @@ declare const _default: {
     adminIds: number[];
     databaseUrl: string | undefined;
     otherDomain: string;
+    apiBaseUrl: string;
+    apiFetchToken: string;
 };
 export default _default;

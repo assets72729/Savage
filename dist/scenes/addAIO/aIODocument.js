@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import getRandomId from "../../extra/getRandomId.js";
+import env from "../../services/env.js";
 import { processCaptionForStore } from "../../utils/caption/editCaption.js";
 export default function getDramadata(dramaDetails, messageIds) {
     return __awaiter(this, void 0, void 0, function () {
@@ -46,6 +47,7 @@ export default function getDramadata(dramaDetails, messageIds) {
                         shareId: shareId,
                         messageIds: messageIds ? messageIds : 0,
                         caption: processCaptionForStore(dramaDetails.caption ? dramaDetails.caption : ""),
+                        channel: env.collectionAIO.toString(),
                     }];
             }
             catch (error) {

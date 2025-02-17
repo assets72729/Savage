@@ -46,7 +46,7 @@ declare class MongoDB {
     saveUser(user: UserDocument): Promise<UserDocument>;
     isUserExist(userId: string): Promise<boolean>;
     getMessages(shareId: number): Promise<number[] | undefined>;
-    getAIOMessages(shareId: number): Promise<number | undefined>;
+    getAIOMessages(shareId: number): Promise<AIODocument | undefined>;
     saveAIO(aio: AIODocument): Promise<AIODocument>;
     searchAIO(criteria: AIOSearchCriteria, messageIdLink?: string | null): Promise<AIODocument[] | undefined>;
     private logNotFound;

@@ -13,6 +13,10 @@ export var aioSchema = new Schema({
         type: String,
         required: true,
     },
+    channel: {
+        type: String,
+        required: true,
+    },
 }, { timestamps: true });
 var DramaModel = mongoose.model("aio", aioSchema);
 export default DramaModel;

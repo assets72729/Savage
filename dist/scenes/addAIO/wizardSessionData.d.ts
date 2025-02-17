@@ -8,4 +8,8 @@ export interface AIOSessionData extends WizardSessionData {
     aIOPosterIDDone?: boolean;
     done?: boolean;
     captions?: string[];
+    queue?: Array<{
+        caption: string;
+        msgId: number;
+    }>;
 }
