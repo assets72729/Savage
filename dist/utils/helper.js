@@ -129,7 +129,7 @@ export function sendRateLimitMessage(ctx, user) {
             switch (_b.label) {
                 case 0:
                     firstName = (((_a = user.first_name) === null || _a === void 0 ? void 0 : _a.replace(/[^a-zA-Z0-9]/g, "")) || "User").trim();
-                    message = "Hello ".concat(firstName, "!\nIn 6 hours, you can only make 3 requests. Please wait for some time before making another request.\n");
+                    message = "Hello ".concat(firstName, "!\nIn 20 minutes, you can only make 10 requests. Please wait for some time before making another request.\n");
                     return [4 /*yield*/, ctx.reply(message, {
                             reply_to_message_id: ctx.message.message_id,
                             parse_mode: "HTML",

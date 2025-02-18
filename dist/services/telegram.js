@@ -237,7 +237,7 @@ var Telegram = /** @class */ (function () {
                     case 0:
                         resultIds = [];
                         if (!ctx) return [3 /*break*/, 10];
-                        if (!memory.startProcess(fromChatId)) return [3 /*break*/, 7];
+                        if (!memory.startProcess(ctx.from.id)) return [3 /*break*/, 7];
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 5, , 6]);

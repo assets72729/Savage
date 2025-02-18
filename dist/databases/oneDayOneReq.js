@@ -87,7 +87,7 @@ var OneRequestOneDayDb = /** @class */ (function () {
         var _this = this;
         setInterval(function () {
             _this.clearData();
-        }, 6 * 60 * 60 * 1000);
+        }, 20 * 60 * 1000);
     };
     return OneRequestOneDayDb;
 }());
