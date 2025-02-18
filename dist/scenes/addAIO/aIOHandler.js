@@ -52,7 +52,7 @@ function startCopying(ctx) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    if (!(ctx.message && "text" in ctx.message)) return [3 /*break*/, 8];
+                    if (!(ctx.message && "text" in ctx.message)) return [3 /*break*/, 9];
                     text = ctx.message.text.toLowerCase();
                     if (!(text === "/cancel")) return [3 /*break*/, 3];
                     return [4 /*yield*/, ctx.reply("Share AIO Canceled, start again /add")];
@@ -67,18 +67,22 @@ function startCopying(ctx) {
                     return [4 /*yield*/, ctx.reply("Send Files")];
                 case 4: return [2 /*return*/, _c.sent()];
                 case 5:
-                    if (!(text === "done")) return [3 /*break*/, 8];
-                    ctx.session.done = true;
-                    return [4 /*yield*/, processQueue(ctx)];
+                    if (!(text === "done" && !ctx.session.done)) return [3 /*break*/, 9];
+                    ctx.session.done = false;
+                    return [4 /*yield*/, ctx.reply("adding to datdabase")];
                 case 6:
                     _c.sent();
+                    return [4 /*yield*/, processQueue(ctx)];
+                case 7:
+                    _c.sent();
                     ctx.session.queue = [];
+                    ctx.session.done = true;
                     return [4 /*yield*/, ctx.scene.leave()];
-                case 7: return [2 /*return*/, _c.sent()];
-                case 8: return [4 /*yield*/, ctx
+                case 8: return [2 /*return*/, _c.sent()];
+                case 9: return [4 /*yield*/, ctx
                         .reply("Send next file. If Done, Click Done ".concat((_a = ctx.session.msgId) === null || _a === void 0 ? void 0 : _a.length), keyboard.oneTimeDoneKeyboard())
                         .catch(function (error) { return console.error("Error sending message:", error); })];
-                case 9:
+                case 10:
                     _c.sent();
                     caption = "no";
                     msgId = ctx.message.message_id;
@@ -193,8 +197,7 @@ function processQueue(ctx) {
                 case 1: return [2 /*return*/, _a.sent()];
                 case 2:
                     queue.sort(function (a, b) { return a.msgId - b.msgId; });
-                    ctx.session.done = false;
-                    if (!!ctx.session.done) return [3 /*break*/, 8];
+                    if (!!ctx.session.done) return [3 /*break*/, 7];
                     _i = 0, queue_1 = queue;
                     _a.label = 3;
                 case 3:
@@ -204,7 +207,7 @@ function processQueue(ctx) {
                     return [4 /*yield*/, handleAIOProcessing(ctx, item.caption, item.msgId)];
                 case 4:
                     _a.sent();
-                    return [4 /*yield*/, delay(1000, 2000)];
+                    return [4 /*yield*/, delay(500, 1000)];
                 case 5:
                     _a.sent();
                     _a.label = 6;
@@ -212,12 +215,10 @@ function processQueue(ctx) {
                     _i++;
                     return [3 /*break*/, 3];
                 case 7:
-                    ctx.session.done = false;
-                    _a.label = 8;
-                case 8:
                     sessionData.queue = [];
+                    ctx.session.done = false;
                     return [4 /*yield*/, ctx.reply("All files processed!")];
-                case 9:
+                case 8:
                     _a.sent();
                     return [2 /*return*/];
             }
