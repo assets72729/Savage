@@ -46,7 +46,7 @@ function createBatchOfButtons(items, next, prev, sendAll, totalPage, currentPage
     var qualityAll = { text: "All", callback_data: "all" };
     var sendAllButton = { text: "\uD83D\uDC46Send All via PM\uD83D\uDC46", callback_data: sendAll };
     // buttonsBatch.push([adjustQuality]);
-    buttonsBatch.push([quality480, quality540, quality720, quality1080]);
+    buttonsBatch.push([quality480, quality540, quality720, quality1080, qualityAll]);
     items.forEach(function (item) {
         if (isNoBtnLink) {
             var button = {

@@ -47,8 +47,8 @@ function handleResultsReply(ctx, request, firstBatch, sessionData, batchedResult
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     replyContent = env.noBtnLink
-                        ? "Results for: ".concat(request, "\n").concat(createDeepLinksList(firstBatch || []))
-                        : "Results for: ".concat(request, "\n");
+                        ? "\uD835\uDE81\uD835\uDE8E\uD835\uDE9C\uD835\uDE9E\uD835\uDE95\uD835\uDE9D \uD835\uDE75\uD835\uDE98\uD835\uDE9B \uD83D\uDD0D ".concat(request, "\n").concat(createDeepLinksList(firstBatch || []))
+                        : "\uD835\uDE81\uD835\uDE8E\uD835\uDE9C\uD835\uDE9E\uD835\uDE95\uD835\uDE9D \uD835\uDE75\uD835\uDE98\uD835\uDE9B \uD83D\uDD0D ".concat(request, "\n");
                     buttons = makeButtons(env.noBtnLink ? [] : firstBatch || [], sessionData.next || "", sessionData.prev || "", sessionData.sendAll || "", "eng", batchedResultsLength, 0);
                     return [4 /*yield*/, ctx.reply(replyContent, {
                             reply_markup: buttons,
@@ -93,8 +93,8 @@ export function editResultsReply(ctx, request, firstBatch, sessionData, batchedR
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     replyContent = env.noBtnLink
-                        ? "Results for: ".concat(request, "\n").concat(createDeepLinksList(firstBatch || []))
-                        : "Results for: ".concat(request, "\n");
+                        ? "\uD835\uDE81\uD835\uDE8E\uD835\uDE9C\uD835\uDE9E\uD835\uDE95\uD835\uDE9D \uD835\uDE75\uD835\uDE98\uD835\uDE9B \uD83D\uDD0D ".concat(request, "\n").concat(createDeepLinksList(firstBatch || []))
+                        : "\uD835\uDE81\uD835\uDE8E\uD835\uDE9C\uD835\uDE9E\uD835\uDE95\uD835\uDE9D \uD835\uDE75\uD835\uDE98\uD835\uDE9B \uD83D\uDD0D ".concat(request, "\n");
                     buttons = makeButtons(env.noBtnLink ? [] : firstBatch || [], sessionData.next || "", sessionData.prev || "", sessionData.sendAll || "", "eng", batchedResultsLength, pageNo);
                     return [4 /*yield*/, ctx.editMessageText(replyContent, {
                             reply_markup: buttons,

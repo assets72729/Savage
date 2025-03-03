@@ -231,23 +231,22 @@ var Telegram = /** @class */ (function () {
         if (captions === void 0) { captions = []; }
         if (ctx === void 0) { ctx = undefined; }
         return __awaiter(this, void 0, void 0, function () {
-            var resultIds, botLink, userLink, message, error_2, error_3, i, messageId, success, result, caption, result, error_4, message, error_5;
+            var resultIds, botLink, userLink, message, error_2, i, messageId, success, caption, result, error_3, message, error_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         resultIds = [];
-                        if (!ctx) return [3 /*break*/, 10];
+                        if (!ctx) return [3 /*break*/, 9];
                         if (!memory.startProcess(ctx.from.id)) return [3 /*break*/, 7];
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 5, , 6]);
                         if (!env.botUserName) return [3 /*break*/, 4];
                         botLink = "https://t.me/".concat(env.botUserName);
-                        userLink = "https://t.me/".concat(ctx.from.username);
-                        if (!ctx.from.username) {
-                            userLink = "tg://user?id=".concat(ctx.from.id);
-                        }
-                        return [4 /*yield*/, telegram.app.telegram.sendMessage(ctx.chat.id, "Hello [".concat(ctx.from.first_name, "](").concat(userLink, ") \nYour Files: [").concat("Here Your Files In PM", "](").concat(botLink, ")"), {
+                        userLink = ctx.from.username
+                            ? "https://t.me/".concat(ctx.from.username)
+                            : "tg://user?id=".concat(ctx.from.id);
+                        return [4 /*yield*/, telegram.app.telegram.sendMessage(ctx.chat.id, "Hello [".concat(ctx.from.first_name, "](").concat(userLink, ") \nYour Files: [Here Your Files In PM](").concat(botLink, ")"), {
                                 parse_mode: "Markdown",
                                 disable_web_page_preview: true,
                             })];
@@ -262,90 +261,79 @@ var Telegram = /** @class */ (function () {
                         error_2 = _a.sent();
                         console.error("Error sending log:", error_2);
                         return [3 /*break*/, 6];
-                    case 6: return [3 /*break*/, 10];
-                    case 7:
-                        _a.trys.push([7, 9, , 10]);
-                        return [4 /*yield*/, ctx.answerCbQuery("Previous process is still in progress. Please wait a moment and retry!", {
-                                show_alert: true,
-                                cache_time: 2,
-                            })];
+                    case 6: return [3 /*break*/, 9];
+                    case 7: return [4 /*yield*/, ctx
+                            .answerCbQuery("Previous process is still in progress. Please wait a moment and retry!", {
+                            show_alert: true,
+                        })
+                            .catch(function (e) { return console.log(e); })];
                     case 8:
                         _a.sent();
                         return [2 /*return*/, []];
                     case 9:
-                        error_3 = _a.sent();
-                        return [3 /*break*/, 10];
-                    case 10:
                         i = 0;
-                        _a.label = 11;
-                    case 11:
-                        if (!(i < messageIds.length)) return [3 /*break*/, 26];
+                        _a.label = 10;
+                    case 10:
+                        if (!(i < messageIds.length)) return [3 /*break*/, 22];
                         messageId = messageIds[i];
                         success = false;
+                        _a.label = 11;
+                    case 11:
+                        if (!!success) return [3 /*break*/, 21];
                         _a.label = 12;
                     case 12:
-                        if (!!success) return [3 /*break*/, 25];
-                        _a.label = 13;
-                    case 13:
-                        _a.trys.push([13, 20, , 24]);
-                        if (!deleteOrNot) return [3 /*break*/, 16];
-                        return [4 /*yield*/, this.app.telegram.copyMessage(toChatId, fromChatId, messageId, {})];
-                    case 14:
-                        result = _a.sent();
-                        resultIds.push(result.message_id);
-                        return [4 /*yield*/, scheduleMessageDeletion(this, toChatId, result.message_id, 5)];
-                    case 15:
-                        _a.sent();
-                        return [3 /*break*/, 18];
-                    case 16:
+                        _a.trys.push([12, 17, , 20]);
                         caption = captions[i] ? processCaption(captions[i], env.join) : undefined;
-                        return [4 /*yield*/, this.app.telegram.copyMessage(toChatId, fromChatId, messageId, {
-                                caption: caption,
-                            })];
-                    case 17:
+                        return [4 /*yield*/, this.app.telegram.copyMessage(toChatId, fromChatId, messageId, deleteOrNot ? {} : { caption: caption })];
+                    case 13:
                         result = _a.sent();
                         resultIds.push(result.message_id);
-                        _a.label = 18;
-                    case 18:
+                        if (!deleteOrNot) return [3 /*break*/, 15];
+                        return [4 /*yield*/, scheduleMessageDeletion(this, toChatId, result.message_id, 5)];
+                    case 14:
+                        _a.sent();
+                        _a.label = 15;
+                    case 15:
                         success = true;
                         return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 500); })];
-                    case 19:
+                    case 16:
                         _a.sent();
-                        return [3 /*break*/, 24];
-                    case 20:
-                        error_4 = _a.sent();
+                        return [3 /*break*/, 20];
+                    case 17:
+                        error_3 = _a.sent();
                         success = false;
-                        if (!(error_4.code === 429)) return [3 /*break*/, 22];
-                        console.log("".concat(error_4));
+                        if (!(error_3.code === 429)) return [3 /*break*/, 19];
+                        console.log("".concat(error_3));
                         return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 40000); })];
-                    case 21:
+                    case 18:
                         _a.sent();
-                        return [3 /*break*/, 23];
-                    case 22: return [3 /*break*/, 12];
-                    case 23: return [3 /*break*/, 24];
-                    case 24: return [3 /*break*/, 12];
-                    case 25:
+                        _a.label = 19;
+                    case 19: return [3 /*break*/, 20];
+                    case 20: return [3 /*break*/, 11];
+                    case 21:
                         i++;
-                        return [3 /*break*/, 11];
-                    case 26:
-                        if (ctx) {
-                            memory.completeProcess(fromChatId);
-                        }
-                        if (!deleteOrNot) return [3 /*break*/, 31];
-                        _a.label = 27;
-                    case 27:
-                        _a.trys.push([27, 30, , 31]);
+                        return [3 /*break*/, 10];
+                    case 22:
+                        if (!deleteOrNot) return [3 /*break*/, 27];
+                        _a.label = 23;
+                    case 23:
+                        _a.trys.push([23, 26, , 27]);
                         return [4 /*yield*/, this.app.telegram.sendMessage(toChatId, "I will delete the above files in 5 minutes, so forward them to another chat.")];
-                    case 28:
+                    case 24:
                         message = _a.sent();
                         return [4 /*yield*/, scheduleMessageDeletion(this, toChatId, message.message_id, 5)];
-                    case 29:
+                    case 25:
                         _a.sent();
-                        return [3 /*break*/, 31];
-                    case 30:
-                        error_5 = _a.sent();
-                        return [3 /*break*/, 31];
-                    case 31: return [2 /*return*/, resultIds];
+                        return [3 /*break*/, 27];
+                    case 26:
+                        error_4 = _a.sent();
+                        return [3 /*break*/, 27];
+                    case 27:
+                        if (ctx) {
+                            memory.completeProcess(ctx.from.id);
+                            memory.removeObject(ctx.from.id);
+                        }
+                        return [2 /*return*/, resultIds];
                 }
             });
         });

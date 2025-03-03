@@ -66,7 +66,7 @@ export default function startHandler(ctx) {
                     return [4 /*yield*/, database.manageToken(userId.toString())];
                 case 3:
                     token = (_b.sent()).token;
-                    return [4 /*yield*/, ctx.reply("Your New token generated: ".concat(token.slice(0, 5), " ...,\nNow click on Try Again button \uD83D\uDC46\uD83D\uDC46!"))];
+                    return [4 /*yield*/, ctx.reply("Your new token has been generated: ".concat(token.slice(0, 15), " ...\nNow, click the \"Try Again\" button \uD83D\uDC46\uD83D\uDC46!"))];
                 case 4: return [2 /*return*/, _b.sent()];
                 case 5: return [3 /*break*/, 12];
                 case 6:

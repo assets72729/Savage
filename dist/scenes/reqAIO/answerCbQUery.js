@@ -37,15 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 function sendCallbackQueryResponse(ctx, message) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, ctx.answerCbQuery(message, {
-                        show_alert: true,
-                        cache_time: 5,
-                    })];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
+            ctx
+                .answerCbQuery(message, {
+                show_alert: true,
+            })
+                .catch(function (e) { return console.log(e); });
+            return [2 /*return*/];
         });
     });
 }
