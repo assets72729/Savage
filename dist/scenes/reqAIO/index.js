@@ -100,7 +100,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
         }
     });
 }); }), Composer.on("callback_query", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
-    var sessionData, result, requestBy, qualities, callbackData_1, aIOData, page, isValidToken, firstItem, botLink, userLink, error_2, page, data_1, quality, newResult, aIOData;
+    var sessionData, result, requestBy, qualities, callbackData_1, aIOData, page, isValidToken, firstItem, botLink, userLink, error_2, data_1, quality, newResult, aIOData;
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     return __generator(this, function (_m) {
         switch (_m.label) {
@@ -173,7 +173,6 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 if (!(callbackData_1 === sessionData.next ||
                     callbackData_1 === sessionData.prev ||
                     qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 18];
-                page = sessionData.page;
                 data_1 = (_g = ctx.callbackQuery) === null || _g === void 0 ? void 0 : _g.data;
                 if (data_1) {
                     quality = qualities.find(function (q) { return data_1.startsWith(q); });
@@ -193,7 +192,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                     qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 13];
                 console.log(sessionData.page);
                 if (!(((_h = sessionData.page) !== null && _h !== void 0 ? _h : 0) <= aIOData.length)) return [3 /*break*/, 11];
-                return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[sessionData.page + 1], sessionData, aIOData.length, sessionData.page)];
+                return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[sessionData.page + 1], sessionData, aIOData.length, sessionData.page + 1)];
             case 10:
                 _m.sent();
                 sessionData.page = ((_j = sessionData.page) !== null && _j !== void 0 ? _j : 0) + 1;
@@ -206,7 +205,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 if (!(callbackData_1.startsWith("prev") ||
                     qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 16];
                 if (!(((_k = sessionData.page) !== null && _k !== void 0 ? _k : 0) > 0)) return [3 /*break*/, 15];
-                return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[sessionData.page - 1], sessionData, aIOData.length, sessionData.page)];
+                return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[sessionData.page - 1], sessionData, aIOData.length, sessionData.page - 1)];
             case 14:
                 _m.sent();
                 sessionData.page = ((_l = sessionData.page) !== null && _l !== void 0 ? _l : 0) - 1;
