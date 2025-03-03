@@ -184,7 +184,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                             return [2 /*return*/];
                         }
                         sessionData.aioBatches = newResult;
-                        sessionData.page = 0;
+                        sessionData.page = 1;
                     }
                 }
                 aIOData = sessionData.aioBatches;
@@ -192,8 +192,8 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 if (!(callbackData_1.startsWith("next") ||
                     qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 13];
                 console.log(sessionData.page);
-                if (!(((_h = sessionData.page) !== null && _h !== void 0 ? _h : 0) + 1 <= aIOData.length)) return [3 /*break*/, 11];
-                return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[sessionData.page], sessionData, aIOData.length, sessionData.page)];
+                if (!(((_h = sessionData.page) !== null && _h !== void 0 ? _h : 0) <= aIOData.length)) return [3 /*break*/, 11];
+                return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[sessionData.page + 1], sessionData, aIOData.length, sessionData.page)];
             case 10:
                 _m.sent();
                 sessionData.page = ((_j = sessionData.page) !== null && _j !== void 0 ? _j : 0) + 1;
@@ -206,7 +206,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 if (!(callbackData_1.startsWith("prev") ||
                     qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 16];
                 if (!(((_k = sessionData.page) !== null && _k !== void 0 ? _k : 0) > 0)) return [3 /*break*/, 15];
-                return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[sessionData.page], sessionData, aIOData.length, sessionData.page)];
+                return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[sessionData.page - 1], sessionData, aIOData.length, sessionData.page)];
             case 14:
                 _m.sent();
                 sessionData.page = ((_l = sessionData.page) !== null && _l !== void 0 ? _l : 0) - 1;
