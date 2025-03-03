@@ -118,7 +118,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 console.log("callbackData:", callbackData_1);
                 if (!(callbackData_1 === sessionData.sendAll)) return [3 /*break*/, 9];
                 aIOData = sessionData.aioBatches;
-                page = (_c = sessionData.page) !== null && _c !== void 0 ? _c : 1;
+                page = (_c = sessionData.page) !== null && _c !== void 0 ? _c : 0;
                 _m.label = 1;
             case 1:
                 _m.trys.push([1, 8, , 9]);
@@ -169,7 +169,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 console.error(error_2);
                 return [3 /*break*/, 9];
             case 9:
-                sessionData.page = (_f = sessionData.page) !== null && _f !== void 0 ? _f : 1;
+                sessionData.page = (_f = sessionData.page) !== null && _f !== void 0 ? _f : 0;
                 if (!(callbackData_1 === sessionData.next ||
                     callbackData_1 === sessionData.prev ||
                     qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 18];
@@ -189,24 +189,27 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 }
                 aIOData = sessionData.aioBatches;
                 if (!aIOData) return [3 /*break*/, 17];
-                if (!callbackData_1.startsWith("next")) return [3 /*break*/, 13];
-                if (!(((_h = sessionData.page) !== null && _h !== void 0 ? _h : 0) + 1 < aIOData.length)) return [3 /*break*/, 11];
-                sessionData.page = ((_j = sessionData.page) !== null && _j !== void 0 ? _j : 0) + 1;
+                if (!(callbackData_1.startsWith("next") ||
+                    qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 13];
+                console.log(sessionData.page);
+                if (!(((_h = sessionData.page) !== null && _h !== void 0 ? _h : 0) + 1 <= aIOData.length)) return [3 /*break*/, 11];
                 return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[sessionData.page], sessionData, aIOData.length, sessionData.page)];
             case 10:
                 _m.sent();
+                sessionData.page = ((_j = sessionData.page) !== null && _j !== void 0 ? _j : 0) + 1;
                 return [3 /*break*/, 12];
             case 11:
                 sendCallbackQueryResponse(ctx, "This is the last, no more left!");
                 _m.label = 12;
             case 12: return [2 /*return*/];
             case 13:
-                if (!callbackData_1.startsWith("prev")) return [3 /*break*/, 16];
+                if (!(callbackData_1.startsWith("prev") ||
+                    qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 16];
                 if (!(((_k = sessionData.page) !== null && _k !== void 0 ? _k : 0) > 0)) return [3 /*break*/, 15];
-                sessionData.page = ((_l = sessionData.page) !== null && _l !== void 0 ? _l : 0) - 1;
                 return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[sessionData.page], sessionData, aIOData.length, sessionData.page)];
             case 14:
                 _m.sent();
+                sessionData.page = ((_l = sessionData.page) !== null && _l !== void 0 ? _l : 0) - 1;
                 _m.label = 15;
             case 15: return [2 /*return*/];
             case 16: return [3 /*break*/, 18];
