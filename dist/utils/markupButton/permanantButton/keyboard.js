@@ -36,7 +36,7 @@ function createBatchOfButtons(items, next, prev, sendAll, totalPage, currentPage
     var buttonsBatch = [];
     var isNoBtnLink = env.noBtnLink;
     var nextButton = { text: "Next \u00BB", callback_data: next };
-    var pageButton = { text: "".concat(currentPage + 1, "/").concat(totalPage), callback_data: "page" };
+    var pageButton = { text: "".concat(currentPage, "/").concat(totalPage), callback_data: "page" };
     var prevButton = { text: "\u00AB Back", callback_data: prev };
     // const adjustQuality: any = { text: `👇 Filter By Quality 👇`, callback_data: "adjustquality" };
     var quality480 = { text: "480p", callback_data: "480p" };
