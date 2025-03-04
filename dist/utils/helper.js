@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import env from "../services/env.js";
+import { Markup } from "telegraf";
 export function sendTokenExpiredMessage(ctx, user, shortUrl, payload) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
@@ -77,30 +78,28 @@ export function sendTokenExpiredMessage(ctx, user, shortUrl, payload) {
     });
 }
 export function sendWelcomeMessage(ctx, user) {
-    var _a;
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function () {
-        var firstName, message;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var firstName, message, keyboard;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     firstName = (((_a = user.first_name) === null || _a === void 0 ? void 0 : _a.replace(/[^a-zA-Z0-9]/g, "")) || "User").trim();
-                    message = "Hello ".concat(firstName, "!\n Use:\n/m movie name : for movies \n");
+                    message = "\uD83D\uDC4B \u029C\u1D07\u029F\u029F\u1D0F ".concat(firstName, "!\n\u026A \u1D00\u1D0D \u1D00 \u1D18\u1D0F\u1D21\u1D07\u0280\uA730\u1D1C\u029F \u0299\u1D0F\u1D1B \u1D1B\u029C\u1D00\u1D1B \u1D21\u1D0F\u0280\u1D0Bs \u026A\u0274 \u0262\u0280\u1D0F\u1D1C\u1D18s. \u1D00\u1D05\u1D05 \u1D0D\u1D07 \u026A\u0274 \u028F\u1D0F\u1D1C\u0280 \u0262\u0280\u1D0F\u1D1C\u1D18, \u1D00\u0274\u1D05 \u026A \u1D21\u026A\u029F\u029F \u0280\u1D07s\u1D18\u1D0F\u0274\u1D05 \u1D21\u029C\u1D07\u0274 \u1D00\u0274\u028F \u1D1Cs\u1D07\u0280 s\u1D07\u0274\u1D05s \u1D00 \u1D0D\u1D0F\u1D20\u026A\u1D07 \u1D0F\u0280 \u1D05\u0280\u1D00\u1D0D\u1D00 \u0274\u1D00\u1D0D\u1D07!\n\u279C\u1D00\u1D05\u1D0D\u026A\u0274 \u1D18\u1D07\u0280\u1D0D\u026Ass\u026A\u1D0F\u0274s \u0280\u1D07\u01EB\u1D1C\u026A\u0280\u1D07\u1D05 \uD83E\uDD70");
+                    keyboard = Markup.inlineKeyboard([
+                        [
+                            Markup.button.url("📌 ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ 📌", "http://t.me/".concat(env.botUserName, "?startgroup=start")),
+                        ],
+                        [Markup.button.callback("🛠 ʜᴇʟᴘ", "features"), Markup.button.callback("💌 ᴀʙᴏᴜᴛ", "about")],
+                        [Markup.button.callback("🎟 ᴘʀᴇᴍɪᴜᴍ", "seeplans"), Markup.button.callback("🎁 ʀᴇғᴇʀ", "refer")],
+                    ]);
                     return [4 /*yield*/, ctx.reply(message, {
-                            reply_to_message_id: ctx.message.message_id,
+                            reply_to_message_id: (_b = ctx.message) === null || _b === void 0 ? void 0 : _b.message_id,
                             parse_mode: "HTML",
-                            reply_markup: {
-                                inline_keyboard: [
-                                    [
-                                        {
-                                            text: "❣️❣️ Join ❣️❣️",
-                                            url: "https://t.me/".concat(env.join),
-                                        },
-                                    ],
-                                ],
-                            },
+                            reply_markup: keyboard.reply_markup,
                         })];
                 case 1:
-                    _b.sent();
+                    _c.sent();
                     return [2 /*return*/];
             }
         });
@@ -214,3 +213,21 @@ export function hasReplyToMessage(message) {
 export function isTextMessage(message) {
     return message && typeof message.text === "string";
 }
+export var premiumPlan = "\u2728 \u1D18\u0280\u1D07\u1D0D\u026A\u1D1C\u1D0D \u1D18\u029F\u1D00\u0274s \u2728\n\n\uD83D\uDCCC \u1D18\u0280\u026A\u1D04\u026A\u0274\u0262:  \n\u25B8 \u20B919 \u2507 1 \u1D21\u1D07\u1D07\u1D0B  \n\u25B8 \u20B935 \u2507 1 \u1D0D\u1D0F\u0274\u1D1B\u029C  \n\u25B8 \u20B999 \u2507 3 \u1D0D\u1D0F\u0274\u1D1B\u029Cs  \n\u25B8 \u20B9169 \u2507 6 \u1D0D\u1D0F\u0274\u1D1B\u029Cs  \n\u25B8 \u20B9329 \u2507 1 \u028F\u1D07\u1D00\u0280  \n\u25B8 \u20B91.5\u1D0B \u2507 \u1D20\u1D00\u029F\u026A\u1D05 \u1D1B\u026A\u029F\u029F \u1D04\u029C\u1D00\u0274\u0274\u1D07\u029F \u1D07x\u026As\u1D1Bs  \n\n\uD83D\uDD39 \u1D18\u0280\u1D07\u1D0D\u026A\u1D1C\u1D0D \u1D04\u029C\u1D00\u0274\u0274\u1D07\u029F \uA730\u1D07\u1D00\u1D1B\u1D1C\u0280\u1D07s:  \n\uD83E\uDEF3 \u1D00\u1D04\u1D04\u1D07ss \u1D1B\u1D0F \u0274\u1D07\u1D21 & \u1D0F\u029F\u1D05 \u1D0D\u1D0F\u1D20\u026A\u1D07s, \uA731\u1D07\u0280\u026A\u1D07s, \u1D00\u0274\u026A\u1D0D\u1D07 & \u1D0D\u1D0F\u0280\u1D07  \n\uD83E\uDEF3 \u029C\u026A\u0262\u029C-\u01EB\u1D1C\u1D00\u029F\u026A\u1D1B\u028F \u1D04\u1D0F\u0274\u1D1B\u1D07\u0274\u1D1B \u1D00\u1D20\u1D00\u026A\u029F\u1D00\u0299\u029F\u1D07  \n\uD83E\uDEF3 \u1D05\u026A\u0280\u1D07\u1D04\u1D1B \uA730\u026A\u029F\u1D07 \u1D05\u1D0F\u1D21\u0274\u029F\u1D0F\u1D00\u1D05s \n\uD83E\uDEF3 \uA730\u1D1C\u029F\u029F \u1D00\u1D05\u1D0D\u026A\u0274 \uA731\u1D1C\u1D18\u1D18\u1D0F\u0280\u1D1B \uA730\u1D0F\u0280 \u01EB\u1D1C\u1D07\u0280\u026A\u1D07s & \u0280\u1D07\u01EB\u1D1C\u1D07\uA731\u1D1B\uA731\n\uD83E\uDEF3 \u0274\u1D0F \u0274\u1D07\u1D07\u1D05 \u1D1B\u1D0F \u1D0A\u1D0F\u026A\u0274 \u1D0D\u1D1C\u029F\u1D1B\u026A\u1D18\u029F\u1D07 \u1D04\u029C\u1D00\u0274\u0274\u1D07\u029F\uA731 \n\uD83E\uDEF3 \u1D05\u026A\u0280\u1D07\u1D04\u1D1B & \u1D00\u1D05\uA731-\uA730\u0280\u1D07\u1D07 \u1D00\u1D04\u1D04\u1D07\uA731\uA731\n";
+export var developerInfo = "  \n\u2023 \u1D05\u1D07\u1D20\u1D07\u029F\u1D0F\u1D18\u1D07\u0280 : \u1D00\u0274\u1D0D\u1D0F\u029F  \n\u2023 \u026A\u1D05 : [\u1D00\u0274\u1D0D\u1D0F\u029F](t.me/eywwi)  \n\u2023 \u029F\u026A\u0299\u0280\u1D00\u0280\u028F : \u1D1B\u1D07\u029F\u1D07\u0262\u0280\u1D00\uA730  \n\u2023 \u029F\u1D00\u0274\u0262\u1D1C\u1D00\u0262\u1D07 : \u1D1Bs  \n\u2023 \u1D05\u1D00\u1D1B\u1D00\u0299\u1D00s\u1D07 : \u1D0D\u1D0F\u0274\u0262\u1D0F\u1D05\u0299  \n\u2023 \u029C\u1D0Fs\u1D1B\u1D07\u1D05 \u1D0F\u0274 : \u1D00\u029F\u029F \u1D21\u1D07\u0299  \n";
+export var helpMessage = "  \n\u2728 \u029C\u1D0F\u1D21 \u1D1B\u1D0F \u0280\u1D07\u01EB\u1D1C\u1D07\uA731\u1D1B \u1D05\u0280\u1D00\u1D0D\u1D00\uA731 & \u1D0D\u1D0F\u1D20\u026A\u1D07\uA731 \u2728  \n\n1\uFE0F\u20E3 \uA731\u1D07\u1D00\u0280\u1D04\u029C \u1D1B\u029C\u1D07 \u1D04\u1D0F\u0280\u0280\u1D07\u1D04\u1D1B \u0274\u1D00\u1D0D\u1D07 \u1D0F\u0274 \u0262\u1D0F\u1D0F\u0262\u029F\u1D07.  \n2\uFE0F\u20E3 \uA731\u1D07\u0274\u1D05 \u1D1B\u029C\u1D07 \u0274\u1D00\u1D0D\u1D07 \u026A\u0274 \u1D1B\u029C\u1D07 \u0262\u0280\u1D0F\u1D1C\u1D18.  \n3\uFE0F\u20E3 \u1D1C\uA731\u1D07 \u1D1B\u029C\u026A\uA731 \uA730\u1D0F\u0280\u1D0D\u1D00\u1D1B:  \n\n\uD83D\uDCCC \uA730\u1D0F\u0280 \uA731\u1D07\u0280\u026A\u1D07\uA731:  \n\u27A4 \u1D05\u0280\u1D00\u1D0D\u1D00 \u0274\u1D00\u1D0D\u1D07 + S01 (\uA730\u1D0F\u0280 \uA731\u1D07\u1D00\uA731\u1D0F\u0274 1, \u1D04\u029C\u1D00\u0274\u0262\u1D07 \uA730\u1D0F\u0280 \u1D0F\u1D1B\u029C\u1D07\u0280\uA731)  \n\n\uD83D\uDCCC \uA730\u1D0F\u0280 \u029C\u026A\u0274\u1D05\u026A \u1D05\u0280\u1D00\u1D0D\u1D00\uA731:  \n\u27A4 \u1D05\u0280\u1D00\u1D0D\u1D00 \u0274\u1D00\u1D0D\u1D07 + \u029C\u026A\u0274\u1D05\u026A  \n\n\uD83D\uDCCC \uA730\u1D0F\u0280 \u1D0D\u1D0F\u1D20\u026A\u1D07\uA731:  \n\u27A4 \u1D0D\u1D0F\u1D20\u026A\u1D07 \u0274\u1D00\u1D0D\u1D07 + \u028F\u1D07\u1D00\u0280 (\u1D07x: \u1D0A\u1D0F\u1D0B\u1D07\u0280 2019)  \n\n\uD83D\uDE80 \uA730\u1D0F\u029F\u029F\u1D0F\u1D21 \u1D1B\u029C\u1D07\uA731\u1D07 \uA731\u1D1B\u1D07\u1D18\uA731!  \n";
+export function getInviteMessage(username, userId) {
+    var firstName = ((username === null || username === void 0 ? void 0 : username.replace(/[^a-zA-Z0-9]/g, "")) || "User").trim();
+    var inviteLink = generateInviteLink(userId, false);
+    return ("Hello ".concat(firstName, "!\n\n") + "Invite your friends! Your invite link is:\n".concat(inviteLink, "\n\n")
+    //  +
+    // `You can check your invite progress using the command: /myinvites,\n` +
+    // `To see who has invited the most people, use the command: /myinvitestatus`
+    );
+}
+export var generateInviteLink = function (userId, sharLink) {
+    if (sharLink) {
+        return "https://t.me/share/url?url=https://t.me/".concat(env.botUserName, "?start=invite-").concat(userId);
+    }
+    return "https://t.me/".concat(env.botUserName, "?start=invite-").concat(userId);
+};

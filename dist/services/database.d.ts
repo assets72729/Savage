@@ -43,6 +43,7 @@ declare class Database {
         shareId: number;
         aioShortUrl: string;
     }, newActiveShareId: string): Promise<boolean>;
+    deleteAllSortData(): Promise<boolean>;
 }
 declare class ReqDB {
     reqClient: RequestDBClient;

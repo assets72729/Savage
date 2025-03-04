@@ -35,6 +35,7 @@ export interface DatabaseClient {
         message: string;
     }>;
     checkBotPremiumStatus(userId: string): Promise<boolean>;
+    deleteAllSortData(): Promise<boolean>;
     addBotPremium(userId: string, duration: string): Promise<string>;
     getPremiumDetails(userId: string): Promise<string>;
     addLinkToFirstSort(newLink: {
