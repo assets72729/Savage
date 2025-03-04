@@ -197,7 +197,7 @@ function deleteSort(ctx) {
                 case 0: return [4 /*yield*/, database.deleteAllSortData()];
                 case 1:
                     success = _a.sent();
-                    return [4 /*yield*/, ctx.reply(success ? "Active Share ID set successfully!" : "Failed to set Active Share ID.")];
+                    return [4 /*yield*/, ctx.reply(success ? "Deleted successfully" : "Failed to delete Sort.")];
                 case 2:
                     _a.sent();
                     return [2 /*return*/];
