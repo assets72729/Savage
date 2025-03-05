@@ -100,7 +100,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
         }
     });
 }); }), Composer.on("callback_query", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
-    var sessionData, result, fromUser, requestBy, qualities, callbackData_1, aIOData, page, isValidToken, firstItem, botLink, userLink, error_2, data_1, quality, newResult, aIOData, isQuality, isPrev, isNext, page;
+    var sessionData, result, fromUser, requestBy, qualities, callbackData_1, aIOData, page, isValidToken, firstItem, botLink, userLink, messageIds, messageIds, error_2, data_1, quality, newResult, aIOData, isQuality, isPrev, isNext, page;
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
     return __generator(this, function (_p) {
         switch (_p.label) {
@@ -166,11 +166,13 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 _p.sent();
                 return [2 /*return*/];
             case 8:
-                telegram.sendAll(ctx.from.id, env.dbAIOChannelId, aIOData[page].map(function (item) { return item.messageIds; }), ctx);
+                messageIds = aIOData[page].map(function (item) { return item.messageIds; });
+                telegram.sendAll(ctx.from.id, env.dbAIOChannelId, messageIds, ctx);
                 _p.label = 9;
             case 9: return [3 /*break*/, 11];
             case 10:
-                telegram.sendAll(ctx.from.id, env.dbAIOChannelId, aIOData[page].map(function (item) { return item.messageIds; }), ctx);
+                messageIds = aIOData[page].map(function (item) { return item.messageIds; });
+                telegram.sendAll(ctx.from.id, env.dbAIOChannelId, messageIds, ctx);
                 _p.label = 11;
             case 11: return [3 /*break*/, 13];
             case 12:
