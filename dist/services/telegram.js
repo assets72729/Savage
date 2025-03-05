@@ -340,15 +340,15 @@ var Telegram = /** @class */ (function () {
     };
     Telegram.prototype.sendAll = function (toChatId, fromChatId, messageIds, ctx) {
         return __awaiter(this, void 0, void 0, function () {
-            var botLink, userLink, message, error_5, resultIds, i, messageId, success, result, error_6, message, error_7;
+            var botLink, userLink, message, error_5, resultIds, i, messageId, fromChannel, success, result, error_6, message, error_7;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!memory.startProcess(ctx.from.id)) return [3 /*break*/, 22];
+                        if (!memory.startProcess(ctx.from.id)) return [3 /*break*/, 24];
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 4, , 5]);
-                        if (!env.botUserName) return [3 /*break*/, 3];
+                        _a.trys.push([1, 5, , 6]);
+                        if (!env.botUserName) return [3 /*break*/, 4];
                         botLink = "https://t.me/".concat(env.botUserName);
                         userLink = ctx.from.username
                             ? "https://t.me/".concat(ctx.from.username)
@@ -359,77 +359,82 @@ var Telegram = /** @class */ (function () {
                             })];
                     case 2:
                         message = _a.sent();
-                        scheduleMessageDeletion(this, ctx.chat.id, message.message_id, 0.3);
-                        _a.label = 3;
-                    case 3: return [3 /*break*/, 5];
-                    case 4:
+                        return [4 /*yield*/, scheduleMessageDeletion(this, ctx.chat.id, message.message_id, 0.3)];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
                         error_5 = _a.sent();
                         console.error("Error sending log:", error_5);
-                        return [3 /*break*/, 5];
-                    case 5:
+                        return [3 /*break*/, 6];
+                    case 6:
                         resultIds = [];
                         i = 0;
-                        _a.label = 6;
-                    case 6:
-                        if (!(i < messageIds.length)) return [3 /*break*/, 18];
-                        messageId = messageIds[i];
-                        success = false;
                         _a.label = 7;
                     case 7:
-                        if (!!success) return [3 /*break*/, 17];
+                        if (!(i < messageIds.length)) return [3 /*break*/, 19];
+                        messageId = messageIds[i];
+                        fromChannel = fromChatId[i];
+                        success = false;
                         _a.label = 8;
                     case 8:
-                        _a.trys.push([8, 12, , 16]);
-                        return [4 /*yield*/, this.app.telegram.copyMessage(toChatId, fromChatId, messageId)];
+                        if (!!success) return [3 /*break*/, 18];
+                        _a.label = 9;
                     case 9:
+                        _a.trys.push([9, 13, , 17]);
+                        return [4 /*yield*/, this.app.telegram.copyMessage(toChatId, fromChannel, messageId)];
+                    case 10:
                         result = _a.sent();
                         resultIds.push(result.message_id);
                         return [4 /*yield*/, scheduleMessageDeletion(this, toChatId, result.message_id, 5)];
-                    case 10:
+                    case 11:
                         _a.sent();
                         success = true;
                         return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 200); })];
-                    case 11:
-                        _a.sent();
-                        return [3 /*break*/, 16];
                     case 12:
+                        _a.sent();
+                        return [3 /*break*/, 17];
+                    case 13:
                         error_6 = _a.sent();
-                        if (!(error_6.code === 429)) return [3 /*break*/, 14];
+                        if (!(error_6.code === 429)) return [3 /*break*/, 15];
                         console.log("".concat(error_6));
                         return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 40000); })];
-                    case 13:
-                        _a.sent();
-                        return [3 /*break*/, 15];
                     case 14:
+                        _a.sent();
+                        return [3 /*break*/, 16];
+                    case 15:
                         success = true;
-                        _a.label = 15;
-                    case 15: return [3 /*break*/, 16];
-                    case 16: return [3 /*break*/, 7];
-                    case 17:
-                        i++;
-                        return [3 /*break*/, 6];
+                        _a.label = 16;
+                    case 16: return [3 /*break*/, 17];
+                    case 17: return [3 /*break*/, 8];
                     case 18:
-                        _a.trys.push([18, 20, , 21]);
-                        return [4 /*yield*/, this.app.telegram.sendMessage(toChatId, "I will delete the above files in 5 minutes, so forward them to another chat.")];
+                        i++;
+                        return [3 /*break*/, 7];
                     case 19:
-                        message = _a.sent();
-                        scheduleMessageDeletion(this, toChatId, message.message_id, 5).catch(function (e) {
-                            return console.log(e);
-                        });
-                        return [3 /*break*/, 21];
+                        _a.trys.push([19, 22, , 23]);
+                        return [4 /*yield*/, this.app.telegram.sendMessage(toChatId, "I will delete the above files in 5 minutes, so forward them to another chat.")];
                     case 20:
-                        error_7 = _a.sent();
-                        return [3 /*break*/, 21];
+                        message = _a.sent();
+                        return [4 /*yield*/, scheduleMessageDeletion(this, toChatId, message.message_id, 5).catch(function (e) {
+                                return console.log(e);
+                            })];
                     case 21:
+                        _a.sent();
+                        return [3 /*break*/, 23];
+                    case 22:
+                        error_7 = _a.sent();
+                        return [3 /*break*/, 23];
+                    case 23:
                         memory.completeProcess(ctx.from.id);
                         memory.removeObject(ctx.from.id);
                         return [2 /*return*/, resultIds];
-                    case 22: return [4 /*yield*/, ctx
+                    case 24: return [4 /*yield*/, ctx
                             .answerCbQuery("Previous process is still in progress. Please wait a moment and retry!", {
                             show_alert: true,
                         })
                             .catch(function (e) { return console.log(e); })];
-                    case 23:
+                    case 25:
                         _a.sent();
                         return [2 /*return*/, []];
                 }

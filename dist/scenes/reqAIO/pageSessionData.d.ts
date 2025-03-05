@@ -13,6 +13,7 @@ export default interface PageSessionData extends WizardSessionData {
         caption: string;
         shareId: string;
         messageIds: number;
+        channel: string;
     }[][];
     result?: AIODocument[];
 }
