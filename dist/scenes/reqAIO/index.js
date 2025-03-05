@@ -117,19 +117,19 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
             case 2:
                 requestBy = ((_d = ctx.from) === null || _d === void 0 ? void 0 : _d.id.toString()) === sessionData.reqestBy;
                 qualities = ["480p", "720p", "1080p", "540p", "all"];
-                if (!("data" in ctx.callbackQuery && requestBy)) return [3 /*break*/, 23];
+                if (!("data" in ctx.callbackQuery && requestBy)) return [3 /*break*/, 25];
                 callbackData_1 = (_e = ctx.callbackQuery) === null || _e === void 0 ? void 0 : _e.data;
-                if (!(callbackData_1 === sessionData.sendAll)) return [3 /*break*/, 13];
+                if (!(callbackData_1 === sessionData.sendAll)) return [3 /*break*/, 15];
                 aIOData = sessionData.aioBatches;
                 page = (_f = sessionData.page) !== null && _f !== void 0 ? _f : 0;
                 _p.label = 3;
             case 3:
-                _p.trys.push([3, 12, , 13]);
+                _p.trys.push([3, 14, , 15]);
                 return [4 /*yield*/, database.verifyAndValidateToken((_g = ctx.from) === null || _g === void 0 ? void 0 : _g.id.toString())];
             case 4:
                 isValidToken = _p.sent();
                 console.log("isValidToken:", isValidToken);
-                if (!!isValidToken) return [3 /*break*/, 10];
+                if (!!isValidToken) return [3 /*break*/, 11];
                 return [4 /*yield*/, database.getFirstSortItem()];
             case 5:
                 firstItem = _p.sent();
@@ -167,23 +167,27 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 return [2 /*return*/];
             case 8:
                 messageIds = aIOData[page].map(function (item) { return item.messageIds; });
-                telegram.sendAll(ctx.from.id, env.dbAIOChannelId, messageIds, ctx);
-                _p.label = 9;
-            case 9: return [3 /*break*/, 11];
-            case 10:
+                return [4 /*yield*/, telegram.sendAll(ctx.from.id, env.dbAIOChannelId, messageIds, ctx)];
+            case 9:
+                _p.sent();
+                _p.label = 10;
+            case 10: return [3 /*break*/, 13];
+            case 11:
                 messageIds = aIOData[page].map(function (item) { return item.messageIds; });
-                telegram.sendAll(ctx.from.id, env.dbAIOChannelId, messageIds, ctx);
-                _p.label = 11;
-            case 11: return [3 /*break*/, 13];
+                return [4 /*yield*/, telegram.sendAll(ctx.from.id, env.dbAIOChannelId, messageIds, ctx)];
             case 12:
+                _p.sent();
+                _p.label = 13;
+            case 13: return [3 /*break*/, 15];
+            case 14:
                 error_2 = _p.sent();
                 console.error(error_2);
-                return [3 /*break*/, 13];
-            case 13:
+                return [3 /*break*/, 15];
+            case 15:
                 sessionData.page = (_j = sessionData.page) !== null && _j !== void 0 ? _j : 0;
                 if (!(callbackData_1 === sessionData.next ||
                     callbackData_1 === sessionData.prev ||
-                    qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 23];
+                    qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 25];
                 data_1 = (_k = ctx.callbackQuery) === null || _k === void 0 ? void 0 : _k.data;
                 if (data_1) {
                     quality = qualities.find(function (q) { return data_1.startsWith(q); });
@@ -198,7 +202,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                     }
                 }
                 aIOData = sessionData.aioBatches;
-                if (!aIOData) return [3 /*break*/, 22];
+                if (!aIOData) return [3 /*break*/, 24];
                 isQuality = qualities.some(function (q) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(q); });
                 isPrev = callbackData_1.startsWith("prev");
                 isNext = callbackData_1.startsWith("next");
@@ -207,33 +211,33 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 }
                 page = (_m = sessionData.page) !== null && _m !== void 0 ? _m : 0;
                 console.log(page, aIOData === null || aIOData === void 0 ? void 0 : aIOData.length);
-                if (!(isNext || isQuality)) return [3 /*break*/, 17];
-                if (!((page !== null && page !== void 0 ? page : 0) < aIOData.length)) return [3 /*break*/, 15];
+                if (!(isNext || isQuality)) return [3 /*break*/, 19];
+                if (!((page !== null && page !== void 0 ? page : 0) < aIOData.length)) return [3 /*break*/, 17];
                 return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[page], sessionData, aIOData.length, page + 1)];
-            case 14:
+            case 16:
                 _p.sent();
-                return [3 /*break*/, 16];
-            case 15:
-                sendCallbackQueryResponse(ctx, "This is the last, no more left!");
-                _p.label = 16;
-            case 16: return [2 /*return*/];
+                return [3 /*break*/, 18];
             case 17:
-                if (!isPrev) return [3 /*break*/, 21];
-                if (!(page > 0)) return [3 /*break*/, 19];
+                sendCallbackQueryResponse(ctx, "This is the last, no more left!");
+                _p.label = 18;
+            case 18: return [2 /*return*/];
+            case 19:
+                if (!isPrev) return [3 /*break*/, 23];
+                if (!(page > 0)) return [3 /*break*/, 21];
                 return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[page - 1], sessionData, aIOData.length, page)];
-            case 18:
+            case 20:
                 _p.sent();
                 sessionData.page = ((_o = sessionData.page) !== null && _o !== void 0 ? _o : 0) - 1;
-                return [3 /*break*/, 20];
-            case 19:
+                return [3 /*break*/, 22];
+            case 21:
                 sendCallbackQueryResponse(ctx, "This is the first, no more left!");
-                _p.label = 20;
-            case 20: return [2 /*return*/];
-            case 21: return [3 /*break*/, 23];
-            case 22:
+                _p.label = 22;
+            case 22: return [2 /*return*/];
+            case 23: return [3 /*break*/, 25];
+            case 24:
                 sendCallbackQueryResponse(ctx, "No more data available!");
-                _p.label = 23;
-            case 23: return [2 /*return*/];
+                _p.label = 25;
+            case 25: return [2 /*return*/];
         }
     });
 }); }));
