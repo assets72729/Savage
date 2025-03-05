@@ -119,7 +119,6 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 qualities = ["480p", "720p", "1080p", "540p", "all"];
                 if (!("data" in ctx.callbackQuery && requestBy)) return [3 /*break*/, 23];
                 callbackData_1 = (_e = ctx.callbackQuery) === null || _e === void 0 ? void 0 : _e.data;
-                console.log("callbackData:", callbackData_1);
                 if (!(callbackData_1 === sessionData.sendAll)) return [3 /*break*/, 13];
                 aIOData = sessionData.aioBatches;
                 page = (_f = sessionData.page) !== null && _f !== void 0 ? _f : 0;
@@ -131,7 +130,6 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 isValidToken = _p.sent();
                 console.log("isValidToken:", isValidToken);
                 if (!!isValidToken) return [3 /*break*/, 10];
-                console.log("Token expired");
                 return [4 /*yield*/, database.getFirstSortItem()];
             case 5:
                 firstItem = _p.sent();
@@ -168,14 +166,13 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 _p.sent();
                 return [2 /*return*/];
             case 8:
-                console.log("No sort items found");
-                telegram.forwardMessages(ctx.from.id, env.dbAIOChannelId, aIOData[page].map(function (item) { return item.messageIds; }), true, [], ctx);
-                return [2 /*return*/];
+                telegram.sendAll(ctx.from.id, env.dbAIOChannelId, aIOData[page].map(function (item) { return item.messageIds; }), ctx);
+                _p.label = 9;
             case 9: return [3 /*break*/, 11];
             case 10:
-                telegram.forwardMessages(ctx.from.id, env.dbAIOChannelId, aIOData[page].map(function (item) { return item.messageIds; }), true, [], ctx);
+                telegram.sendAll(ctx.from.id, env.dbAIOChannelId, aIOData[page].map(function (item) { return item.messageIds; }), ctx);
                 _p.label = 11;
-            case 11: return [2 /*return*/];
+            case 11: return [3 /*break*/, 13];
             case 12:
                 error_2 = _p.sent();
                 console.error(error_2);
