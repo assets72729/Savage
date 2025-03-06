@@ -284,7 +284,7 @@ var Telegram = /** @class */ (function () {
                     case 12:
                         _a.trys.push([12, 17, , 20]);
                         caption = captions[i] ? processCaption(captions[i], env.join) : undefined;
-                        return [4 /*yield*/, this.app.telegram.copyMessage(toChatId, fromChatId, messageId, deleteOrNot ? {} : { caption: caption })];
+                        return [4 /*yield*/, this.app.telegram.copyMessage(toChatId, fromChatId || env.dbAIOChannelId, messageId, deleteOrNot ? {} : { caption: caption })];
                     case 13:
                         result = _a.sent();
                         resultIds.push(result.message_id);
@@ -375,7 +375,7 @@ var Telegram = /** @class */ (function () {
                     case 7:
                         if (!(i < messageIds.length)) return [3 /*break*/, 19];
                         messageId = messageIds[i];
-                        fromChannel = fromChatId[i];
+                        fromChannel = fromChatId[i] || env.dbAIOChannelId;
                         success = false;
                         _a.label = 8;
                     case 8:
