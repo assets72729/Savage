@@ -43,7 +43,7 @@ export default {
     private: function (ctx, next) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
         return __awaiter(this, void 0, void 0, function () {
-            var messageText, _m, command, args, _o, error_1, callbackData, msgId, message, firstName, message_1, keyboard, keyboard, err_1;
+            var messageText, _m, command, args, _o, error_1, callbackData, msgId, message, firstName, homeMessage, homeKeyboard, backKeyboard, err_1;
             return __generator(this, function (_p) {
                 switch (_p.label) {
                     case 0:
@@ -84,10 +84,11 @@ export default {
                         _p.label = 11;
                     case 11:
                         _p.trys.push([11, 16, , 17]);
-                        message = "";
+                        message = "Ruaan";
+                        firstName = (((_g = (_f = ctx.message) === null || _f === void 0 ? void 0 : _f.from.first_name) === null || _g === void 0 ? void 0 : _g.replace(/[^a-zA-Z0-9]/g, "")) || "User").trim();
                         switch (callbackData) {
                             case "addDrama":
-                                message = "";
+                                message = "use /add to add new drama";
                                 break;
                             case "add":
                                 message = "use /add to add new drama or series or movie";
@@ -96,7 +97,7 @@ export default {
                                 message = "use </edit name here> to add new drama or series or movie";
                                 break;
                             case "search":
-                                message = "send uploaded drama or series or movie name ";
+                                message = "send uploaded drama or series or movie name";
                                 break;
                             case "features":
                                 message = helpMessage;
@@ -108,18 +109,15 @@ export default {
                                 message = developerInfo;
                                 break;
                             case "refer":
-                                message = getInviteMessage(((_g = (_f = ctx.callbackQuery) === null || _f === void 0 ? void 0 : _f.from) === null || _g === void 0 ? void 0 : _g.first_name) || "user", ((_h = ctx.callbackQuery) === null || _h === void 0 ? void 0 : _h.from.id.toString()) || "");
+                                message = getInviteMessage(((_j = (_h = ctx.callbackQuery) === null || _h === void 0 ? void 0 : _h.from) === null || _j === void 0 ? void 0 : _j.first_name) || "user", ((_k = ctx.callbackQuery) === null || _k === void 0 ? void 0 : _k.from.id.toString()) || "");
                                 break;
                             case "home":
                                 message = "home";
                                 break;
-                            default:
-                                break;
                         }
                         if (!(message === "home")) return [3 /*break*/, 13];
-                        firstName = (((_k = (_j = ctx.message) === null || _j === void 0 ? void 0 : _j.from.first_name) === null || _k === void 0 ? void 0 : _k.replace(/[^a-zA-Z0-9]/g, "")) || "User").trim();
-                        message_1 = "\uD83D\uDC4B \u029C\u1D07\u029F\u029F\u1D0F ".concat(firstName, "!\n\u026A \u1D00\u1D0D \u1D00 \u1D18\u1D0F\u1D21\u1D07\u0280\uA730\u1D1C\u029F \u0299\u1D0F\u1D1B \u1D1B\u029C\u1D00\u1D1B \u1D21\u1D0F\u0280\u1D0Bs \u026A\u0274 \u0262\u0280\u1D0F\u1D1C\u1D18s. \u1D00\u1D05\u1D05 \u1D0D\u1D07 \u026A\u0274 \u028F\u1D0F\u1D1C\u0280 \u0262\u0280\u1D0F\u1D1C\u1D18, \u1D00\u0274\u1D05 \u026A \u1D21\u026A\u029F\u029F \u0280\u1D07s\u1D18\u1D0F\u0274\u1D05 \u1D21\u029C\u1D07\u0274 \u1D00\u0274\u028F \u1D1Cs\u1D07\u0280 s\u1D07\u0274\u1D05s \u1D00 \u1D0D\u1D0F\u1D20\u026A\u1D07 \u1D0F\u0280 \u1D05\u0280\u1D00\u1D0D\u1D00 \u0274\u1D00\u1D0D\u1D07!\n\u279C\u1D00\u1D05\u1D0D\u026A\u0274 \u1D18\u1D07\u0280\u1D0D\u026Ass\u026A\u1D0F\u0274s \u0280\u1D07\u01EB\u1D1C\u026A\u0280\u1D07\u1D05 \uD83E\uDD70");
-                        keyboard = Markup.inlineKeyboard([
+                        homeMessage = "\uD83D\uDC4B \u029C\u1D07\u029F\u029F\u1D0F ".concat(firstName, "!\n\u026A \u1D00\u1D0D \u1D00 \u1D18\u1D0F\u1D21\u1D07\u0280\uA730\u1D1C\u029F \u0299\u1D0F\u1D1B \u1D1B\u029C\u1D00\u1D1B \u1D21\u1D0F\u0280\u1D0Bs \u026A\u0274 \u0262\u0280\u1D0F\u1D1C\u1D18s. \u1D00\u1D05\u1D05 \u1D0D\u1D07 \u026A\u0274 \u028F\u1D0F\u1D1C\u0280 \u0262\u0280\u1D0F\u1D1C\u1D18, \u1D00\u0274\u1D05 \u026A \u1D21\u026A\u029F\u029F \u0280\u1D07s\u1D18\u1D0F\u0274\u1D05 \u1D21\u029C\u1D07\u0274 \u1D00\u0274\u028F \u1D1Cs\u1D07\u0280 s\u1D07\u0274\u1D05s \u1D00 \u1D0D\u1D0F\u1D20\u026A\u1D07 \u1D0F\u0280 \u1D05\u0280\u1D00\u1D0D\u1D00 \u0274\u1D00\u1D0D\u1D07!\n\u279C \u1D00\u1D05\u1D0D\u026A\u0274 \u1D18\u1D07\u0280\u1D0D\u026Ass\u026A\u1D0F\u0274s \u0280\u1D07\u01EB\u1D1C\u026A\u0280\u1D07\u1D05 \uD83E\uDD70");
+                        homeKeyboard = Markup.inlineKeyboard([
                             [
                                 Markup.button.url("📌 ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ 📌", "http://t.me/".concat(env.botUserName, "?startgroup=start")),
                             ],
@@ -132,23 +130,31 @@ export default {
                                 Markup.button.callback("🎁 ʀᴇғᴇʀ", "refer"),
                             ],
                         ]);
-                        return [4 /*yield*/, ctx.editMessageText(message_1, {
+                        return [4 /*yield*/, ctx
+                                .editMessageText(homeMessage, {
                                 parse_mode: "Markdown",
-                                reply_markup: keyboard.reply_markup,
+                                reply_markup: homeKeyboard.reply_markup,
+                            })
+                                .catch(function (e) {
+                                console.log(e);
                             })];
                     case 12:
                         _p.sent();
                         return [3 /*break*/, 15];
                     case 13:
-                        keyboard = Markup.inlineKeyboard([[Markup.button.callback("🔙 Home", "home")]]);
-                        return [4 /*yield*/, ctx.editMessageText(message, {
+                        backKeyboard = Markup.inlineKeyboard([[Markup.button.callback("🔙 Home", "home")]]);
+                        return [4 /*yield*/, ctx
+                                .editMessageText(message || "Welcome", {
                                 parse_mode: "Markdown",
-                                reply_markup: keyboard.reply_markup,
+                                reply_markup: backKeyboard.reply_markup,
                                 disable_web_page_preview: true,
+                            })
+                                .catch(function (e) {
+                                console.log(e);
                             })];
                     case 14:
                         _p.sent();
-                        _p.label = 15;
+                        return [2 /*return*/];
                     case 15: return [3 /*break*/, 17];
                     case 16:
                         err_1 = _p.sent();
