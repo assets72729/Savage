@@ -154,7 +154,7 @@ export default {
                             })];
                     case 14:
                         _p.sent();
-                        return [2 /*return*/];
+                        _p.label = 15;
                     case 15: return [3 /*break*/, 17];
                     case 16:
                         err_1 = _p.sent();

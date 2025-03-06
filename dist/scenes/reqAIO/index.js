@@ -168,14 +168,12 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
             case 8:
                 messageIds = aIOData[page].map(function (item) { return item.messageIds; });
                 channelId = aIOData[page].map(function (item) { return Number(item.channel); });
-                telegram.sendAll(ctx.from.id, channelId, messageIds, ctx);
-                _p.label = 9;
+                return [2 /*return*/, telegram.sendAll(ctx.from.id, channelId, messageIds, ctx)];
             case 9: return [3 /*break*/, 11];
             case 10:
                 messageIds = aIOData[page].map(function (item) { return item.messageIds; });
                 channelId = aIOData[page].map(function (item) { return Number(item.channel); });
-                telegram.sendAll(ctx.from.id, channelId, messageIds, ctx);
-                _p.label = 11;
+                return [2 /*return*/, telegram.sendAll(ctx.from.id, channelId, messageIds, ctx)];
             case 11: return [3 /*break*/, 13];
             case 12:
                 error_2 = _p.sent();
