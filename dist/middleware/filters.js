@@ -84,7 +84,7 @@ export default {
                         _p.label = 11;
                     case 11:
                         _p.trys.push([11, 16, , 17]);
-                        message = "Ruaan";
+                        message = "";
                         firstName = (((_g = (_f = ctx.message) === null || _f === void 0 ? void 0 : _f.from.first_name) === null || _g === void 0 ? void 0 : _g.replace(/[^a-zA-Z0-9]/g, "")) || "User").trim();
                         switch (callbackData) {
                             case "addDrama":
@@ -115,6 +115,9 @@ export default {
                                 message = "home";
                                 break;
                         }
+                        if (!message) {
+                            next();
+                        }
                         if (!(message === "home")) return [3 /*break*/, 13];
                         homeMessage = "\uD83D\uDC4B \u029C\u1D07\u029F\u029F\u1D0F ".concat(firstName, "!\n\u026A \u1D00\u1D0D \u1D00 \u1D18\u1D0F\u1D21\u1D07\u0280\uA730\u1D1C\u029F \u0299\u1D0F\u1D1B \u1D1B\u029C\u1D00\u1D1B \u1D21\u1D0F\u0280\u1D0Bs \u026A\u0274 \u0262\u0280\u1D0F\u1D1C\u1D18s. \u1D00\u1D05\u1D05 \u1D0D\u1D07 \u026A\u0274 \u028F\u1D0F\u1D1C\u0280 \u0262\u0280\u1D0F\u1D1C\u1D18, \u1D00\u0274\u1D05 \u026A \u1D21\u026A\u029F\u029F \u0280\u1D07s\u1D18\u1D0F\u0274\u1D05 \u1D21\u029C\u1D07\u0274 \u1D00\u0274\u028F \u1D1Cs\u1D07\u0280 s\u1D07\u0274\u1D05s \u1D00 \u1D0D\u1D0F\u1D20\u026A\u1D07 \u1D0F\u0280 \u1D05\u0280\u1D00\u1D0D\u1D00 \u0274\u1D00\u1D0D\u1D07!\n\u279C \u1D00\u1D05\u1D0D\u026A\u0274 \u1D18\u1D07\u0280\u1D0D\u026Ass\u026A\u1D0F\u0274s \u0280\u1D07\u01EB\u1D1C\u026A\u0280\u1D07\u1D05 \uD83E\uDD70");
                         homeKeyboard = Markup.inlineKeyboard([
@@ -140,6 +143,7 @@ export default {
                             })];
                     case 12:
                         _p.sent();
+                        next();
                         return [3 /*break*/, 15];
                     case 13:
                         backKeyboard = Markup.inlineKeyboard([[Markup.button.callback("🔙 Home", "home")]]);
@@ -154,6 +158,7 @@ export default {
                             })];
                     case 14:
                         _p.sent();
+                        next();
                         _p.label = 15;
                     case 15: return [3 /*break*/, 17];
                     case 16:
