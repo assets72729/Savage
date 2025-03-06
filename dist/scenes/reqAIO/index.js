@@ -242,7 +242,6 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
 export default paginationWizard;
 function batchResults(results) {
     var batchSize = 10;
-    console.log(results);
     var batches = [];
     var extractedData = results.map(function (item) { return ({
         caption: item.caption,
