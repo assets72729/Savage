@@ -78,12 +78,12 @@ export default {
                         _p.sent();
                         return [3 /*break*/, 10];
                     case 10:
-                        if (!(ctx.callbackQuery && "data" in ctx.callbackQuery)) return [3 /*break*/, 17];
+                        if (!(ctx.callbackQuery && "data" in ctx.callbackQuery)) return [3 /*break*/, 18];
                         callbackData = ctx.callbackQuery.data;
                         msgId = (_e = ctx.message) === null || _e === void 0 ? void 0 : _e.message_id;
                         _p.label = 11;
                     case 11:
-                        _p.trys.push([11, 16, , 17]);
+                        _p.trys.push([11, 17, , 18]);
                         message = "";
                         firstName = (((_g = (_f = ctx.message) === null || _f === void 0 ? void 0 : _f.from.first_name) === null || _g === void 0 ? void 0 : _g.replace(/[^a-zA-Z0-9]/g, "")) || "User").trim();
                         switch (callbackData) {
@@ -115,10 +115,11 @@ export default {
                                 message = "home";
                                 break;
                         }
-                        if (!message) {
-                            next();
-                        }
-                        if (!(message === "home")) return [3 /*break*/, 13];
+                        if (!!message) return [3 /*break*/, 12];
+                        next();
+                        return [3 /*break*/, 16];
+                    case 12:
+                        if (!(message === "home")) return [3 /*break*/, 14];
                         homeMessage = "\uD83D\uDC4B \u029C\u1D07\u029F\u029F\u1D0F ".concat(firstName, "!\n\u026A \u1D00\u1D0D \u1D00 \u1D18\u1D0F\u1D21\u1D07\u0280\uA730\u1D1C\u029F \u0299\u1D0F\u1D1B \u1D1B\u029C\u1D00\u1D1B \u1D21\u1D0F\u0280\u1D0Bs \u026A\u0274 \u0262\u0280\u1D0F\u1D1C\u1D18s. \u1D00\u1D05\u1D05 \u1D0D\u1D07 \u026A\u0274 \u028F\u1D0F\u1D1C\u0280 \u0262\u0280\u1D0F\u1D1C\u1D18, \u1D00\u0274\u1D05 \u026A \u1D21\u026A\u029F\u029F \u0280\u1D07s\u1D18\u1D0F\u0274\u1D05 \u1D21\u029C\u1D07\u0274 \u1D00\u0274\u028F \u1D1Cs\u1D07\u0280 s\u1D07\u0274\u1D05s \u1D00 \u1D0D\u1D0F\u1D20\u026A\u1D07 \u1D0F\u0280 \u1D05\u0280\u1D00\u1D0D\u1D00 \u0274\u1D00\u1D0D\u1D07!\n\u279C \u1D00\u1D05\u1D0D\u026A\u0274 \u1D18\u1D07\u0280\u1D0D\u026Ass\u026A\u1D0F\u0274s \u0280\u1D07\u01EB\u1D1C\u026A\u0280\u1D07\u1D05 \uD83E\uDD70");
                         homeKeyboard = Markup.inlineKeyboard([
                             [
@@ -138,34 +139,30 @@ export default {
                                 parse_mode: "Markdown",
                                 reply_markup: homeKeyboard.reply_markup,
                             })
-                                .catch(function (e) {
-                                console.log(e);
-                            })];
-                    case 12:
-                        _p.sent();
-                        next();
-                        return [3 /*break*/, 15];
+                                .catch(function (e) { return console.log(e); })];
                     case 13:
-                        backKeyboard = Markup.inlineKeyboard([[Markup.button.callback("🔙 Home", "home")]]);
+                        _p.sent();
+                        return [3 /*break*/, 16];
+                    case 14:
+                        backKeyboard = Markup.inlineKeyboard([
+                            [Markup.button.callback("🔙 Home", "home")],
+                        ]);
                         return [4 /*yield*/, ctx
                                 .editMessageText(message || "Welcome", {
                                 parse_mode: "Markdown",
                                 reply_markup: backKeyboard.reply_markup,
                                 disable_web_page_preview: true,
                             })
-                                .catch(function (e) {
-                                console.log(e);
-                            })];
-                    case 14:
+                                .catch(function (e) { return console.log(e); })];
+                    case 15:
                         _p.sent();
-                        next();
-                        _p.label = 15;
-                    case 15: return [3 /*break*/, 17];
-                    case 16:
+                        _p.label = 16;
+                    case 16: return [3 /*break*/, 18];
+                    case 17:
                         err_1 = _p.sent();
                         console.log("Error handling callback:", err_1);
-                        return [3 /*break*/, 17];
-                    case 17:
+                        return [3 /*break*/, 18];
+                    case 18:
                         if (((_l = ctx.chat) === null || _l === void 0 ? void 0 : _l.id) !== undefined) {
                             next();
                         }

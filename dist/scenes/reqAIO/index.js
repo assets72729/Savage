@@ -44,6 +44,7 @@ import telegram from "../../services/telegram.js";
 import { getMessageLink } from "../../utils/getMessageLinkFromCtx.js";
 import handleResultsReply, { editResultsReply, updateSession } from "./reqHandler.js";
 import memory from "../../extra/isInProcess.js";
+import { sendExpiredTokenToChat, sendExpiredTokenToCtx } from "../../utils/helper";
 // Create a Wizard Scene
 var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
     var session, request, searchCriteria, messageIdLink, searchResults, finalResult, batchedResults, firstBatch, error_1;
@@ -101,9 +102,9 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
     });
 }); }), Composer.on("callback_query", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
     var sessionData, result, fromUser, requestBy, qualities, callbackData_1, aIOData, page, isValidToken, firstItem, botLink, userLink, messageIds, channelId, messageIds, channelId, error_2, data_1, quality, newResult, aIOData, isQuality, isPrev, isNext, page;
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
-    return __generator(this, function (_p) {
-        switch (_p.label) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+    return __generator(this, function (_o) {
+        switch (_o.label) {
             case 0:
                 sessionData = ctx.session;
                 result = sessionData.result;
@@ -112,7 +113,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 if (!(fromUser !== ((_c = ctx.from) === null || _c === void 0 ? void 0 : _c.id))) return [3 /*break*/, 2];
                 return [4 /*yield*/, sendCallbackQueryResponse(ctx, "Request is not from you , Request yourself!")];
             case 1:
-                _p.sent();
+                _o.sent();
                 return [2 /*return*/];
             case 2:
                 requestBy = ((_d = ctx.from) === null || _d === void 0 ? void 0 : _d.id.toString()) === sessionData.reqestBy;
@@ -122,48 +123,27 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 if (!(callbackData_1 === sessionData.sendAll)) return [3 /*break*/, 13];
                 aIOData = sessionData.aioBatches;
                 page = (_f = sessionData.page) !== null && _f !== void 0 ? _f : 0;
-                _p.label = 3;
+                _o.label = 3;
             case 3:
-                _p.trys.push([3, 12, , 13]);
+                _o.trys.push([3, 12, , 13]);
                 return [4 /*yield*/, database.verifyAndValidateToken((_g = ctx.from) === null || _g === void 0 ? void 0 : _g.id.toString())];
             case 4:
-                isValidToken = _p.sent();
+                isValidToken = _o.sent();
                 console.log("isValidToken:", isValidToken);
                 if (!!isValidToken) return [3 /*break*/, 10];
                 return [4 /*yield*/, database.getFirstSortItem()];
             case 5:
-                firstItem = _p.sent();
+                firstItem = _o.sent();
                 if (!(firstItem && firstItem.sort && firstItem.sort.length > 0)) return [3 /*break*/, 8];
                 console.log("Token expired");
                 botLink = "https://t.me/".concat(env.botUserName);
                 userLink = "https://t.me/".concat(ctx.from.username || "tg://user?id=".concat(ctx.from.id));
-                return [4 /*yield*/, ctx
-                        .reply("Hello [".concat(ctx.from.first_name, "](").concat(userLink, ") \nYour Token Has Expired: [Generate New Token Once in 24 hours](").concat(botLink, ")"), {
-                        parse_mode: "Markdown",
-                        disable_web_page_preview: true,
-                    })
-                        .then(function (sentMessage) {
-                        setTimeout(function () {
-                            ctx.deleteMessage(sentMessage.message_id);
-                        }, 60 * 1000);
-                    })];
+                return [4 /*yield*/, sendExpiredTokenToCtx(ctx, userLink, botLink)];
             case 6:
-                _p.sent();
-                return [4 /*yield*/, telegram.app.telegram.sendMessage(ctx.from.id, "Hello ".concat((_h = ctx.from) === null || _h === void 0 ? void 0 : _h.first_name, ", your token has expired. You can generate a new token once a day. After that, you can make unlimited requests within 24 hours."), {
-                        reply_markup: {
-                            inline_keyboard: [
-                                [
-                                    {
-                                        text: "Click Me To Generate New Token",
-                                        url: firstItem.sort[0].aioShortUrl,
-                                    },
-                                ],
-                            ],
-                        },
-                        parse_mode: "Markdown",
-                    })];
+                _o.sent();
+                return [4 /*yield*/, sendExpiredTokenToChat(ctx.from.id, ctx.from.first_name)];
             case 7:
-                _p.sent();
+                _o.sent();
                 return [2 /*return*/];
             case 8:
                 messageIds = aIOData[page].map(function (item) { return item.messageIds; });
@@ -176,15 +156,15 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 return [2 /*return*/, telegram.sendAll(ctx.from.id, channelId, messageIds, ctx)];
             case 11: return [3 /*break*/, 13];
             case 12:
-                error_2 = _p.sent();
+                error_2 = _o.sent();
                 console.error(error_2);
                 return [3 /*break*/, 13];
             case 13:
-                sessionData.page = (_j = sessionData.page) !== null && _j !== void 0 ? _j : 0;
+                sessionData.page = (_h = sessionData.page) !== null && _h !== void 0 ? _h : 0;
                 if (!(callbackData_1 === sessionData.next ||
                     callbackData_1 === sessionData.prev ||
                     qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 23];
-                data_1 = (_k = ctx.callbackQuery) === null || _k === void 0 ? void 0 : _k.data;
+                data_1 = (_j = ctx.callbackQuery) === null || _j === void 0 ? void 0 : _j.data;
                 if (data_1) {
                     quality = qualities.find(function (q) { return data_1.startsWith(q); });
                     if (quality) {
@@ -203,36 +183,36 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 isPrev = callbackData_1.startsWith("prev");
                 isNext = callbackData_1.startsWith("next");
                 if (isNext && sessionData.page + 1 < aIOData.length) {
-                    sessionData.page = ((_l = sessionData.page) !== null && _l !== void 0 ? _l : 0) + 1;
+                    sessionData.page = ((_k = sessionData.page) !== null && _k !== void 0 ? _k : 0) + 1;
                 }
-                page = (_m = sessionData.page) !== null && _m !== void 0 ? _m : 0;
+                page = (_l = sessionData.page) !== null && _l !== void 0 ? _l : 0;
                 console.log(page, aIOData === null || aIOData === void 0 ? void 0 : aIOData.length);
                 if (!(isNext || isQuality)) return [3 /*break*/, 17];
                 if (!((page !== null && page !== void 0 ? page : 0) < aIOData.length)) return [3 /*break*/, 15];
                 return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[page], sessionData, aIOData.length, page + 1)];
             case 14:
-                _p.sent();
+                _o.sent();
                 return [3 /*break*/, 16];
             case 15:
                 sendCallbackQueryResponse(ctx, "This is the last, no more left!");
-                _p.label = 16;
+                _o.label = 16;
             case 16: return [2 /*return*/];
             case 17:
                 if (!isPrev) return [3 /*break*/, 21];
                 if (!(page > 0)) return [3 /*break*/, 19];
                 return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[page - 1], sessionData, aIOData.length, page)];
             case 18:
-                _p.sent();
-                sessionData.page = ((_o = sessionData.page) !== null && _o !== void 0 ? _o : 0) - 1;
+                _o.sent();
+                sessionData.page = ((_m = sessionData.page) !== null && _m !== void 0 ? _m : 0) - 1;
                 return [3 /*break*/, 20];
             case 19:
                 sendCallbackQueryResponse(ctx, "This is the first, no more left!");
-                _p.label = 20;
+                _o.label = 20;
             case 20: return [2 /*return*/];
             case 21: return [3 /*break*/, 23];
             case 22:
                 sendCallbackQueryResponse(ctx, "No more data available!");
-                _p.label = 23;
+                _o.label = 23;
             case 23: return [2 /*return*/];
         }
     });

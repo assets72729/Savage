@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import env from "../services/env.js";
 import { Markup } from "telegraf";
+import telegram from "../services/telegram.js";
 export function sendTokenExpiredMessage(ctx, user, shortUrl, payload) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
@@ -212,6 +213,61 @@ export function hasReplyToMessage(message) {
 }
 export function isTextMessage(message) {
     return message && typeof message.text === "string";
+}
+export function sendExpiredTokenToChat(chatId, name) {
+    return __awaiter(this, void 0, void 0, function () {
+        var message;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    message = "Hello ".concat(name, ", your token has expired. You can generate a new token once a day. After that, you can make unlimited requests within 24 hours.");
+                    if (env.howToGenerateToken) {
+                        message += "\n\nTutorial:\n[TO KNOW HOW TO GENERATE NEW TOKEN](".concat(env.howToGenerateToken, ")");
+                    }
+                    message += "\n\nANY PROBLEM CONTACT: [ADMIN](tg://user?id=".concat(env.adminIds[0], ")");
+                    return [4 /*yield*/, telegram.app.telegram.sendMessage(chatId, message, {
+                            parse_mode: "Markdown",
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+export function sendExpiredTokenToCtx(ctx, userLink, botLink) {
+    return __awaiter(this, void 0, void 0, function () {
+        var sentMessage_1, error_1;
+        var _this = this;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, ctx.reply("Hello [".concat(ctx.from.first_name, "](").concat(userLink, ") \nYour Token Has Expired: [Generate New Token Once in 24 hours](").concat(botLink, ")"), {
+                            parse_mode: "Markdown",
+                            disable_web_page_preview: true,
+                        })];
+                case 1:
+                    sentMessage_1 = _a.sent();
+                    setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, ctx.deleteMessage(sentMessage_1.message_id)];
+                                case 1:
+                                    _a.sent();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); }, 60 * 1000);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_1 = _a.sent();
+                    console.error("Error sending expired token message:", error_1);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
 }
 export var premiumPlan = "\u2728 \u1D18\u0280\u1D07\u1D0D\u026A\u1D1C\u1D0D \u1D18\u029F\u1D00\u0274s \u2728\n\n\uD83D\uDCCC \u1D18\u0280\u026A\u1D04\u026A\u0274\u0262:  \n\u25B8 \u20B919 \u2507 1 \u1D21\u1D07\u1D07\u1D0B  \n\u25B8 \u20B935 \u2507 1 \u1D0D\u1D0F\u0274\u1D1B\u029C  \n\u25B8 \u20B999 \u2507 3 \u1D0D\u1D0F\u0274\u1D1B\u029Cs  \n\u25B8 \u20B9169 \u2507 6 \u1D0D\u1D0F\u0274\u1D1B\u029Cs  \n\u25B8 \u20B9329 \u2507 1 \u028F\u1D07\u1D00\u0280  \n\u25B8 \u20B91.5\u1D0B \u2507 \u1D20\u1D00\u029F\u026A\u1D05 \u1D1B\u026A\u029F\u029F \u1D04\u029C\u1D00\u0274\u0274\u1D07\u029F \u1D07x\u026As\u1D1Bs  \n\n\uD83D\uDD39 \u1D18\u0280\u1D07\u1D0D\u026A\u1D1C\u1D0D \u1D04\u029C\u1D00\u0274\u0274\u1D07\u029F \uA730\u1D07\u1D00\u1D1B\u1D1C\u0280\u1D07s:  \n\uD83E\uDEF3 \u1D00\u1D04\u1D04\u1D07ss \u1D1B\u1D0F \u0274\u1D07\u1D21 & \u1D0F\u029F\u1D05 \u1D0D\u1D0F\u1D20\u026A\u1D07s, \uA731\u1D07\u0280\u026A\u1D07s, \u1D00\u0274\u026A\u1D0D\u1D07 & \u1D0D\u1D0F\u0280\u1D07  \n\uD83E\uDEF3 \u029C\u026A\u0262\u029C-\u01EB\u1D1C\u1D00\u029F\u026A\u1D1B\u028F \u1D04\u1D0F\u0274\u1D1B\u1D07\u0274\u1D1B \u1D00\u1D20\u1D00\u026A\u029F\u1D00\u0299\u029F\u1D07  \n\uD83E\uDEF3 \u1D05\u026A\u0280\u1D07\u1D04\u1D1B \uA730\u026A\u029F\u1D07 \u1D05\u1D0F\u1D21\u0274\u029F\u1D0F\u1D00\u1D05s \n\uD83E\uDEF3 \uA730\u1D1C\u029F\u029F \u1D00\u1D05\u1D0D\u026A\u0274 \uA731\u1D1C\u1D18\u1D18\u1D0F\u0280\u1D1B \uA730\u1D0F\u0280 \u01EB\u1D1C\u1D07\u0280\u026A\u1D07s & \u0280\u1D07\u01EB\u1D1C\u1D07\uA731\u1D1B\uA731\n\uD83E\uDEF3 \u0274\u1D0F \u0274\u1D07\u1D07\u1D05 \u1D1B\u1D0F \u1D0A\u1D0F\u026A\u0274 \u1D0D\u1D1C\u029F\u1D1B\u026A\u1D18\u029F\u1D07 \u1D04\u029C\u1D00\u0274\u0274\u1D07\u029F\uA731 \n\uD83E\uDEF3 \u1D05\u026A\u0280\u1D07\u1D04\u1D1B & \u1D00\u1D05\uA731-\uA730\u0280\u1D07\u1D07 \u1D00\u1D04\u1D04\u1D07\uA731\uA731\n";
 export var developerInfo = "  \n\u2023 \u1D05\u1D07\u1D20\u1D07\u029F\u1D0F\u1D18\u1D07\u0280 : \u1D00\u0274\u1D0D\u1D0F\u029F  \n\u2023 \u026A\u1D05 : [\u1D00\u0274\u1D0D\u1D0F\u029F](t.me/eywwi)  \n\u2023 \u029F\u026A\u0299\u0280\u1D00\u0280\u028F : \u1D1B\u1D07\u029F\u1D07\u0262\u0280\u1D00\uA730  \n\u2023 \u029F\u1D00\u0274\u0262\u1D1C\u1D00\u0262\u1D07 : \u1D1Bs  \n\u2023 \u1D05\u1D00\u1D1B\u1D00\u0299\u1D00s\u1D07 : \u1D0D\u1D0F\u0274\u0262\u1D0F\u1D05\u0299  \n\u2023 \u029C\u1D0Fs\u1D1B\u1D07\u1D05 \u1D0F\u0274 : \u1D00\u029F\u029F \u1D21\u1D07\u0299  \n";
