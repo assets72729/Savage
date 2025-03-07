@@ -44,7 +44,7 @@ import telegram from "../../services/telegram.js";
 import { getMessageLink } from "../../utils/getMessageLinkFromCtx.js";
 import handleResultsReply, { editResultsReply, updateSession } from "./reqHandler.js";
 import memory from "../../extra/isInProcess.js";
-import { sendExpiredTokenToChat, sendExpiredTokenToCtx } from "../../utils/helper";
+import { sendExpiredTokenToChat, sendExpiredTokenToCtx } from "../../utils/helper.js";
 // Create a Wizard Scene
 var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
     var session, request, searchCriteria, messageIdLink, searchResults, finalResult, batchedResults, firstBatch, error_1;
