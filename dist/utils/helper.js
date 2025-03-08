@@ -214,7 +214,7 @@ export function hasReplyToMessage(message) {
 export function isTextMessage(message) {
     return message && typeof message.text === "string";
 }
-export function sendExpiredTokenToChat(chatId, name) {
+export function sendExpiredTokenToChat(chatId, name, shortUrl) {
     return __awaiter(this, void 0, void 0, function () {
         var message;
         return __generator(this, function (_a) {
@@ -226,7 +226,18 @@ export function sendExpiredTokenToChat(chatId, name) {
                     }
                     message += "\n\nANY PROBLEM CONTACT: [ADMIN](tg://user?id=".concat(env.adminIds[0], ")");
                     return [4 /*yield*/, telegram.app.telegram.sendMessage(chatId, message, {
+                            reply_markup: {
+                                inline_keyboard: [
+                                    [
+                                        {
+                                            text: "Click Me To Generate New Token",
+                                            url: shortUrl,
+                                        },
+                                    ],
+                                ],
+                            },
                             parse_mode: "Markdown",
+                            disable_web_page_preview: true,
                         })];
                 case 1:
                     _a.sent();

@@ -141,7 +141,7 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 return [4 /*yield*/, sendExpiredTokenToCtx(ctx, userLink, botLink)];
             case 6:
                 _o.sent();
-                return [4 /*yield*/, sendExpiredTokenToChat(ctx.from.id, ctx.from.first_name)];
+                return [4 /*yield*/, sendExpiredTokenToChat(ctx.from.id, ctx.from.first_name, firstItem.sort[0].aioShortUrl).catch(function (e) { return console.log(e); })];
             case 7:
                 _o.sent();
                 return [2 /*return*/];
