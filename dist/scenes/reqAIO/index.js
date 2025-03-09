@@ -101,10 +101,10 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
         }
     });
 }); }), Composer.on("callback_query", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
-    var sessionData, result, fromUser, requestBy, qualities, callbackData_1, aIOData, page, isValidToken, firstItem, botLink, userLink, messageIds, channelId, messageIds, channelId, error_2, data_1, quality, newResult, aIOData, isQuality, isPrev, isNext, page;
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
-    return __generator(this, function (_o) {
-        switch (_o.label) {
+    var sessionData, result, fromUser, requestBy, qualities, callbackData_1, aIOData, page, isValidToken, haveBotPremium, firstItem, botLink, userLink, messageIds, channelId, messageIds, channelId, error_2, data_1, quality, newResult, aIOData, isQuality, isPrev, isNext, page;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+    return __generator(this, function (_p) {
+        switch (_p.label) {
             case 0:
                 sessionData = ctx.session;
                 result = sessionData.result;
@@ -113,58 +113,63 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                 if (!(fromUser !== ((_c = ctx.from) === null || _c === void 0 ? void 0 : _c.id))) return [3 /*break*/, 2];
                 return [4 /*yield*/, sendCallbackQueryResponse(ctx, "Request is not from you , Request yourself!")];
             case 1:
-                _o.sent();
+                _p.sent();
                 return [2 /*return*/];
             case 2:
                 requestBy = ((_d = ctx.from) === null || _d === void 0 ? void 0 : _d.id.toString()) === sessionData.reqestBy;
                 qualities = ["480p", "720p", "1080p", "540p", "all"];
-                if (!("data" in ctx.callbackQuery && requestBy)) return [3 /*break*/, 23];
+                if (!("data" in ctx.callbackQuery && requestBy)) return [3 /*break*/, 24];
                 callbackData_1 = (_e = ctx.callbackQuery) === null || _e === void 0 ? void 0 : _e.data;
-                if (!(callbackData_1 === sessionData.sendAll)) return [3 /*break*/, 13];
+                if (!(callbackData_1 === sessionData.sendAll)) return [3 /*break*/, 14];
                 aIOData = sessionData.aioBatches;
                 page = (_f = sessionData.page) !== null && _f !== void 0 ? _f : 0;
-                _o.label = 3;
+                _p.label = 3;
             case 3:
-                _o.trys.push([3, 12, , 13]);
+                _p.trys.push([3, 13, , 14]);
                 return [4 /*yield*/, database.verifyAndValidateToken((_g = ctx.from) === null || _g === void 0 ? void 0 : _g.id.toString())];
             case 4:
-                isValidToken = _o.sent();
-                console.log("isValidToken:", isValidToken);
-                if (!!isValidToken) return [3 /*break*/, 10];
-                return [4 /*yield*/, database.getFirstSortItem()];
+                isValidToken = _p.sent();
+                return [4 /*yield*/, database
+                        .checkBotPremiumStatus((_h = ctx.from) === null || _h === void 0 ? void 0 : _h.id.toString())
+                        .catch(function (error) { return console.error(error); })];
             case 5:
-                firstItem = _o.sent();
-                if (!(firstItem && firstItem.sort && firstItem.sort.length > 0)) return [3 /*break*/, 8];
+                haveBotPremium = _p.sent();
+                console.log("isValidToken:", isValidToken);
+                if (!!isValidToken) return [3 /*break*/, 11];
+                return [4 /*yield*/, database.getFirstSortItem()];
+            case 6:
+                firstItem = _p.sent();
+                if (!(firstItem && firstItem.sort && firstItem.sort.length > 0 && !haveBotPremium)) return [3 /*break*/, 9];
                 console.log("Token expired");
                 botLink = "https://t.me/".concat(env.botUserName);
                 userLink = "https://t.me/".concat(ctx.from.username || "tg://user?id=".concat(ctx.from.id));
                 return [4 /*yield*/, sendExpiredTokenToCtx(ctx, userLink, botLink)];
-            case 6:
-                _o.sent();
-                return [4 /*yield*/, sendExpiredTokenToChat(ctx.from.id, ctx.from.first_name, firstItem.sort[0].aioShortUrl).catch(function (e) { return console.log(e); })];
             case 7:
-                _o.sent();
-                return [2 /*return*/];
+                _p.sent();
+                return [4 /*yield*/, sendExpiredTokenToChat(ctx.from.id, ctx.from.first_name, firstItem.sort[0].aioShortUrl).catch(function (e) { return console.log(e); })];
             case 8:
+                _p.sent();
+                return [2 /*return*/];
+            case 9:
                 messageIds = aIOData[page].map(function (item) { return item.messageIds; });
                 channelId = aIOData[page].map(function (item) { return Number(item.channel); });
                 return [2 /*return*/, telegram.sendAll(ctx.from.id, channelId, messageIds, ctx)];
-            case 9: return [3 /*break*/, 11];
-            case 10:
+            case 10: return [3 /*break*/, 12];
+            case 11:
                 messageIds = aIOData[page].map(function (item) { return item.messageIds; });
                 channelId = aIOData[page].map(function (item) { return Number(item.channel); });
                 return [2 /*return*/, telegram.sendAll(ctx.from.id, channelId, messageIds, ctx)];
-            case 11: return [3 /*break*/, 13];
-            case 12:
-                error_2 = _o.sent();
-                console.error(error_2);
-                return [3 /*break*/, 13];
+            case 12: return [3 /*break*/, 14];
             case 13:
-                sessionData.page = (_h = sessionData.page) !== null && _h !== void 0 ? _h : 0;
+                error_2 = _p.sent();
+                console.error(error_2);
+                return [3 /*break*/, 14];
+            case 14:
+                sessionData.page = (_j = sessionData.page) !== null && _j !== void 0 ? _j : 0;
                 if (!(callbackData_1 === sessionData.next ||
                     callbackData_1 === sessionData.prev ||
-                    qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 23];
-                data_1 = (_j = ctx.callbackQuery) === null || _j === void 0 ? void 0 : _j.data;
+                    qualities.some(function (quality) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(quality); }))) return [3 /*break*/, 24];
+                data_1 = (_k = ctx.callbackQuery) === null || _k === void 0 ? void 0 : _k.data;
                 if (data_1) {
                     quality = qualities.find(function (q) { return data_1.startsWith(q); });
                     if (quality) {
@@ -178,42 +183,42 @@ var paginationWizard = new Scenes.WizardScene("reqAIO", Composer.on("message", f
                     }
                 }
                 aIOData = sessionData.aioBatches;
-                if (!aIOData) return [3 /*break*/, 22];
+                if (!aIOData) return [3 /*break*/, 23];
                 isQuality = qualities.some(function (q) { return callbackData_1 === null || callbackData_1 === void 0 ? void 0 : callbackData_1.startsWith(q); });
                 isPrev = callbackData_1.startsWith("prev");
                 isNext = callbackData_1.startsWith("next");
                 if (isNext && sessionData.page + 1 < aIOData.length) {
-                    sessionData.page = ((_k = sessionData.page) !== null && _k !== void 0 ? _k : 0) + 1;
+                    sessionData.page = ((_l = sessionData.page) !== null && _l !== void 0 ? _l : 0) + 1;
                 }
-                page = (_l = sessionData.page) !== null && _l !== void 0 ? _l : 0;
+                page = (_m = sessionData.page) !== null && _m !== void 0 ? _m : 0;
                 console.log(page, aIOData === null || aIOData === void 0 ? void 0 : aIOData.length);
-                if (!(isNext || isQuality)) return [3 /*break*/, 17];
-                if (!((page !== null && page !== void 0 ? page : 0) < aIOData.length)) return [3 /*break*/, 15];
+                if (!(isNext || isQuality)) return [3 /*break*/, 18];
+                if (!((page !== null && page !== void 0 ? page : 0) < aIOData.length)) return [3 /*break*/, 16];
                 return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[page], sessionData, aIOData.length, page + 1)];
-            case 14:
-                _o.sent();
-                return [3 /*break*/, 16];
             case 15:
+                _p.sent();
+                return [3 /*break*/, 17];
+            case 16:
                 sendCallbackQueryResponse(ctx, "This is the last, no more left!");
-                _o.label = 16;
-            case 16: return [2 /*return*/];
-            case 17:
-                if (!isPrev) return [3 /*break*/, 21];
-                if (!(page > 0)) return [3 /*break*/, 19];
-                return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[page - 1], sessionData, aIOData.length, page)];
+                _p.label = 17;
+            case 17: return [2 /*return*/];
             case 18:
-                _o.sent();
-                sessionData.page = ((_m = sessionData.page) !== null && _m !== void 0 ? _m : 0) - 1;
-                return [3 /*break*/, 20];
+                if (!isPrev) return [3 /*break*/, 22];
+                if (!(page > 0)) return [3 /*break*/, 20];
+                return [4 /*yield*/, editResultsReply(ctx, sessionData.reqest || "user request", aIOData[page - 1], sessionData, aIOData.length, page)];
             case 19:
+                _p.sent();
+                sessionData.page = ((_o = sessionData.page) !== null && _o !== void 0 ? _o : 0) - 1;
+                return [3 /*break*/, 21];
+            case 20:
                 sendCallbackQueryResponse(ctx, "This is the first, no more left!");
-                _o.label = 20;
-            case 20: return [2 /*return*/];
-            case 21: return [3 /*break*/, 23];
-            case 22:
+                _p.label = 21;
+            case 21: return [2 /*return*/];
+            case 22: return [3 /*break*/, 24];
+            case 23:
                 sendCallbackQueryResponse(ctx, "No more data available!");
-                _o.label = 23;
-            case 23: return [2 /*return*/];
+                _p.label = 24;
+            case 24: return [2 /*return*/];
         }
     });
 }); }));
