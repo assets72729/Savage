@@ -220,7 +220,8 @@ function processQueue(ctx) {
                     return [4 /*yield*/, ctx.reply("All files processed!")];
                 case 8:
                     _a.sent();
-                    return [2 /*return*/];
+                    return [4 /*yield*/, ctx.scene.leave()];
+                case 9: return [2 /*return*/, _a.sent()];
             }
         });
     });
