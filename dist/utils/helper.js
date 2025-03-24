@@ -107,7 +107,10 @@ export function sendWelcomeMessage(ctx, user) {
                             Markup.button.url("📌 ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ 📌", "http://t.me/".concat(env.botUserName, "?startgroup=start")),
                         ],
                         [Markup.button.callback("🛠 ʜᴇʟᴘ", "features"), Markup.button.callback("💌 ᴀʙᴏᴜᴛ", "about")],
-                        [Markup.button.callback("🎟 ᴘʀᴇᴍɪᴜᴍ", "seeplans"), Markup.button.callback("🎁 ʀᴇғᴇʀ", "refer")]
+                        [
+                            Markup.button.callback("🎟 ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴs", "seeplans"),
+                            Markup.button.callback("🎁 ʀᴇғᴇʀ", "refer"),
+                        ]
                     ], (env.mainGroupLink && isValidUrl(env.mainGroupLink)
                         ? [[Markup.button.url("SEND YOUR REQUESTS HERE", env.mainGroupLink)]]
                         : []), true));
