@@ -26,5 +26,7 @@ declare const _default: {
     otherDomain: string;
     apiBaseUrl: string;
     apiFetchToken: string;
+    botSupportLink: string | undefined;
+    upiId: string;
 };
 export default _default;

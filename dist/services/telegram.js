@@ -72,6 +72,10 @@ var Telegram = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.app.telegram.setMyCommands([
                             {
+                                command: "start",
+                                description: "Start the bot",
+                            },
+                            {
                                 command: "add",
                                 description: "Admin Command",
                             },
@@ -274,15 +278,15 @@ var Telegram = /** @class */ (function () {
                         i = 0;
                         _a.label = 10;
                     case 10:
-                        if (!(i < messageIds.length)) return [3 /*break*/, 22];
+                        if (!(i < messageIds.length)) return [3 /*break*/, 23];
                         messageId = messageIds[i];
                         success = false;
                         _a.label = 11;
                     case 11:
-                        if (!!success) return [3 /*break*/, 21];
+                        if (!!success) return [3 /*break*/, 22];
                         _a.label = 12;
                     case 12:
-                        _a.trys.push([12, 17, , 20]);
+                        _a.trys.push([12, 17, , 21]);
                         caption = captions[i] ? processCaption(captions[i], env.join) : undefined;
                         return [4 /*yield*/, this.app.telegram.copyMessage(toChatId, fromChatId || env.dbAIOChannelId, messageId, deleteOrNot ? {} : { caption: caption })];
                     case 13:
@@ -298,7 +302,7 @@ var Telegram = /** @class */ (function () {
                         return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 500); })];
                     case 16:
                         _a.sent();
-                        return [3 /*break*/, 20];
+                        return [3 /*break*/, 21];
                     case 17:
                         error_3 = _a.sent();
                         success = false;
@@ -307,28 +311,29 @@ var Telegram = /** @class */ (function () {
                         return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 40000); })];
                     case 18:
                         _a.sent();
-                        _a.label = 19;
-                    case 19: return [3 /*break*/, 20];
-                    case 20: return [3 /*break*/, 11];
-                    case 21:
+                        return [3 /*break*/, 20];
+                    case 19: return [3 /*break*/, 11];
+                    case 20: return [3 /*break*/, 21];
+                    case 21: return [3 /*break*/, 11];
+                    case 22:
                         i++;
                         return [3 /*break*/, 10];
-                    case 22:
-                        if (!deleteOrNot) return [3 /*break*/, 27];
-                        _a.label = 23;
                     case 23:
-                        _a.trys.push([23, 26, , 27]);
-                        return [4 /*yield*/, this.app.telegram.sendMessage(toChatId, "I will delete the above files in 5 minutes, so forward them to another chat.")];
+                        if (!deleteOrNot) return [3 /*break*/, 28];
+                        _a.label = 24;
                     case 24:
+                        _a.trys.push([24, 27, , 28]);
+                        return [4 /*yield*/, this.app.telegram.sendMessage(toChatId, "I will delete the above files in 5 minutes, so forward them to another chat.")];
+                    case 25:
                         message = _a.sent();
                         return [4 /*yield*/, scheduleMessageDeletion(this, toChatId, message.message_id, 5)];
-                    case 25:
-                        _a.sent();
-                        return [3 /*break*/, 27];
                     case 26:
-                        error_4 = _a.sent();
-                        return [3 /*break*/, 27];
+                        _a.sent();
+                        return [3 /*break*/, 28];
                     case 27:
+                        error_4 = _a.sent();
+                        return [3 /*break*/, 28];
+                    case 28:
                         if (ctx) {
                             memory.completeProcess(ctx.from.id);
                             memory.removeObject(ctx.from.id);
