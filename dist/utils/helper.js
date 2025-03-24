@@ -38,10 +38,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import env from "../services/env.js";
 import { Markup } from "telegraf";
 import telegram from "../services/telegram.js";
 import { fmt, code, link } from "telegraf/format";
+import { isValidUrl } from "../extra/validation.js";
 export function sendTokenExpiredMessage(ctx, user, shortUrl, payload) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
@@ -92,16 +102,15 @@ export function sendWelcomeMessage(ctx, user) {
                 case 0:
                     firstName = (((_a = user.first_name) === null || _a === void 0 ? void 0 : _a.replace(/[^a-zA-Z0-9]/g, "")) || "User").trim();
                     message = "\uD83D\uDC4B \u029C\u1D07\u029F\u029F\u1D0F ".concat(firstName, "!\n\u026A \u1D00\u1D0D \u1D00 \u1D18\u1D0F\u1D21\u1D07\u0280\uA730\u1D1C\u029F \u0299\u1D0F\u1D1B \u1D1B\u029C\u1D00\u1D1B \u1D21\u1D0F\u0280\u1D0Bs \u026A\u0274 \u0262\u0280\u1D0F\u1D1C\u1D18s. \u1D00\u1D05\u1D05 \u1D0D\u1D07 \u026A\u0274 \u028F\u1D0F\u1D1C\u0280 \u0262\u0280\u1D0F\u1D1C\u1D18, \u1D00\u0274\u1D05 \u026A \u1D21\u026A\u029F\u029F \u0280\u1D07s\u1D18\u1D0F\u0274\u1D05 \u1D21\u029C\u1D07\u0274 \u1D00\u0274\u028F \u1D1Cs\u1D07\u0280 s\u1D07\u0274\u1D05s \u1D00 \u1D0D\u1D0F\u1D20\u026A\u1D07 \u1D0F\u0280 \u1D05\u0280\u1D00\u1D0D\u1D00 \u0274\u1D00\u1D0D\u1D07!\n\u279C\u1D00\u1D05\u1D0D\u026A\u0274 \u1D18\u1D07\u0280\u1D0D\u026Ass\u026A\u1D0F\u0274s \u0280\u1D07\u01EB\u1D1C\u026A\u0280\u1D07\u1D05 \uD83E\uDD70");
-                    keyboard = Markup.inlineKeyboard([
+                    keyboard = Markup.inlineKeyboard(__spreadArray([
                         [
                             Markup.button.url("📌 ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ 📌", "http://t.me/".concat(env.botUserName, "?startgroup=start")),
                         ],
                         [Markup.button.callback("🛠 ʜᴇʟᴘ", "features"), Markup.button.callback("💌 ᴀʙᴏᴜᴛ", "about")],
-                        [Markup.button.callback("🎟 ᴘʀᴇᴍɪᴜᴍ", "seeplans"), Markup.button.callback("🎁 ʀᴇғᴇʀ", "refer")],
-                        [
-                            Markup.button.url("SEND YOUR REQUESTS HERE", "http://t.me/".concat(env.botUserName, "?startgroup=start")),
-                        ],
-                    ]);
+                        [Markup.button.callback("🎟 ᴘʀᴇᴍɪᴜᴍ", "seeplans"), Markup.button.callback("🎁 ʀᴇғᴇʀ", "refer")]
+                    ], (env.mainGroupLink && isValidUrl(env.mainGroupLink)
+                        ? [[Markup.button.url("SEND YOUR REQUESTS HERE", env.mainGroupLink)]]
+                        : []), true));
                     return [4 /*yield*/, ctx.reply(message, {
                             reply_to_message_id: (_b = ctx.message) === null || _b === void 0 ? void 0 : _b.message_id,
                             parse_mode: "HTML",

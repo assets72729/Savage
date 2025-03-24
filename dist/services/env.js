@@ -24,6 +24,7 @@ var howToDownload = env.HOW_TO_DOWNLOAD_MSG_LINK || "";
 var howToGenerateToken = env.HOW_TO_GENERATE_TOKEN;
 var botSupportLink = env.BOT_SUPPORT_LINK;
 var noBtnLink = env.NO_BTN_LINK;
+var mainGroupLink = env.MAIN_GROUP_LINK;
 // Server Configuration
 var development = env.DEVELOPMENT;
 var webhookDomain = env.WEBHOOK_DOMAIN;
@@ -49,6 +50,7 @@ if (!adminIds) {
 // Export Configuration
 export default {
     token: token,
+    mainGroupLink: mainGroupLink,
     ownerId: ownerId,
     botUserName: botUserName,
     dbPosterID: dbPosterID,
