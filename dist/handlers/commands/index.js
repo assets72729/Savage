@@ -5,6 +5,7 @@ import reqOGHandler from "./reqOg.js";
 import editAIOHandler from "./editAIO.js";
 import addToPremiumHandler from "./addToPremium.js";
 import premiumHandler from "./premium.js";
+import broadcastHandler from "./broadcast.js";
 export default {
     startHandler: startHandler,
     reqAIOHandler: reqAIOHandler,
@@ -13,4 +14,5 @@ export default {
     addToPremiumHandler: addToPremiumHandler,
     premiumHandler: premiumHandler,
     reqOGHandler: reqOGHandler,
+    broadcastHandler: broadcastHandler,
 };

@@ -149,7 +149,7 @@ export function sendRateLimitMessage(ctx, user) {
             switch (_b.label) {
                 case 0:
                     firstName = (((_a = user.first_name) === null || _a === void 0 ? void 0 : _a.replace(/[^a-zA-Z0-9]/g, "")) || "User").trim();
-                    message = "Hello ".concat(firstName, "!\nIn 20 minutes, you can only make 10 requests. Please wait for some time before making another request.\n");
+                    message = "Hello ".concat(firstName, "!\nIn 20 minutes, you can only make ").concat(env.RequestLimit, " requests. Please wait for some time before making another request.\n");
                     return [4 /*yield*/, ctx.reply(message, {
                             reply_to_message_id: ctx.message.message_id,
                             parse_mode: "HTML",
@@ -236,7 +236,7 @@ export function isTextMessage(message) {
 }
 export function sendExpiredTokenToChat(chatId, name, shortUrl) {
     return __awaiter(this, void 0, void 0, function () {
-        var message;
+        var message, keyboard;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -245,21 +245,31 @@ export function sendExpiredTokenToChat(chatId, name, shortUrl) {
                         message += "\n\nTutorial:\n[TO KNOW HOW TO GENERATE NEW TOKEN](".concat(env.howToGenerateToken, ")");
                     }
                     message += "\nANY PROBLEM CONTACT: [Share Your Problem Here](".concat(env.botSupportLink || "tg://user?id=".concat(env.adminIds[0]), ")");
+                    keyboard = [
+                        [
+                            {
+                                text: "Click Me To Generate 1-Day Token",
+                                url: shortUrl,
+                            },
+                        ],
+                    ];
+                    // Add second button if env.premiumPlansLink exists and is valid
+                    if (env && env.premiumPlansLink && isValidUrl(env.premiumPlansLink)) {
+                        keyboard[0].push({
+                            text: "See Premium Plans",
+                            url: env.premiumPlansLink,
+                        });
+                    }
+                    // Send the message with the constructed keyboard
                     return [4 /*yield*/, telegram.app.telegram.sendMessage(chatId, message, {
                             reply_markup: {
-                                inline_keyboard: [
-                                    [
-                                        {
-                                            text: "Click Me To Generate New Token",
-                                            url: shortUrl,
-                                        },
-                                    ],
-                                ],
+                                inline_keyboard: keyboard,
                             },
                             parse_mode: "Markdown",
                             disable_web_page_preview: true,
                         })];
                 case 1:
+                    // Send the message with the constructed keyboard
                     _a.sent();
                     return [2 /*return*/];
             }

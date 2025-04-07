@@ -11,6 +11,7 @@ declare const _default: {
     join: string;
     backup: string;
     noBtnLink: string | undefined;
+    premiumPlansLink: string | undefined;
     jwtSecret: string;
     howToDownload: string;
     howToGenerateToken: string | undefined;
@@ -29,5 +30,6 @@ declare const _default: {
     apiFetchToken: string;
     botSupportLink: string | undefined;
     upiId: string;
+    RequestLimit: number;
 };
 export default _default;

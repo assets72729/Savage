@@ -1,6 +1,6 @@
 import mongoDB from "../databases/mongoDB.js";
 import env from "../services/env.js";
-import reqDB from "../databases/oneDayOneReq.js";
+import reqDB from "../databases/requestLimit.js";
 export default function getProperDB() {
     var databaseUrl = env.databaseUrl;
     if (databaseUrl) {

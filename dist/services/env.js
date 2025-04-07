@@ -25,6 +25,7 @@ var howToGenerateToken = env.HOW_TO_GENERATE_TOKEN;
 var botSupportLink = env.BOT_SUPPORT_LINK;
 var noBtnLink = env.NO_BTN_LINK;
 var mainGroupLink = env.MAIN_GROUP_LINK;
+var premiumPlansLink = env.PREMIUM_PLANS_LINK;
 // Server Configuration
 var development = env.DEVELOPMENT;
 var webhookDomain = env.WEBHOOK_DOMAIN;
@@ -40,6 +41,8 @@ var apiFetchToken = env.API_FETCH_TOKEN || "";
 var upiId = env.UPI_ID || "";
 // promotion
 var join = env.JOIN || "";
+//Other
+var RequestLimit = Number(env.REQUEST_LIMIT) || 10;
 // Validation Checks
 if (!token) {
     throw Error("Provide TELEGRAM_BOT_TOKEN");
@@ -60,6 +63,7 @@ export default {
     join: join,
     backup: backup,
     noBtnLink: noBtnLink,
+    premiumPlansLink: premiumPlansLink,
     jwtSecret: jwtSecret,
     howToDownload: howToDownload,
     howToGenerateToken: howToGenerateToken,
@@ -78,4 +82,5 @@ export default {
     apiFetchToken: apiFetchToken,
     botSupportLink: botSupportLink,
     upiId: upiId,
+    RequestLimit: RequestLimit,
 };
