@@ -55,7 +55,7 @@ import { isValidUrl } from "../extra/validation.js";
 export function sendTokenExpiredMessage(ctx, user, shortUrl, payload) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var firstName, message;
+        var firstName, message, keyboard;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -65,23 +65,27 @@ export function sendTokenExpiredMessage(ctx, user, shortUrl, payload) {
                         message += "Tutorial:\n[TO KNOW HOW TO GENERATE NEW TOKEN](".concat(env.howToGenerateToken, ")");
                     }
                     message += "\nANY PROBLEM CONTACT: [Share Your Problem Here](".concat(env.botSupportLink || "tg://user?id=".concat(env.adminIds[0]), ")");
+                    keyboard = [
+                        [
+                            {
+                                text: "Click Me To Generate 1-Day Token",
+                                url: shortUrl,
+                            },
+                        ],
+                    ];
+                    // Add second button if env.premiumPlansLink exists and is valid
+                    if (env && env.premiumPlansLink && isValidUrl(env.premiumPlansLink)) {
+                        keyboard.push([
+                            {
+                                text: "See Premium Plans",
+                                url: env.premiumPlansLink,
+                            },
+                        ]);
+                    }
                     return [4 /*yield*/, ctx.reply(message, {
                             reply_to_message_id: ctx.message.message_id,
                             reply_markup: {
-                                inline_keyboard: [
-                                    [
-                                        {
-                                            text: "Click Me To Generate New Token",
-                                            url: shortUrl,
-                                        },
-                                    ],
-                                    [
-                                        {
-                                            text: "Try Again",
-                                            url: "https://t.me/".concat(env.botUserName, "?start=").concat(payload).replace(" ", ""),
-                                        },
-                                    ],
-                                ],
+                                inline_keyboard: keyboard,
                             },
                             parse_mode: "Markdown",
                             disable_web_page_preview: true,
@@ -255,10 +259,12 @@ export function sendExpiredTokenToChat(chatId, name, shortUrl) {
                     ];
                     // Add second button if env.premiumPlansLink exists and is valid
                     if (env && env.premiumPlansLink && isValidUrl(env.premiumPlansLink)) {
-                        keyboard[0].push({
-                            text: "See Premium Plans",
-                            url: env.premiumPlansLink,
-                        });
+                        keyboard.push([
+                            {
+                                text: "See Premium Plans",
+                                url: env.premiumPlansLink,
+                            },
+                        ]);
                     }
                     // Send the message with the constructed keyboard
                     return [4 /*yield*/, telegram.app.telegram.sendMessage(chatId, message, {
