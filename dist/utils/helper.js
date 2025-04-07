@@ -82,6 +82,12 @@ export function sendTokenExpiredMessage(ctx, user, shortUrl, payload) {
                             },
                         ]);
                     }
+                    keyboard.push([
+                        {
+                            text: "Try Again",
+                            url: "https://t.me/".concat(env.botUserName, "?start=").concat(payload).replace(" ", ""),
+                        },
+                    ]);
                     return [4 /*yield*/, ctx.reply(message, {
                             reply_to_message_id: ctx.message.message_id,
                             reply_markup: {
