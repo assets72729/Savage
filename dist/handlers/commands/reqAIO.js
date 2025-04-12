@@ -37,29 +37,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import { thankReply } from "../../utils/markupButton/permanantButton/lists.js";
 import env from "../../services/env.js";
 export default function reqAIOHandler(ctx, next) {
-    var _a, _b;
+    var _a;
     return __awaiter(this, void 0, void 0, function () {
         var text, id, error_1;
         var _this = this;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     if (!(ctx.message && "text" in ctx.message)) return [3 /*break*/, 11];
                     text = ctx.message.text;
                     id = (_a = ctx.chat) === null || _a === void 0 ? void 0 : _a.id;
-                    if (!(!/^\/(start|d|a)/i.test(text) && id !== undefined && !(((_b = ctx.chat) === null || _b === void 0 ? void 0 : _b.type) === "private"))) return [3 /*break*/, 7];
+                    if (!(!/^\/(start|d|a)/i.test(text) && id !== undefined)) return [3 /*break*/, 7];
                     if (!(!ctx.message.reply_to_message &&
                         env.allowGroups.includes(id) &&
                         !env.onlyCmdAllow.includes(id))) return [3 /*break*/, 2];
                     return [4 /*yield*/, ctx.scene.enter("reqAIO")];
                 case 1:
-                    _c.sent();
+                    _b.sent();
                     return [3 /*break*/, 7];
                 case 2:
                     if (!(env.onlyCmdAllow.includes(id) && /^\/(start|m)/i.test(text))) return [3 /*break*/, 4];
                     return [4 /*yield*/, ctx.scene.enter("reqAIO")];
                 case 3:
-                    _c.sent();
+                    _b.sent();
                     return [3 /*break*/, 7];
                 case 4:
                     if (!env.onlyCmdAllow.includes(id)) return [3 /*break*/, 5];
@@ -72,13 +72,13 @@ export default function reqAIOHandler(ctx, next) {
                         !containsEmoji(text))) return [3 /*break*/, 7];
                     return [4 /*yield*/, ctx.scene.enter("reqAIO")];
                 case 6:
-                    _c.sent();
-                    _c.label = 7;
+                    _b.sent();
+                    _b.label = 7;
                 case 7:
                     if (!thankReply(text)) return [3 /*break*/, 11];
-                    _c.label = 8;
+                    _b.label = 8;
                 case 8:
-                    _c.trys.push([8, 10, , 11]);
+                    _b.trys.push([8, 10, , 11]);
                     return [4 /*yield*/, ctx
                             .reply("If you really want to thank me so add two members for me\nhere my official Channel for updates and backup @".concat(env.join))
                             .then(function (sentMessage) {
@@ -100,10 +100,10 @@ export default function reqAIOHandler(ctx, next) {
                             }
                         })];
                 case 9:
-                    _c.sent();
+                    _b.sent();
                     return [3 /*break*/, 11];
                 case 10:
-                    error_1 = _c.sent();
+                    error_1 = _b.sent();
                     return [3 /*break*/, 11];
                 case 11:
                     next();
