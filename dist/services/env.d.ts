@@ -23,6 +23,7 @@ declare const _default: {
     allowGroups: number[];
     onlyCmdAllow: number[];
     forceGroupIds: number[];
+    forceChannelIds: number[];
     adminIds: number[];
     databaseUrl: string | undefined;
     otherDomain: string;

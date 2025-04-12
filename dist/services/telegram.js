@@ -211,7 +211,7 @@ var Telegram = /** @class */ (function () {
                         rawButtons = _b.sent();
                         forceChatButtons = splitArray(rawButtons, limitPerRow);
                         forceChatButtons.push([
-                            Markup.button.url("Click me again after Join", "https://t.me/".concat((_a = this.app.botInfo) === null || _a === void 0 ? void 0 : _a.username, "?start=").concat(shareId)),
+                            Markup.button.url("Try again after join above chats", "https://t.me/".concat((_a = this.app.botInfo) === null || _a === void 0 ? void 0 : _a.username, "?start=").concat(shareId, "-aio")),
                         ]);
                         return [2 /*return*/, {
                                 inline_keyboard: forceChatButtons,
@@ -451,7 +451,7 @@ var Telegram = /** @class */ (function () {
             var chatIds;
             var _this = this;
             return __generator(this, function (_a) {
-                chatIds = __spreadArray([], env.forceGroupIds, true);
+                chatIds = __spreadArray(__spreadArray([], env.forceChannelIds, true), env.forceGroupIds, true);
                 return [2 /*return*/, filterAsync(chatIds, function (chatId) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0: return [4 /*yield*/, this.alreadyJoinChat(chatId, userId)];

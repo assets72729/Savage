@@ -1,4 +1,4 @@
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 import "dotenv/config";
 var env = process.env;
 // Bot Authentication
@@ -19,6 +19,7 @@ var adminIds = (_a = env.ADMIN_IDS) === null || _a === void 0 ? void 0 : _a.spli
 var allowGroups = ((_b = env.ALLOW_GROUPS) === null || _b === void 0 ? void 0 : _b.split(" ").map(Number)) || [];
 var onlyCmdAllow = ((_c = env.ONLYCMDALLOW) === null || _c === void 0 ? void 0 : _c.split(" ").map(Number)) || [];
 var forceGroupIds = ((_d = env.FORCE_GROUP_IDS) === null || _d === void 0 ? void 0 : _d.split(" ").map(Number)) || [];
+var forceChannelIds = ((_e = env.FORCE_CHANNEL_IDS) === null || _e === void 0 ? void 0 : _e.split(" ").map(Number)) || [];
 // Links and Messages
 var howToDownload = env.HOW_TO_DOWNLOAD_MSG_LINK || "";
 var howToGenerateToken = env.HOW_TO_GENERATE_TOKEN;
@@ -75,6 +76,7 @@ export default {
     allowGroups: allowGroups,
     onlyCmdAllow: onlyCmdAllow,
     forceGroupIds: forceGroupIds,
+    forceChannelIds: forceChannelIds,
     adminIds: adminIds,
     databaseUrl: databaseUrl,
     otherDomain: otherDomain,
