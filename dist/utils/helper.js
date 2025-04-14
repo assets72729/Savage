@@ -111,7 +111,7 @@ export function sendWelcomeMessage(ctx, user) {
             switch (_c.label) {
                 case 0:
                     firstName = (((_a = user.first_name) === null || _a === void 0 ? void 0 : _a.replace(/[^a-zA-Z0-9]/g, "")) || "User").trim();
-                    message = "\uD83D\uDC4B \u029C\u1D07\u029F\u029F\u1D0F ".concat(firstName, "!\n\u026A \u1D00\u1D0D \u1D00 \u1D18\u1D0F\u1D21\u1D07\u0280\uA730\u1D1C\u029F \u0299\u1D0F\u1D1B \u1D1B\u029C\u1D00\u1D1B \u1D21\u1D0F\u0280\u1D0Bs \u026A\u0274 \u0262\u0280\u1D0F\u1D1C\u1D18s. \u1D00\u1D05\u1D05 \u1D0D\u1D07 \u026A\u0274 \u028F\u1D0F\u1D1C\u0280 \u0262\u0280\u1D0F\u1D1C\u1D18, \u1D00\u0274\u1D05 \u026A \u1D21\u026A\u029F\u029F \u0280\u1D07s\u1D18\u1D0F\u0274\u1D05 \u1D21\u029C\u1D07\u0274 \u1D00\u0274\u028F \u1D1Cs\u1D07\u0280 s\u1D07\u0274\u1D05s \u1D00 \u1D0D\u1D0F\u1D20\u026A\u1D07 \u1D0F\u0280 \u1D05\u0280\u1D00\u1D0D\u1D00 \u0274\u1D00\u1D0D\u1D07!\n\u279C\u1D00\u1D05\u1D0D\u026A\u0274 \u1D18\u1D07\u0280\u1D0D\u026Ass\u026A\u1D0F\u0274s \u0280\u1D07\u01EB\u1D1C\u026A\u0280\u1D07\u1D05 \uD83E\uDD70");
+                    message = "\uD83D\uDC4B \u029C\u1D07\u029F\u029F\u1D0F ".concat(firstName, "!\n\u026A \u1D00\u1D0D \u1D00 \u1D18\u1D0F\u1D21\u1D07\u0280\uA730\u1D1C\u029F \u0299\u1D0F\u1D1B \u1D1B\u029C\u1D00\u1D1B \u1D21\u1D0F\u0280\u1D0Bs \u026A\u0274 \u0262\u0280\u1D0F\u1D1C\u1D18s . \u1D00\u1D05\u1D05 \u1D0D\u1D07 \u026A\u0274 \u028F\u1D0F\u1D1C\u0280 \u0262\u0280\u1D0F\u1D1C\u1D18, \u1D00\u0274\u1D05 \u026A \u1D21\u026A\u029F\u029F \u0280\u1D07s\u1D18\u1D0F\u0274\u1D05 \u1D21\u029C\u1D07\u0274 \u1D00\u0274\u028F \u1D1Cs\u1D07\u0280 s\u1D07\u0274\u1D05s \u1D00 \u1D0D\u1D0F\u1D20\u026A\u1D07 \u1D0F\u0280 \u1D05\u0280\u1D00\u1D0D\u1D00 \u0274\u1D00\u1D0D\u1D07!\n\u279C\u1D00\u1D05\u1D0D\u026A\u0274 \u1D18\u1D07\u0280\u1D0D\u026Ass\u026A\u1D0F\u0274s \u0280\u1D07\u01EB\u1D1C\u026A\u0280\u1D07\u1D05 \uD83E\uDD70");
                     keyboard = Markup.inlineKeyboard(__spreadArray([
                         [
                             Markup.button.url("📌 ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ 📌", "http://t.me/".concat(env.botUserName, "?startgroup=start")),
@@ -341,4 +341,36 @@ export var generateInviteLink = function (userId, sharLink) {
     }
     return "https://t.me/".concat(env.botUserName, "?start=invite-").concat(userId);
 };
+export function episodeTagToStart(str) {
+    var regexList = [
+        /(s\d{1,2})\s*(e\d{1,2})/i, // S01 E01 (space)
+        /(s\d{1,2}e\d{1,2})/i, // S01E01
+        /(ep\d{1,2}\s*s\d{1,2})/i, // Ep01S01
+        /(s\d{1,2}\s*ep\d{1,2})/i, // S01 Ep01
+        /(ep\s?\d{1,2})/i, // Ep01
+        /(e\d{1,2})/i, // E01
+    ];
+    var qualityRegex = /\b(720p|1080p|540p|480p|340p)\b/i;
+    var episodeTag = "";
+    var qualityTag = "";
+    var cleanedStr = str;
+    for (var _i = 0, regexList_1 = regexList; _i < regexList_1.length; _i++) {
+        var regex = regexList_1[_i];
+        var match = str.match(regex);
+        if (match) {
+            episodeTag = match[0].replace(/\s+/g, "").toUpperCase();
+            cleanedStr = cleanedStr.replace(match[0], "");
+            break;
+        }
+    }
+    var qualityMatch = str.match(qualityRegex);
+    if (qualityMatch) {
+        qualityTag = qualityMatch[0].toLowerCase();
+        cleanedStr = cleanedStr.replace(qualityMatch[0], "");
+    }
+    if (episodeTag) {
+        return "".concat(episodeTag, " ").concat(qualityTag, " ").concat(cleanedStr).trim().replace(/\s+/g, " ");
+    }
+    return str.trim().replace(/\s+/g, " ");
+}
 var templateObject_1;

@@ -41,7 +41,7 @@ import { sendInviterWelcomeMessage, sendRateLimitMessage, sendTokenExpiredMessag
 // Main handler function for the /start command
 export default function startHandler(ctx) {
     return __awaiter(this, void 0, void 0, function () {
-        var chatId, user, userId, payload, shareId, tokenNumber, firstSortItem, activeShareId, token, inviteParts, inviterId, newUserId, isUserExist, parts, _a, e_1, chatsUserHasNotJoined, e_2, haveBotPremium, isValidToken, firstItem, messageIds, channel, isRequestExceeded, result, e_3, e_4, error_1;
+        var chatId, user, userId, payload, shareId, haveBotPremium, tokenNumber, firstSortItem, activeShareId, token, isValidToken_1, firstItem, inviteParts, inviterId, newUserId, isUserExist, parts, _a, e_1, chatsUserHasNotJoined, e_2, isValidToken, firstItem, messageIds, channel, isRequestExceeded, result, e_3, e_4, error_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -52,111 +52,121 @@ export default function startHandler(ctx) {
                     shareId = undefined;
                     _b.label = 1;
                 case 1:
-                    _b.trys.push([1, 40, , 41]);
-                    if (!payload) return [3 /*break*/, 12];
-                    if (!payload.includes("token-")) return [3 /*break*/, 6];
+                    _b.trys.push([1, 44, , 45]);
+                    return [4 /*yield*/, database
+                            .checkBotPremiumStatus(userId.toString())
+                            .catch(function (error) { return console.error(error); })];
+                case 2:
+                    haveBotPremium = _b.sent();
+                    if (!payload) return [3 /*break*/, 17];
+                    if (!payload.includes("token-")) return [3 /*break*/, 11];
                     tokenNumber = payload.replace("token-", "");
                     return [4 /*yield*/, database.getFirstSortItem()];
-                case 2:
-                    firstSortItem = _b.sent();
-                    if (!firstSortItem) return [3 /*break*/, 5];
-                    activeShareId = firstSortItem.currentActivePath;
-                    if (!(tokenNumber === activeShareId)) return [3 /*break*/, 5];
-                    return [4 /*yield*/, database.manageToken(userId.toString())];
                 case 3:
+                    firstSortItem = _b.sent();
+                    if (!firstSortItem) return [3 /*break*/, 10];
+                    activeShareId = firstSortItem.currentActivePath;
+                    if (!(tokenNumber === activeShareId)) return [3 /*break*/, 6];
+                    return [4 /*yield*/, database.manageToken(userId.toString())];
+                case 4:
                     token = (_b.sent()).token;
                     return [4 /*yield*/, ctx.reply("Your new token has been generated: ".concat(token.slice(0, 15), " ...\nNow, click the \"Try Again\" button \uD83D\uDC46\uD83D\uDC46!"))];
-                case 4: return [2 /*return*/, _b.sent()];
-                case 5: return [3 /*break*/, 12];
-                case 6:
-                    if (!payload.includes("invite")) return [3 /*break*/, 11];
+                case 5: return [2 /*return*/, _b.sent()];
+                case 6: return [4 /*yield*/, database.verifyAndValidateToken(userId.toString())];
+                case 7:
+                    isValidToken_1 = _b.sent();
+                    if (!!isValidToken_1) return [3 /*break*/, 10];
+                    return [4 /*yield*/, database.getFirstSortItem()];
+                case 8:
+                    firstItem = _b.sent();
+                    if (!(firstItem && !haveBotPremium)) return [3 /*break*/, 10];
+                    return [4 /*yield*/, sendTokenExpiredMessage(ctx, user, firstItem.sort[0].aioShortUrl, payload).catch(function (error) { return console.error(error); })];
+                case 9: return [2 /*return*/, _b.sent()];
+                case 10: return [3 /*break*/, 17];
+                case 11:
+                    if (!payload.includes("invite")) return [3 /*break*/, 16];
                     inviteParts = payload.split("-");
                     inviterId = inviteParts[1];
                     newUserId = userId.toString();
-                    if (!(newUserId && inviterId && newUserId !== inviterId)) return [3 /*break*/, 10];
+                    if (!(newUserId && inviterId && newUserId !== inviterId)) return [3 /*break*/, 15];
                     return [4 /*yield*/, database.isUserExist(newUserId)];
-                case 7:
+                case 12:
                     isUserExist = _b.sent();
-                    if (!!isUserExist) return [3 /*break*/, 10];
+                    if (!!isUserExist) return [3 /*break*/, 15];
                     return [4 /*yield*/, addInviteUser(inviterId, newUserId, user.username || "null")];
-                case 8:
+                case 13:
                     _b.sent();
                     return [4 /*yield*/, sendInviterWelcomeMessage(ctx, inviterId)];
-                case 9: return [2 /*return*/, _b.sent()];
-                case 10: return [3 /*break*/, 12];
-                case 11:
+                case 14: return [2 /*return*/, _b.sent()];
+                case 15: return [3 /*break*/, 17];
+                case 16:
                     parts = payload.split("-");
                     if (parts.length > 0) {
                         shareId = Number(parts[0]);
                     }
-                    _b.label = 12;
-                case 12:
-                    _b.trys.push([12, 14, , 15]);
+                    _b.label = 17;
+                case 17:
+                    _b.trys.push([17, 19, , 20]);
                     return [4 /*yield*/, database.saveUser(user)];
-                case 13:
-                    _b.sent();
-                    return [3 /*break*/, 15];
-                case 14:
-                    _a = _b.sent();
-                    return [3 /*break*/, 15];
-                case 15:
-                    if (!!shareId) return [3 /*break*/, 19];
-                    _b.label = 16;
-                case 16:
-                    _b.trys.push([16, 18, , 19]);
-                    return [4 /*yield*/, sendWelcomeMessage(ctx, user)];
-                case 17: return [2 /*return*/, _b.sent()];
                 case 18:
+                    _b.sent();
+                    return [3 /*break*/, 20];
+                case 19:
+                    _a = _b.sent();
+                    return [3 /*break*/, 20];
+                case 20:
+                    if (!!shareId) return [3 /*break*/, 24];
+                    _b.label = 21;
+                case 21:
+                    _b.trys.push([21, 23, , 24]);
+                    return [4 /*yield*/, sendWelcomeMessage(ctx, user)];
+                case 22: return [2 /*return*/, _b.sent()];
+                case 23:
                     e_1 = _b.sent();
                     return [2 /*return*/];
-                case 19:
-                    _b.trys.push([19, 21, , 22]);
+                case 24:
+                    _b.trys.push([24, 26, , 27]);
                     return [4 /*yield*/, telegram.getChatsUserHasNotJoined(userId)];
-                case 20:
+                case 25:
                     chatsUserHasNotJoined = _b.sent();
                     if (chatsUserHasNotJoined.length) {
                         return [2 /*return*/, telegram.sendForceJoinMessage(shareId, chatId, user, chatsUserHasNotJoined)];
                     }
-                    return [3 /*break*/, 22];
-                case 21:
+                    return [3 /*break*/, 27];
+                case 26:
                     e_2 = _b.sent();
                     console.log(e_2);
                     return [2 /*return*/];
-                case 22: return [4 /*yield*/, database
-                        .checkBotPremiumStatus(userId.toString())
-                        .catch(function (error) { return console.error(error); })];
-                case 23:
-                    haveBotPremium = _b.sent();
-                    return [4 /*yield*/, database.verifyAndValidateToken(userId.toString())];
-                case 24:
+                case 27: return [4 /*yield*/, database.verifyAndValidateToken(userId.toString())];
+                case 28:
                     isValidToken = _b.sent();
-                    if (!!isValidToken) return [3 /*break*/, 27];
+                    if (!!isValidToken) return [3 /*break*/, 31];
                     return [4 /*yield*/, database.getFirstSortItem()];
-                case 25:
+                case 29:
                     firstItem = _b.sent();
-                    if (!(firstItem && !haveBotPremium)) return [3 /*break*/, 27];
+                    if (!(firstItem && !haveBotPremium)) return [3 /*break*/, 31];
                     return [4 /*yield*/, sendTokenExpiredMessage(ctx, user, firstItem.sort[0].aioShortUrl, payload).catch(function (error) { return console.error(error); })];
-                case 26: return [2 /*return*/, _b.sent()];
-                case 27:
+                case 30: return [2 /*return*/, _b.sent()];
+                case 31:
                     messageIds = void 0;
                     channel = void 0;
                     return [4 /*yield*/, reqDB.hasReachedRequestLimit(userId.toString())];
-                case 28:
+                case 32:
                     isRequestExceeded = _b.sent();
-                    if (!(!isRequestExceeded || env.adminIds.includes(userId) || haveBotPremium)) return [3 /*break*/, 36];
-                    _b.label = 29;
-                case 29:
-                    _b.trys.push([29, 34, , 35]);
-                    if (!payload.includes("aio")) return [3 /*break*/, 31];
+                    if (!(!isRequestExceeded || env.adminIds.includes(userId) || haveBotPremium)) return [3 /*break*/, 40];
+                    _b.label = 33;
+                case 33:
+                    _b.trys.push([33, 38, , 39]);
+                    if (!payload.includes("aio")) return [3 /*break*/, 35];
                     return [4 /*yield*/, database.getAIOMessages(Number(shareId))];
-                case 30:
+                case 34:
                     result = _b.sent();
                     channel = (result === null || result === void 0 ? void 0 : result.channel) ? Number(result.channel) : undefined;
                     if (result) {
                         messageIds = result.messageIds;
                     }
-                    _b.label = 31;
-                case 31:
+                    _b.label = 35;
+                case 35:
                     if (!messageIds) {
                         return [2 /*return*/, ctx.reply("Message not found, try another link", {
                                 reply_to_message_id: ctx.message.message_id,
@@ -166,30 +176,30 @@ export default function startHandler(ctx) {
                         throw Error("There must be DB_CHANNEL_ID and DB_MOVIE_CHANNEL_ID");
                     }
                     return [4 /*yield*/, telegram.forwardMessages(chatId, channel, [messageIds], true)];
-                case 32:
+                case 36:
                     _b.sent();
                     return [4 /*yield*/, reqDB.saveRequestData(userId.toString())];
-                case 33:
+                case 37:
                     _b.sent();
-                    return [3 /*break*/, 35];
-                case 34:
+                    return [3 /*break*/, 39];
+                case 38:
                     e_3 = _b.sent();
                     console.log(e_3);
-                    return [3 /*break*/, 35];
-                case 35: return [3 /*break*/, 39];
-                case 36:
-                    _b.trys.push([36, 38, , 39]);
+                    return [3 /*break*/, 39];
+                case 39: return [3 /*break*/, 43];
+                case 40:
+                    _b.trys.push([40, 42, , 43]);
                     return [4 /*yield*/, sendRateLimitMessage(ctx, user)];
-                case 37: return [2 /*return*/, _b.sent()];
-                case 38:
+                case 41: return [2 /*return*/, _b.sent()];
+                case 42:
                     e_4 = _b.sent();
                     console.log(e_4);
                     return [2 /*return*/];
-                case 39: return [3 /*break*/, 41];
-                case 40:
+                case 43: return [3 /*break*/, 45];
+                case 44:
                     error_1 = _b.sent();
-                    return [3 /*break*/, 41];
-                case 41: return [2 /*return*/];
+                    return [3 /*break*/, 45];
+                case 45: return [2 /*return*/];
             }
         });
     });

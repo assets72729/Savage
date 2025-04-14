@@ -2,8 +2,7 @@
 import { Markup } from "telegraf";
 import * as list from "./lists.js";
 import env from "../../../services/env.js";
-import { editButtonTitle } from "../../caption/editCaption.js";
-import { convertToTinySubscript } from "../../helper.js";
+import { convertToTinySubscript, episodeTagToStart } from "../../helper.js";
 export function oneTimeGenreKeyboard() {
     return Markup.keyboard(list.genresList).oneTime().resize();
 }
@@ -50,7 +49,7 @@ function createBatchOfButtons(items, next, prev, sendAll, totalPage, currentPage
     items.forEach(function (item) {
         if (isNoBtnLink) {
             var button = {
-                text: convertToTinySubscript(editButtonTitle(item.caption)),
+                text: convertToTinySubscript(episodeTagToStart(item.caption)),
                 callback_data: item.shareId,
             };
             buttonsBatch.push([button]);
@@ -58,7 +57,7 @@ function createBatchOfButtons(items, next, prev, sendAll, totalPage, currentPage
         else {
             var link = "https://t.me/".concat(env.botUserName, "?start=").concat(item.shareId, "-aio");
             var button = {
-                text: convertToTinySubscript(editButtonTitle(item.caption)),
+                text: convertToTinySubscript(episodeTagToStart(item.caption)),
                 url: link,
             };
             buttonsBatch.push([button]);
