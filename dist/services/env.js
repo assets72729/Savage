@@ -38,6 +38,7 @@ var backup = env.BACKUP || "";
 // API Configuration
 var apiBaseUrl = env.API_BASE_URL || "";
 var apiFetchToken = env.API_FETCH_TOKEN || "";
+var websiteBaseUrl = env.WEBSITE_BASE_URL || "";
 //payment
 var upiId = env.UPI_ID || "";
 // promotion
@@ -85,4 +86,5 @@ export default {
     botSupportLink: botSupportLink,
     upiId: upiId,
     RequestLimit: RequestLimit,
+    websiteBaseUrl: websiteBaseUrl,
 };

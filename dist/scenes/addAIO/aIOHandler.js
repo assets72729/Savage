@@ -76,7 +76,7 @@ function startCopying(ctx) {
                 case 7:
                     _c.sent();
                     ctx.session.queue = [];
-                    ctx.session.done = true;
+                    ctx.session.done = false;
                     return [4 /*yield*/, ctx.scene.leave()];
                 case 8: return [2 /*return*/, _c.sent()];
                 case 9: return [4 /*yield*/, ctx
@@ -102,7 +102,6 @@ function startCopying(ctx) {
         });
     });
 }
-export { startCopying };
 // Handle AIO processing for each file
 function handleAIOProcessing(ctx, caption, msgId) {
     var _a;
@@ -226,3 +225,4 @@ function processQueue(ctx) {
         });
     });
 }
+export { startCopying };

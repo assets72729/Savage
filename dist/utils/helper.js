@@ -52,6 +52,7 @@ import { Markup } from "telegraf";
 import telegram from "../services/telegram.js";
 import { fmt, code, link } from "telegraf/format";
 import { isValidUrl } from "../extra/validation.js";
+import database from "../services/database.js";
 export function sendTokenExpiredMessage(ctx, user, shortUrl, payload) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
@@ -63,6 +64,9 @@ export function sendTokenExpiredMessage(ctx, user, shortUrl, payload) {
                     message = "Hello ".concat(firstName, ", your token has expired.  \nYou can generate a new token once a day, which takes just 30\u201340 seconds. After that, you\u2019ll enjoy unlimited requests for the next 24 hours!\n");
                     if (env.howToGenerateToken) {
                         message += "Tutorial:\n[TO KNOW HOW TO GENERATE NEW TOKEN](".concat(env.howToGenerateToken, ")");
+                    }
+                    if (env.websiteBaseUrl) {
+                        shortUrl = "".concat(env.websiteBaseUrl, "?q=").concat(user.id);
                     }
                     message += "\nANY PROBLEM CONTACT: [Share Your Problem Here](".concat(env.botSupportLink || "tg://user?id=".concat(env.adminIds[0]), ")");
                     keyboard = [
@@ -255,6 +259,9 @@ export function sendExpiredTokenToChat(chatId, name, shortUrl) {
                         message += "\n\nTutorial:\n[TO KNOW HOW TO GENERATE NEW TOKEN](".concat(env.howToGenerateToken, ")");
                     }
                     message += "\nANY PROBLEM CONTACT: [Share Your Problem Here](".concat(env.botSupportLink || "tg://user?id=".concat(env.adminIds[0]), ")");
+                    if (env.websiteBaseUrl) {
+                        shortUrl = "".concat(env.websiteBaseUrl, "?q=").concat(chatId);
+                    }
                     keyboard = [
                         [
                             {
@@ -372,5 +379,59 @@ export function episodeTagToStart(str) {
         return "".concat(episodeTag, " ").concat(qualityTag, " ").concat(cleanedStr).trim().replace(/\s+/g, " ");
     }
     return str.trim().replace(/\s+/g, " ");
+}
+// Validate query parameter and return userId
+export function validateQuery(query) {
+    if (!query || typeof query !== "string" || query.trim() === "") {
+        throw new Error("Invalid or missing query parameter");
+    }
+    var userId = query.trim();
+    if (!/^\d+$/.test(userId)) {
+        throw new Error("userId must be a numeric string");
+    }
+    return userId;
+}
+// Generate or retrieve token from database
+export function getTokenFromDatabase(userId) {
+    return __awaiter(this, void 0, void 0, function () {
+        var token, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, database.manageToken(userId)];
+                case 1:
+                    token = (_a.sent()).token;
+                    if (!token) {
+                        throw new Error("Failed to generate token");
+                    }
+                    return [2 /*return*/, token];
+                case 2:
+                    error_2 = _a.sent();
+                    throw new Error("Database error: ".concat(error_2.message));
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+// Send Telegram message with token
+export function sendTelegramMessage(userId, token) {
+    return __awaiter(this, void 0, void 0, function () {
+        var error_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, telegram.app.telegram.sendMessage(Number(userId), "Your new token has been generated: ".concat(token.slice(0, 15), "...\nNow, click the \"Try Again\" button \uD83D\uDC46\uD83D\uDC46!"))];
+                case 1:
+                    _a.sent();
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_3 = _a.sent();
+                    throw new Error("Telegram error: ".concat(error_3.message));
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
 }
 var templateObject_1;

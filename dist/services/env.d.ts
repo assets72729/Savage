@@ -32,5 +32,6 @@ declare const _default: {
     botSupportLink: string | undefined;
     upiId: string;
     RequestLimit: number;
+    websiteBaseUrl: string;
 };
 export default _default;

@@ -545,7 +545,7 @@ var MongoDB = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 3, , 4]);
+                        _a.trys.push([0, 5, , 6]);
                         regex = /^(\d+)([smhd])$/;
                         match = duration.match(regex);
                         if (!match) {
@@ -590,10 +590,13 @@ var MongoDB = /** @class */ (function () {
                         return [4 /*yield*/, this.TokenModel.findOne({ userId: userId })];
                     case 1:
                         tokenData = _a.sent();
-                        if (!tokenData) {
-                            console.error("Token not found for the user.");
-                            return [2 /*return*/, "Token not found for the user."];
-                        }
+                        if (!!tokenData) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.manageToken(userId).catch(function (error) { return console.error(error); })];
+                    case 2:
+                        _a.sent();
+                        console.error("Token not found for the user.");
+                        return [2 /*return*/, "Token not found for the user. try again later."];
+                    case 3:
                         tokenData.bot_premium = {
                             is_bot_premium: true,
                             subscriptionType: subscriptionType ? subscriptionType : "Other",
@@ -603,15 +606,15 @@ var MongoDB = /** @class */ (function () {
                             details: "".concat(value, " ").concat(unit),
                         };
                         return [4 /*yield*/, tokenData.save()];
-                    case 2:
+                    case 4:
                         _a.sent();
                         console.log("Premium added for ".concat(userId, ", subscription type: ").concat(subscriptionType, ", expires at ").concat(expiresAt));
                         return [2 /*return*/, "Premium successfully added for ".concat(userId, ". Subscription type: ").concat(subscriptionType, ". Premium will expire on ").concat(expiresAt.toLocaleString(), ".")];
-                    case 3:
+                    case 5:
                         error_9 = _a.sent();
                         console.error("Error adding bot premium:", error_9);
                         return [2 /*return*/, "Error adding bot premium:  + ".concat(error_9)];
-                    case 4: return [2 /*return*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });

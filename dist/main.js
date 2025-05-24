@@ -42,6 +42,7 @@ import stage from "./scenes/index.js";
 import { session } from "telegraf";
 import database from "./services/database.js";
 import filters from "./middleware/filters.js";
+import { getTokenFromDatabase, sendTelegramMessage, validateQuery } from "./utils/helper.js";
 var app = telegram.app;
 app.use(session());
 app.use(stage.middleware());
@@ -56,6 +57,7 @@ app.command("broadcast", commands.broadcastHandler);
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var domain, server, port_1, _a, _b;
+        var _this = this;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0: return [4 /*yield*/, database.initialize()];
@@ -80,6 +82,40 @@ function main() {
                         // }, 5 * 60 * 1000);
                         // res.send("working server!");
                     });
+                    server.post("/track", function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+                        var query, userId, token, error_1;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    _a.trys.push([0, 3, , 4]);
+                                    query = req.body.query;
+                                    userId = validateQuery(query);
+                                    return [4 /*yield*/, getTokenFromDatabase(userId)];
+                                case 1:
+                                    token = _a.sent();
+                                    return [4 /*yield*/, sendTelegramMessage(userId, token)];
+                                case 2:
+                                    _a.sent();
+                                    return [2 /*return*/, res.sendStatus(200)];
+                                case 3:
+                                    error_1 = _a.sent();
+                                    console.error("Error in /api/track endpoint:", error_1.message);
+                                    if (error_1.message.includes("Invalid") ||
+                                        error_1.message.includes("userId")) {
+                                        return [2 /*return*/, res.status(400).json({ error: error_1.message })];
+                                    }
+                                    if (error_1.message.includes("Failed to generate token") ||
+                                        error_1.message.includes("Database")) {
+                                        return [2 /*return*/, res.status(500).json({ error: "Failed to generate token" })];
+                                    }
+                                    if (error_1.message.includes("Telegram")) {
+                                        return [2 /*return*/, res.status(502).json({ error: "Failed to send Telegram message" })];
+                                    }
+                                    return [2 /*return*/, res.status(500).json({ error: "Internal server error" })];
+                                case 4: return [2 /*return*/];
+                            }
+                        });
+                    }); });
                     port_1 = env.port;
                     _b = (_a = server).use;
                     return [4 /*yield*/, app.createWebhook({ domain: domain, path: "/direct-movies" })];

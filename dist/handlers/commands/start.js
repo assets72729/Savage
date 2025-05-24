@@ -145,7 +145,7 @@ export default function startHandler(ctx) {
                 case 29:
                     firstItem = _b.sent();
                     if (!(firstItem && !haveBotPremium)) return [3 /*break*/, 31];
-                    return [4 /*yield*/, sendTokenExpiredMessage(ctx, user, firstItem.sort[0].aioShortUrl, payload).catch(function (error) { return console.error(error); })];
+                    return [4 /*yield*/, sendTokenExpiredMessage(ctx, user, firstItem.sort[0].aioShortUrl || "hi", payload).catch(function (error) { return console.error(error); })];
                 case 30: return [2 /*return*/, _b.sent()];
                 case 31:
                     messageIds = void 0;

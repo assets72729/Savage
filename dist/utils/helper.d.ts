@@ -26,3 +26,6 @@ export declare const helpMessage = "  \n\u2728 \u029C\u1D0F\u1D21 \u1D1B\u1D0F \
 export declare function getInviteMessage(username: string, userId: string): string;
 export declare const generateInviteLink: (userId: string, sharLink: boolean) => string;
 export declare function episodeTagToStart(str: string): string;
+export declare function validateQuery(query: string | undefined): string;
+export declare function getTokenFromDatabase(userId: string): Promise<string>;
+export declare function sendTelegramMessage(userId: string, token: string): Promise<void>;
