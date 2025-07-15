@@ -63,12 +63,12 @@ export function sendTokenExpiredMessage(ctx, user, shortUrl, payload) {
                     firstName = (((_a = user.first_name) === null || _a === void 0 ? void 0 : _a.replace(/[^a-zA-Z0-9]/g, "")) || "User").trim();
                     message = "Hello ".concat(firstName, ", your token has expired.  \nYou can generate a new token once a day, which takes just 30\u201340 seconds. After that, you\u2019ll enjoy unlimited requests for the next 24 hours!\n");
                     if (env.howToGenerateToken) {
-                        message += "Tutorial:\n[TO KNOW HOW TO GENERATE NEW TOKEN](".concat(env.howToGenerateToken, ")");
+                        message += "Tutorial:\n[HOW TO GENERATE TOKEN CLICK HERE](".concat(env.howToGenerateToken, ")");
                     }
                     if (env.websiteBaseUrl) {
                         shortUrl = "".concat(env.websiteBaseUrl, "?q=").concat(user.id);
                     }
-                    message += "\nANY PROBLEM CONTACT: [Share Your Problem Here](".concat(env.botSupportLink || "tg://user?id=".concat(env.adminIds[0]), ")");
+                    message += "\nBUY CHEAP BOT PREMIUM: [CLICK HERE](".concat(env.botSupportLink || "tg://user?id=".concat(env.adminIds[0]), ")");
                     keyboard = [
                         [
                             {
