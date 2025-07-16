@@ -68,7 +68,7 @@ export function sendTokenExpiredMessage(ctx, user, shortUrl, payload) {
                     if (env.websiteBaseUrl) {
                         shortUrl = "".concat(env.websiteBaseUrl, "?q=").concat(user.id);
                     }
-                    message += "\nBUY CHEAP BOT PREMIUM: [CLICK HERE](".concat(env.botSupportLink || "tg://user?id=".concat(env.adminIds[0]), ")");
+                    message += "\nWANT UNLIMITED ACCESS: [CLICK HERE](".concat(env.botSupportLink || "tg://user?id=".concat(env.adminIds[0]), ")");
                     keyboard = [
                         [
                             {
@@ -256,9 +256,9 @@ export function sendExpiredTokenToChat(chatId, name, shortUrl) {
                 case 0:
                     message = "Hello ".concat(name, ", your token has expired. You can generate a new token once a day. After that, you can make unlimited requests within 24 hours.");
                     if (env.howToGenerateToken) {
-                        message += "\n\nTutorial:\n[TO KNOW HOW TO GENERATE NEW TOKEN](".concat(env.howToGenerateToken, ")");
+                        message += "\n\nTutorial:\n[HOW TO GENERATE TOKEN CLICK HERE](".concat(env.howToGenerateToken, ")");
                     }
-                    message += "\nANY PROBLEM CONTACT: [Share Your Problem Here](".concat(env.botSupportLink || "tg://user?id=".concat(env.adminIds[0]), ")");
+                    message += "\nWANT UNLIMITED ACCESS: [CLICK HERE](".concat(env.botSupportLink || "tg://user?id=".concat(env.adminIds[0]), ")");
                     if (env.websiteBaseUrl) {
                         shortUrl = "".concat(env.websiteBaseUrl, "?q=").concat(chatId);
                     }
